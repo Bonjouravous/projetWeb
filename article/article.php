@@ -9,6 +9,7 @@
 
 <section>
   <?php
+    $lieu_id=
     $lieu_header_query = $DB->query('SELECT Nom, Date, GPS FROM Lieu WHERE Lieu.Id = '.$lieu_id);
   ?>
   <div>
