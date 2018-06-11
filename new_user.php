@@ -1,7 +1,7 @@
 <?php
 try
 {
-	$bdd = new PDO('mysql:host=localhost;dbname=projetweb;charset=utf8', 'root', '');
+	$bdd = new PDO('mysql:host=localhost;dbname=projetweb;charset=utf8', 'root', 'root');
 }
 catch(Exception $e)
 {
@@ -13,10 +13,10 @@ catch(Exception $e)
 $pass_hache = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 
 // Insertion
-$req = $bdd->prepare('INSERT INTO utilisateur(pseudo, mdp, email, date_inscription) VALUES(:pseudo, :mdp, :email, CURDATE())');
+$req = $bdd->prepare('INSERT INTO utilisateur(pseudo, mdp, mail, inscription) VALUES(:pseudo, :mdp, :mail, CURDATE())');
 $req->execute(array(
     'pseudo' => $_POST['pseudo'],
     'mdp' => $pass_hache,
-    'email' =>$_POST['email']));
+    'mail' =>$_POST['email']));
 header('Location: login.php');
 ?>

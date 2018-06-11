@@ -48,11 +48,11 @@ session_start();
 						<?php 
 							if (!isset($_SESSION['id']) AND !isset($_SESSION['pseudo']))
 							{
-								echo '<a class="nav-link" href="signup.php">S\'enregistrer</a>';
+								echo '<a class="nav-link" href="login.php">Se connecter</a>';
 							}
 								else
 								{
-									echo '<a class="nav-link" href="#">Se deconnecter</a>';
+									echo '<a class="nav-link" href="signOut.php">Se deconnecter</a>';
 								}
 						?>
 				</li>
