@@ -12,8 +12,10 @@
  				<span>Natus voluptatem tempora eos quod accusantium ratione incidunt, maiores, ipsa aliquid quo cupiditate fugit quibusdam non id quos. Quidem repudiandae, cupiditate eum explicabo doloribus sunt reprehenderit deserunt blanditiis totam incidunt.</span></p>
  				<a href="#" class="btn btn-success">1024 <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
  				<a href="#" class="btn btn-outline-success">Modifier</a>
+ 				<div class="text-left text-muted">#tag1 #tag2 #tag3</div>
  				<div class="text-right text-muted">Dernière modification le 11/06/2018</div>
  				<div class="text-right text-muted">Nom de l'auteur</div>
+
  			</div>
  		</div>
  		<div id="commentaires">

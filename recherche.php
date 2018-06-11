@@ -11,6 +11,7 @@
  					<a href="#" class="card-link">Voir</a>
  					<a href="#" class="card-link">Modifier</a>
  					<a href="#" class="card-link">Supprimer</a>
+ 					<div class="text-right text-muted">#tag1 #tag2 #tag3</div>
  				</div>
  			</div>
  		</div>
