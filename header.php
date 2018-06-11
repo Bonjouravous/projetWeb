@@ -11,7 +11,7 @@ session_start();
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style type="text/css">
 	.banner {
 
@@ -22,47 +22,73 @@ session_start();
 
 
 	}
+	.fa {
+		padding: 10px;
+		font-size: 30px;
+		text-decoration: none;
+		margin: 5px;
+		border-radius: 50%;
+	}
+
+	.fa:hover {
+		opacity: 0.7;
+	}
+	.fa-twitter {
+		background: #55ACEE;
+		color: white;
+	}
+	.fa-snapchat-ghost {
+		background: #fffc00;
+		color: white;
+		text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	}
+	.fa-instagram {
+		background: #125688;
+		color: white;
+	}
 </style>
 </head>
 <body>
-	<div class="banner">
-	</div>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="index.html">Notre Super Nom de Site</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">
-					<a class="nav-link" href="#">Les lieux</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">La carte</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Contact</a>
-				</li>
-				<li class="nav-item">
-						<?php 
-							if (!isset($_SESSION['id']) AND !isset($_SESSION['pseudo']))
-							{
-								echo '<a class="nav-link" href="login.php">Se connecter</a>';
-							}
-								else
-								{
-									echo '<a class="nav-link" href="signOut.php">Se deconnecter</a>';
-								}
-						?>
-				</li>
-			</ul>
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="text" placeholder="Recherche d'un lieu" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
-			</form>
+	<header>
+		<div class="banner">
 		</div>
-	</nav>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="index.html">Notre Super Nom de Site</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#">Les lieux</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Autour de moi</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Contact</a>
+					</li>
+					<li class="nav-item">
+						<?php 
+						if (!isset($_SESSION['id']) AND !isset($_SESSION['pseudo']))
+						{
+							echo '<a class="nav-link" href="login.php">Se connecter</a>';
+						}
+						else
+						{
+							echo '<a class="nav-link" href="signOut.php">Se deconnecter</a>';
+						}
+						?>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="text" placeholder="Recherche d'un lieu" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+				</form>
+			</div>
+		</nav>
+	</header>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
