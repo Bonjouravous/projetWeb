@@ -1,15 +1,35 @@
 <?php
-  include('header.php');
+  /* A définir avant d'inclure le fichier: $lieu_id . */
+  try {
+    $DB = new PDO('mysql:host=localhost;dbname=projetweb', 'root', '');
+
+    include('../header.php');
 ?>
 
 
 <section>
+  <?php
+    $lieu_header_query = $DB->query('SELECT Nom, Date, GPS FROM Lieu WHERE Lieu.Id = '.$lieu_id);
+  ?>
   <div>
     <h1>
       <?php
-        /* Piocher le titre (h1) du lieu dans le BDD. */
+        /* Piocher le titre (h1) du lieu dans la BDD. */
+        echo $lieu_header_query['Nom'];
       ?>
     </h1>
+    <p>
+      <!-- Date de dernière modification. -->
+      <?php
+        echo $lieu_header_query['Date'];
+      ?>
+    </p>
+      <!-- Mots-clés à afficher sur 1 ligne. -->
+      <?php
+        foreach($DB->query('SELECT Motcle.Mot FROM WHERE Lieumotcle.Idlieu = '.$lieu_id.' AND Lieumotcle.Idmot = Motcle.Id') as $row) {
+          echo '<div>'.$row['Mot'].'</div>';
+        }
+      ?>
   </div>
 
   <div>
@@ -43,6 +63,11 @@
   ?>
 </section>
 
+
 <?php
-  include('footer.php');
+    $DB = null;
+  } catch (PDOException $e) {
+    echo '<p>'.$e->getMessage().'</p>';
+  }
+  include('../footer.php');
 ?>
