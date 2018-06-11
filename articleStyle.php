@@ -4,6 +4,7 @@
  		<img class="card-img-top" src="images/700x400.png" alt="Card image cap">
  		<div class="card-body">
  			<h5 class="card-title">Titre du Lieu</h5>
+ 			<span class="text-muted">Localisation</span>
  			<p class="card-text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In earum voluptates non. Explicabo sunt, inventore rem. Odit aliquid beatae ut, dolores est ex maiores odio, eaque, eum, molestias dolor fugiat!</span>
  				<span>Saepe dignissimos illum dolorem! Debitis laborum, quam quaerat dolorem non temporibus dolores, pariatur at commodi praesentium. Quibusdam animi pariatur aliquam ipsa necessitatibus, repudiandae a qui, earum autem praesentium dolorem magnam!</span>
  				<span>Fuga nisi, eum provident eveniet ullam, suscipit error? Facilis nesciunt sit obcaecati nisi enim praesentium architecto possimus minima doloremque laboriosam laudantium et repellat impedit quasi cum, voluptatem iusto illo, esse.</span>
@@ -29,8 +30,9 @@
  						<div class="commenterImage">
  							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
  						</div>
- 						<div class="commentText">
- 							<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
+ 						<div class="commentText" >
+ 							<p><span>NomDeL'Auteur</span></p>
+ 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
 
  						</div>
  					</li>
@@ -38,16 +40,9 @@
  						<div class="commenterImage">
  							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
  						</div>
- 						<div class="commentText">
- 							<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
-
- 						</div>
- 					</li>					<li>
- 						<div class="commenterImage">
- 							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
- 						</div>
- 						<div class="commentText">
- 							<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
+ 						<div class="commentText" >
+ 							<p><span>NomDeL'Auteur</span></p>
+ 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
 
  						</div>
  					</li>
@@ -55,8 +50,9 @@
  						<div class="commenterImage">
  							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
  						</div>
- 						<div class="commentText">
- 							<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
+ 						<div class="commentText" >
+ 							<p><span>NomDeL'Auteur</span></p>
+ 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
 
  						</div>
  					</li>
@@ -64,8 +60,9 @@
  						<div class="commenterImage">
  							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
  						</div>
- 						<div class="commentText">
- 							<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
+ 						<div class="commentText" >
+ 							<p><span>NomDeL'Auteur</span></p>
+ 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
 
  						</div>
  					</li>
@@ -73,17 +70,9 @@
  						<div class="commenterImage">
  							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
  						</div>
- 						<div class="commentText">
- 							<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
-
- 						</div>
- 					</li>
- 					<li>
- 						<div class="commenterImage">
- 							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
- 						</div>
- 						<div class="commentText">
- 							<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
+ 						<div class="commentText" >
+ 							<p><span>NomDeL'Auteur</span></p>
+ 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text">Le 11/06/2018</span>
 
  						</div>
  					</li>
