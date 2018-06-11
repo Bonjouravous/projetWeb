@@ -16,7 +16,7 @@ session_start();
 	.banner {
 
 		height: 150px;
-		background: url(images/agriculture-beautiful-view-city-park-1080722.jpg) center center no-repeat;
+		background: url(/images/agriculture-beautiful-view-city-park-1080722.jpg) center center no-repeat;
 		background-size: cover;
 		color: whitesmoke;
 
