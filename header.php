@@ -6,7 +6,7 @@ try
 }
 catch(Exception $e)
 {
-        die('Erreur : '.$e->getMessage());
+	die('Erreur : '.$e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -54,13 +54,77 @@ catch(Exception $e)
 		background: #125688;
 		color: white;
 	}
+	.detailBox {
+    width:320px;
+    border:1px solid #bbb;
+    margin:50px;
+}
+.titre {
+    padding:10px;
+}
+.titre label{
+  margin:0;
+  display:inline-block;
+}
+
+.suggestion {
+    padding:10px;
+    border-top:1px dotted #bbb;
+}
+.suggestion .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.suggestion .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:18%;
+}
+.actionBox .form-group * {
+    width:100%;
+}
+.descriptionCommentaire {
+    margin-top:10px 0;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+    max-height:200px;
+    overflow:auto;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+.commenterImage {
+    width:30px;
+    margin-right:5px;
+    height:100%;
+    float:left;
+}
+.commenterImage img {
+    width:100%;
+    border-radius:50%;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    border-top:1px dotted #bbb;
+    padding:10px;
+}
 </style>
 </head>
 <body>
 	<header>
 		<div class="banner">
 		</div>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 2%">
 			<a class="navbar-brand" href="index.html">Notre Super Nom de Site</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
