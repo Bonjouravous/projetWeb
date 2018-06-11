@@ -1,74 +1,25 @@
 <?php
-  /* A définir avant d'inclure le fichier: $lieu_id . */
-  try {
-    $DB = new PDO('mysql:host=localhost;dbname=projetweb', 'root', '');
+  /* Avant d'inclure le fichier, définir "$lieu_id" et inclure "header.php". */
 
-    include('../header.php');
-?>
+  $lieu_first_infos_query = $bdd->query(
+    'SELECT Nom, Date, GPS FROM Lieu WHERE Lieu.Id = '.$lieu_id
+  );
+  $lieu_nom = $lieu_first_infos_query['nom'];
+  $lieu_gps = $lieu_first_infos_query['gps'];
+  $lieu_date = $lieu_first_infos_query['date'];
 
+  /* Définie "$lieu_medias_query", résultat de la requête:
+   * 'SELECT IdUtilisateur, Media, Date, Supprimer FROM LieuMedia WHERE IdLieu = '.$lieu_id
+   */
+  include('media.php');
 
-<section>
-  <?php
-    $lieu_id=
-    $lieu_header_query = $DB->query('SELECT Nom, Date, GPS FROM Lieu WHERE Lieu.Id = '.$lieu_id);
-  ?>
-  <div>
-    <h1>
-      <?php
-        /* Piocher le titre (h1) du lieu dans la BDD. */
-        echo $lieu_header_query['Nom'];
-      ?>
-    </h1>
-    <p>
-      <!-- Date de dernière modification. -->
-      <?php
-        echo $lieu_header_query['Date'];
-      ?>
-    </p>
-      <!-- Mots-clés à afficher sur 1 ligne. -->
-      <?php
-        foreach($DB->query('SELECT Motcle.Mot FROM WHERE Lieumotcle.Idlieu = '.$lieu_id.' AND Lieumotcle.Idmot = Motcle.Id') as $row) {
-          echo '<div>'.$row['Mot'].'</div>';
-        }
-      ?>
-  </div>
+  /* Définie "$lieu_desc_idutilisateur", "$lieu_desc_utilisateur",
+   * "$lieu_desc", "$lieu_desc_date".
+   */
+  include('description.php');
 
-  <div>
-    <?php
-    /* Gestion des médias à la Steam ?
-     * Une seule barre défilante: vidéos en premier, images ensuite.
-     * Définir une ou plusieurs variables pour remplir avec les bons médias.
-     */
-      include('media.php');
-    ?>
-  </div>
-
-  <div>
-    <?php
-    /* Bibliothèque PHP pour extraire du code HTML d'un code reStructuredText:
-     * https://github.com/Gregwar/RST
-     * Différents niveaux de titre supportés, images supportées, liens URL aussi.
-     */
-
-    /* Définir une ou plusieurs variables pour remplir le contenu.
-     */
-      include('description.php');
-    ?>
-  </div>
-</section>
-
-<section>
-  <?php
-    /* Définir une ou plusieurs variables pour savoir quels commentaires charger. */
-    include('commentaires.php');
-  ?>
-</section>
-
-
-<?php
-    $DB = null;
-  } catch (PDOException $e) {
-    echo '<p>'.$e->getMessage().'</p>';
-  }
-  include('../footer.php');
+  /* Définie "$lieu_commentaires_query", résultat de la requête:
+   * 'SELECT Utilisateur.Pseudo, LieuCommentaire.IdUtilisateur, LieuCommentaire.Message, LieuCommentaire.Date, LieuCommentaire.Supprimer FROM LieuCommentaire, Utilisateur WHERE LieuCommentaire.IdLieu = '.$lieu_id.' AND Utilisateur.Id = LieuCommentaire.IdUtilisateur'
+   */
+  include('commentaires.php');
 ?>
