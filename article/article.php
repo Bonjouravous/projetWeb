@@ -8,6 +8,13 @@
   $lieu_gps = $lieu_first_infos_query['gps'];
   $lieu_date = $lieu_first_infos_query['date'];
 
+  /* Boucler sur cette variable pour obtenir chaque mot-clé. */
+  $lieu_motcles_query = $bdd->query(
+    'SELECT Motcle.Mot FROM Motcle, LieuMotcle'
+    .' WHERE LieuMotcle.IdLieu = '.$lieu_id
+    .' AND LieuMotcle.IdMot = Motcle.Id'
+  );
+
   /* Définie "$lieu_medias_query", résultat de la requête:
    * 'SELECT IdUtilisateur, Media, Date, Supprimer FROM LieuMedia WHERE IdLieu = '.$lieu_id
    */
