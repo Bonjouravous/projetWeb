@@ -11,7 +11,7 @@
 	<div>
 		<h2>Lieux ayant été signalé :</h2>
 		<?php
-			$req = $bdd->query('SELECT DISTINCT nom, lieu.id as idL, count(signdescription.id), signdescription.id as idD FROM lieu JOIN lieudescription ON lieu.id = lieudescription.id JOIN signdescription ON lieudescription.id = signdescription.iddescription WHERE signdescription.traiter = 0 GROUP BY lieu.nom ');
+        $req = $bdd->query('SELECT DISTINCT nom, lieu.id as idL, count(signdescription.id), signdescription.id as idD FROM lieu JOIN lieudescription ON lieu.id = lieudescription.idlieu JOIN signdescription ON lieudescription.id = signdescription.iddescription WHERE signdescription.traiter = 0 GROUP BY lieu.nom ORDER BY count(signdescription.id) DESC');
 			while($donnees = $req->fetch()){
 				$nom = $donnees['nom'];
 				$idLieu = $donnees['idL'];
