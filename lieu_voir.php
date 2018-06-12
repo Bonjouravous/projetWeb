@@ -31,7 +31,21 @@ $data = $lieu_first_infos_query->fetch(PDO::FETCH_ASSOC);
 			</p>
 			<a href="#" class="btn btn-success">1024 <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
 			<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
-			<div class="text-left text-muted">#tag1 #tag2 #tag3</div>
+			<div class="text-left text-muted">
+				<?php
+					$lieu_motcles_query = $bdd->query(
+						'SELECT motcle.mot FROM motcle, lieumotcle'
+						.' WHERE lieumotcle.idlieu = '.$idlieu
+						.' AND lieumotcle.idmot = motcle.id'
+						.';'
+					);
+					$lieu_motcles_query->execute();
+					$data_motcles = $lieu_motcles_query->fetchAll();
+					foreach ($data_motcles as $row) {
+						echo '#'.$row['mot'].' ';
+					}
+				?>
+			</div>
 			<div class="text-right text-muted">Dernière modification le <?=$data['lastupdate']?></div>
 			<div class="text-right text-muted">Par <?=$data['auteur']?></div>
  			</div>
