@@ -10,7 +10,7 @@
     $id = $_POST['id'];
     $bdd->query('UPDATE utilisateur SET moderateur = 0 WHERE id = '.$id);
     }
-    ?>
+?>
     <section>
         <h2>Gestionnaire des Modérateurs</h2>
         <div>

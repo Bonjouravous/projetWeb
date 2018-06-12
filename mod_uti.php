@@ -1,6 +1,5 @@
-<?php
-	include('header.php');
-?>
+<?php include('header.php'); ?>
+
 <section>
 	<h2>Utilisateurs les plus signalés</h2>
 	<table>
@@ -30,6 +29,5 @@
 	?>
     </table>	
 </section>
-<?php
-	include('footer.php');
-?>
+
+<?php include('footer.php'); ?>

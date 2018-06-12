@@ -5,7 +5,8 @@
 		$idcom = $_POST['idcom'];
 		$bdd->query('UPDATE signcommentaire SET traite = 1 WHERE idcommentaire = '.$idcom);
 	}
-	if(isset($_POST['supprimer'])){
+
+if(isset($_POST['supprimer'])){
 		$idcom = $_POST['idcom'];
 		$bdd->query('UPDATE lieucommentaire SET supprime = 1 WHERE id = '.$idcom);
 	}
@@ -34,8 +35,6 @@
 
 		}
 		?>
-		
-		
 	</div>
 </section>
 </html>
