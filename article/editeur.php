@@ -1,5 +1,5 @@
 <?php
-  include('header.php');
+  include(__DIR__.'/../header.php');
 ?>
 
 
@@ -41,5 +41,5 @@
 
 
 <?php
-  include('footer.php');
+  include(__DIR__.'/../footer.php');
 ?>

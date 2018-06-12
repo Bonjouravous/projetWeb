@@ -1,14 +1,14 @@
 <?php
-  include('header.php');
+  include(__DIR__.'/../../header.php');
 ?>
 
 
 <?php
   $lieu_id = 1;
-  include('../article.php');
+  include(__DIR__.'/../article.php');
 ?>
 
 
 <?php
-  include('footer.php');
+  include(__DIR__.'/../../footer.php');
 ?>
