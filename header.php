@@ -24,7 +24,7 @@ catch(Exception $e)
 	.banner {
 
 		height: 150px;
-		background: url(/images/agriculture-beautiful-view-city-park-1080722.jpg) center center no-repeat;
+		background: url(images/agriculture-beautiful-view-city-park-1080722.jpg) center center no-repeat;
 		background-size: cover;
 		color: whitesmoke;
 
@@ -125,7 +125,7 @@ catch(Exception $e)
 		<div class="banner">
 		</div>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 2%">
-			<a class="navbar-brand" href="index.html">Notre Super Nom de Site</a>
+			<a class="navbar-brand" href="index.php">Notre Super Nom de Site</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
