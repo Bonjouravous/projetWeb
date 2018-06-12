@@ -8,6 +8,7 @@
     .'  FROM LieuDescription, Utilisateur'
     .'  WHERE LieuDescription.IdLieu = '.$lieu_id
     .'   AND Utilisateur.Id = LieuDescription.IdUtilisateur'
+    .';'
   );
   $lieu_desc_idutilisateur = $lieu_desc_query['idutilisateur'];
   $lieu_desc_utilisateur = $lieu_desc_query['pseudo'];

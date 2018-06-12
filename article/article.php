@@ -2,7 +2,7 @@
   /* Avant d'inclure le fichier, définir "$lieu_id" et inclure "header.php". */
 
   $lieu_first_infos_query = $bdd->query(
-    'SELECT Nom, Date, GPS FROM Lieu WHERE Lieu.Id = '.$lieu_id
+    'SELECT Nom, Date, GPS FROM Lieu WHERE Lieu.Id = '.$lieu_id.';'
   );
   $lieu_nom = $lieu_first_infos_query['nom'];
   $lieu_gps = $lieu_first_infos_query['gps'];
@@ -13,6 +13,7 @@
     'SELECT Motcle.Mot FROM Motcle, LieuMotcle'
     .' WHERE LieuMotcle.IdLieu = '.$lieu_id
     .' AND LieuMotcle.IdMot = Motcle.Id'
+    .';'
   );
 
   /* Définie "$lieu_medias_query", résultat de la requête:
@@ -22,6 +23,7 @@
 
   /* Définie "$lieu_desc_idutilisateur", "$lieu_desc_utilisateur",
    * "$lieu_desc", "$lieu_desc_date".
+   * "$lieu_desc" est la description formattée en HTML.
    */
   include('description.php');
 

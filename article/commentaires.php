@@ -9,5 +9,6 @@
     .'  FROM LieuCommentaire, Utilisateur'
     .'  WHERE LieuCommentaire.IdLieu = '.$lieu_id
     .'   AND Utilisateur.Id = LieuCommentaire.IdUtilisateur'
+    .';'
   );
 ?>
