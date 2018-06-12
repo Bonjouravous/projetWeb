@@ -1,5 +1,6 @@
 </div>
 <footer class="footer">
+	<div class="container-fluid">
         <div class="bg-light text-center">
 		<div class="row">
 			<div class="col-lg-12">
@@ -21,6 +22,7 @@
 				</span>
 			</div>
 		</div>
+	</div>
 	</div>
     </footer>								     
 </body>
