@@ -27,25 +27,31 @@ if(!is_numeric($idlieu)) {
     $lieu_desc = $data['description'];
   }
 ?>
-
-<form id="article_form" action="editeur_traitement.php" method="post">
-  <fieldset>
-    <p>Titre:</p>
-    <input type="text" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
-  </fieldset>
-    <p>Description:</p>
-    <textarea name="description" form="article_form">
-      <?php
+<div class="card p-4" >
+<form class="text-center" action="page_contact.php" method="post">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="inputemail">Titre</label>
+        <input type="text" name="title" class="form-control" id="title" value=<?php echo '"'.$lieu_titre.'"'; ?>/>
+      </div><!--/*.form-group-->
+    </div><!--/*.col-md-6-->
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="desciption" class="form-control"><?php
         echo $lieu_desc;
-      ?>
-    </textarea>
-  <fieldset>
-  </fieldset>
-  <fieldset>
-    <input type="submit" value="save"/>
-    <input type="button" value="cancel"/>
-  </fieldset>
+      ?></textarea>
+      </div><!--/*.form-group-->
+    </div><!--/*.col-md-12-->
+    <div class="col-md-12">
+      <button type='submit' class='btn btn-success'>Sauver</button>
+      <a role="button" href="http://localhost/lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
+    </div><!--/*.col-md-12-->
+  </div><!--/*.row-->
 </form>
+</div>
+</div>
 
 
 <?php
