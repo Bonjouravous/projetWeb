@@ -1,164 +1,84 @@
- <?php include('header.php'); ?>
- <div class="container">
- 	<div class="row">
- 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+<?php
+try
+{
+	include('localisation.php');
+	$bdd = new PDO('mysql:host=localhost;dbname=;projetweb;charset=utf8','root','');
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 					<div class="text-right text-muted">#tag1 #tag2 #tag3</div>
- 				</div>
- 			</div>
- 		</div>
- 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+}
+catch(Exception $e)
+{
+	die('Erreur : '.$e->getMessage());
+}	
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div> 	<div class="row">
- 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+/*Recherche des lieux les plus proches de l'utilisateur
+attention : coordonnées gps sous forme décimaux en DEGRE 
+ composés de 1-latitude et 2-longitude*/
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+function conversionRadian($angle)
+{
+	return pi()*angle/180;
+}
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+//Calcul de la distance (en km) entre deux points 
+function distance($lat1, $lng1, $lat2,$lng2) 
+{
+	latR1 = conversionRadian($lat1);
+	lngR1 = conversionRadian($lng1);
+	latR2 = conversionRadian($lat2);
+	lngR2 = conversionRadian($lng2);
+	$difference = 6371*acos(sin(latR1)*sin(latR2)+cos(latR1)*cos(latR2)*cos(lngR1-lngR2)); // 6371 : rayon de la terre
+	return $difference;
+}
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		 	<div class="row">
- 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+$localisation = $bdd->query('SELECT nom,latitude, longitude FROM projetweb'); // gps dans lieu à changer en latitude et longitude ... pour que ça soit plus simple
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+$lat1 // latitude de l'endroit ou se trouve l'utilisateur
+$lng1 // longitude de l'endroit ou se trouve l'utilisateur 
+$latR1 = conversionRadian($lat1);
+$lngR1 = conversionRadian($lng1);
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+$r // rayon en km choisi par utilisateur
+$lieux = array();
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		 	<div class="row">
- 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+if(!empty($_POST['latitude']))
+{
+	$latitudeUtilisateur = $_POST['latitude'];
+	if(!empty($_POST['longitude']))
+	{gps
+		$longitudeUtilisateur = $_POST['longitude'];
+		foreach($latitude as $lat2)
+		{			
+			foreach($longitude as $lng2)
+			{
+				$latR2 = conversionRadian($lat2);
+				slngR2 = conversionRadian($lng2);
+				$distance = distance($latitudeUtilisateur,$longitudeUtilisateur,$latR2,$lngR2);
+				
+				if ($distance <= $r) 
+				{
+					$lieux[] = $bdd->query('SELECT nom, latitude,longitude FROM projetweb);
+					//tableau constitué des noms des lieux proches dans un rayon de r km de l'utilisateur 
+					//echo $lieux[];
+				}
+				
+			}
+		}
+	}
+}
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
+sort ( array &$lieux [, int $sort_flags = SORT_REGULAR ] );
+foreach ($lieux as $key => $val) 
+{
+    echo $key." : ".$val."\n";
+}
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- 		 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
- 			<div class="card">
 
- 				<div class="card-body">
- 					<h5 class="card-title">Nom du lieu</h5>
- 					<h6 class="card-subtitle mb-2 text-muted">localisation</h6>
- 					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad ut vero. Iusto tempore eveniet laborum veniam quod, quas rerum temporibus quo et, sunt voluptates doloremque illo unde. Quia, aut.</p>
- 					<a href="#" class="card-link">Voir</a>
- 					<a href="#" class="card-link">Modifier</a>
- 					<a href="#" class="card-link">Supprimer</a>
- 				</div>
- 			</div>
- 		</div>
- </div>
- <?php include('footer.php'); ?>
+//Recherche des lieux les mieux notés aux alentours 
+foreach($lieux as $key => $val)
+{
+	
+}
+
+	?>
+
