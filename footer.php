@@ -1,6 +1,6 @@
-<footer class="footer" padding-top: 2%">
-				       <div class="container">
-	<div class="bg-light text-center">
+<footer class="footer">
+      <div class="container">
+        <div class="bg-light text-center">
 		<div class="row">
 			<div class="col-lg-12">
 				<span class="text-muted">Suivez-nous !</span>
@@ -22,6 +22,6 @@
 			</div>
 		</div>
 	</div>
-									     </div>
-</footer>
+      </div>
+    </footer>								     
 </body>
