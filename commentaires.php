@@ -10,5 +10,5 @@
     .'  WHERE lieucommentaire.idlieu = '.$lieu_id
     .'   AND utilisateur.id = lieucommentaire.idutilisateur'
     .';'
-  );
+  )->fetchAll();
 ?>

@@ -18,17 +18,19 @@
 
   /* Définie "$lieu_medias_query", résultat de la requête:
    * 'SELECT IdUtilisateur, Media, Date, Supprimer FROM LieuMedia WHERE IdLieu = '.$lieu_id
+   * Type: array
    */
   include('media.php');
 
   /* Définie "$lieu_desc_idutilisateur", "$lieu_desc_utilisateur",
    * "$lieu_desc", "$lieu_desc_date".
-   * "$lieu_desc" est la description formattée en HTML.
+   * "$lieu_desc" est la description formatée en HTML.
    */
   include('description.php');
 
   /* Définie "$lieu_commentaires_query", résultat de la requête:
    * 'SELECT Utilisateur.Pseudo, LieuCommentaire.IdUtilisateur, LieuCommentaire.Message, LieuCommentaire.Date, LieuCommentaire.Supprimer FROM LieuCommentaire, Utilisateur WHERE LieuCommentaire.IdLieu = '.$lieu_id.' AND Utilisateur.Id = LieuCommentaire.IdUtilisateur'
+   * Type: array
    */
   include('commentaires.php');
 ?>
