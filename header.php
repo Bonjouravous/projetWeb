@@ -139,7 +139,7 @@ catch(Exception $e)
 						<a class="nav-link" href="#">Autour de moi</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Contact</a>
+						<a class="nav-link" href="formulaireContact.php">Contact</a>
 					</li>
 						<?php 
 						if (!isset($_SESSION['id']) AND !isset($_SESSION['pseudo']))

@@ -15,7 +15,7 @@
  			<form>
  				<div class="form-group">
  					<label for="description">Changer ma description</label>
- 					<input type="text" class="form-control" id="description" placeholder="Nouvelle description">
+ 					<textarea id="description" name="description" class="form-control"></textarea>
  				</div>
  				<div class="form-group">
  					<label for="description">Changer ma photo de profil</label>
