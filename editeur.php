@@ -20,7 +20,7 @@
   }
 ?>
 
-<form id="article_form" action="traitement.php" method="post">
+<form id="article_form" action="editeur_traitement.php" method="post">
   <fieldset>
     <p>Titre:</p>
     <input type="text" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?>/>
