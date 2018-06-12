@@ -10,9 +10,14 @@ $donnees = $req->fetch();
  					<li class="nav-item">
  						<a class="nav-link active" href="user_profil.php">Profil</a>
  					</li>
- 					<li class="nav-item">
- 						<a class="nav-link" href="user_editprofil.php<?php echo "?username=".$_SESSION['pseudo'] ?>">Editer mon profil</a>
- 					</li>
+ 					<?php 
+ 					if($_GET['username'] == $_SESSION['pseudo']){
+ 						echo 
+ 					'<li class="nav-item">
+ 						<a class="nav-link" href="user_editprofil.php?username='.$_SESSION['pseudo'].'">Editer mon profil</a>
+ 					</li>';
+ 				}
+ 					?>
  				</ul>
  			</div>
  			<div class="card-body">
