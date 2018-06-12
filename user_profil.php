@@ -18,6 +18,4 @@
  			</div>
  	</div>
 	
-<div class="fixed-bottom">
  <?php include('footer.php'); ?>
-</div>
