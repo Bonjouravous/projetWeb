@@ -12,7 +12,7 @@ include_once('headermin.php');
 	<title>Le nom de notre super site</title>
 
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="style/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<link rel="stylesheet" href="style/bootstrap.min.css">
 	<link rel="stylesheet" href="style/font-awesome.min.css">
 	<link rel="stylesheet" href="style/style.css">
 	

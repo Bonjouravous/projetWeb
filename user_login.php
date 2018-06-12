@@ -9,7 +9,7 @@ include('headermin.php');
 	<title>Se connecter</title>
 
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="style/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<link rel="stylesheet" href="style/bootstrap.min.css">
 </head>
 <body>
 	<style type="text/css">
