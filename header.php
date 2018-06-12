@@ -141,18 +141,19 @@ catch(Exception $e)
 					<li class="nav-item">
 						<a class="nav-link" href="#">Contact</a>
 					</li>
-					<li class="nav-item">
 						<?php 
 						if (!isset($_SESSION['id']) AND !isset($_SESSION['pseudo']))
 						{
-							echo '<a class="nav-link" href="login.php">Se connecter</a>';
+							echo '<li class="nav-item"><a class="nav-link" href="login.php">Se connecter</a></li>';
 						}
 						else
 						{
-							echo '<a class="nav-link" href="signOut.php">Se deconnecter</a>';
+							echo '<li class="nav-item"><a class="nav-link" href="#">Publier un lieu</a></li>';
+							echo '<li class="nav-item"><a class="nav-link" href="profil.php">Mon profil</a></li>';
+							echo '<li class="nav-item"><a class="nav-link" href="signOut.php">Se deconnecter</a></li>';
 						}
 						?>
-					</li>
+					
 				</ul>
 				<form class="form-inline my-2 my-lg-0">
 					<input class="form-control mr-sm-2" type="text" placeholder="Recherche d'un lieu" aria-label="Search">

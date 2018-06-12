@@ -103,7 +103,7 @@
 <body>
 	<div class="signup-form">
 		<form action="new_user.php" method="post">
-			<h2>S'enregistrer</h2>
+			<h2>S'inscrire</h2>
 			<p class="hint-text">Créer un compte pour partager de nouveaux lieux !</p>
 			<div class="form-group">
 				<input type="text" class="form-control" name="pseudo" placeholder="Nom d'utilisateur" required="required">       	
