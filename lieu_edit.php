@@ -28,7 +28,7 @@ if(!is_numeric($idlieu)) {
   }
 ?>
 <div class="card p-4" >
-<form class="text-center" action="page_contact.php" method="post">
+<form class="text-center" action="editeur_traitement.php" method="post">
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
