@@ -15,15 +15,16 @@
     $lieu_titre = '';
     $lieu_desc = '';
   } else {
-    $lieu_titre = $lieu_query['nom'];
-    $lieu_desc = $lieu_query['description'];
+    $data = $lieu_query->fetch();
+    $lieu_titre = $data['nom'];
+    $lieu_desc = $data['description'];
   }
 ?>
 
 <form id="article_form" action="editeur_traitement.php" method="post">
   <fieldset>
     <p>Titre:</p>
-    <input type="text" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?>/>
+    <input type="text" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
   </fieldset>
     <p>Description:</p>
     <textarea name="description" form="article_form">
@@ -35,7 +36,7 @@
   </fieldset>
   <fieldset>
     <input type="submit" name="save"/>
-    <input type="submit" name="cancel"/>
+    <input type="button" name="cancel"/>
   </fieldset>
 </form>
 
