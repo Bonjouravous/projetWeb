@@ -1,4 +1,3 @@
-</div>
 <footer class="footer" padding-top: 2%">
 				       <div class="container">
 	<div class="bg-light text-center">
