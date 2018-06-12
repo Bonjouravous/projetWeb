@@ -24,7 +24,6 @@ if(!is_numeric($idlieu)) {
 ?>
 
 <form id="article_form" action="lieu_edit_traitement.php" method="post">
-	<input type="hidden" name="idlieu" value=<?php echo '"'.$idlieu.'"'; ?> />
 	<fieldset>
 		<p>Titre:</p>
 		<input type="text" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
@@ -49,9 +48,10 @@ if(!is_numeric($idlieu)) {
 	</fieldset>
 	<fieldset>
 		<input type="submit" name="update" value="Mettre à jour"/>
-		<input type="button" name="cancel" value="Annuler"/>
 	</fieldset>
 </form>
+
+<input type="button" name="cancel" value="Annuler" onClick="history.go(-1);"/>
 
 
 <?php
