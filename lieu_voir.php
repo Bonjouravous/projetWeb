@@ -1,21 +1,39 @@
- <?php include('header.php'); ?>
- <div class="container">
+<?php include('header.php');
+
+$idlieu = isset($_GET['lieu']) ? $_GET['lieu'] : 'alpha';
+
+if(!is_numeric($idlieu)) {
+	echo 'Page non trouvée';
+} else {
+
+$lieu_first_infos_query = $bdd->query('SELECT lieu.nom, lieu.latitude, lieu.longitude, lieu.creation, lieudescription.description as contenu, lieudescription.id as descriptionid, utilisateur.pseudo as auteur, lieudescription.date as lastupdate, utilisateur.id as idauteur FROM lieu
+LEFT JOIN lieudescription ON lieu.id = lieudescription.idlieu
+LEFT JOIN utilisateur ON utilisateur.id = lieudescription.idutilisateur
+WHERE lieu.id = '.$idlieu.'
+ORDER BY lieudescription.date DESC
+LIMIT 1;');
+$lieu_first_infos_query->execute();
+$data = $lieu_first_infos_query->fetch(PDO::FETCH_ASSOC);
+?>
  	<div class="card">
  		<img class="card-img-top" src="images/700x400.png" alt="Card image cap">
  		<div class="card-body">
- 			<h5 class="card-title">Titre du Lieu</h5>
- 			<span class="text-muted">Localisation</span>
- 			<p class="card-text"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In earum voluptates non. Explicabo sunt, inventore rem. Odit aliquid beatae ut, dolores est ex maiores odio, eaque, eum, molestias dolor fugiat!</span>
- 				<span>Saepe dignissimos illum dolorem! Debitis laborum, quam quaerat dolorem non temporibus dolores, pariatur at commodi praesentium. Quibusdam animi pariatur aliquam ipsa necessitatibus, repudiandae a qui, earum autem praesentium dolorem magnam!</span>
- 				<span>Fuga nisi, eum provident eveniet ullam, suscipit error? Facilis nesciunt sit obcaecati nisi enim praesentium architecto possimus minima doloremque laboriosam laudantium et repellat impedit quasi cum, voluptatem iusto illo, esse.</span>
- 				<span>Deserunt, soluta minus cupiditate sunt necessitatibus maxime nisi obcaecati fuga eius numquam! Ut reprehenderit esse dolorum dolores ipsum tempore illum rem vero, iste necessitatibus deleniti amet ad perferendis, deserunt nam!</span>
- 				<span>Natus voluptatem tempora eos quod accusantium ratione incidunt, maiores, ipsa aliquid quo cupiditate fugit quibusdam non id quos. Quidem repudiandae, cupiditate eum explicabo doloribus sunt reprehenderit deserunt blanditiis totam incidunt.</span></p>
- 				<a href="#" class="btn btn-success">1024 <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
- 				<a href="#" class="btn btn-outline-success">Modifier</a>
- 				<div class="text-left text-muted">#tag1 #tag2 #tag3</div>
- 				<div class="text-right text-muted">Dernière modification le 11/06/2018</div>
- 				<div class="text-right text-muted">Nom de l'auteur</div>
-
+ 			<h5 class="card-title"><?=$data['nom']?></h5>
+ 			<span class="text-muted"><?=$data['latitude'].', '.$data['longitude']?></span>
+ 			<p class="card-text">
+				<?php
+				$lieu_desc = $data['contenu'];
+				$lieu_desc = preg_replace('/[*][*][*] (.*?) [*][*][*]/' , '<h3>$1<h3>', $lieu_desc);
+				$lieu_desc = preg_replace('/[*][*] (.*?) [*][*]/', '<h2>$1<h2>', $lieu_desc);
+				$lieu_desc = preg_replace('/\\[\\[(.*?)[|](.*?)\\]\\]/', '<a href="$1">$2</a>', $lieu_desc);
+				echo $lieu_desc;
+				?>
+			</p>
+			<a href="#" class="btn btn-success">1024 <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
+			<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
+			<div class="text-left text-muted">#tag1 #tag2 #tag3</div>
+			<div class="text-right text-muted">Dernière modification le <?=$data['lastupdate']?></div>
+			<div class="text-right text-muted">Par <?=$data['auteur']?></div>
  			</div>
  		</div>
  		<div id="commentaires">
@@ -89,6 +107,9 @@
  				</form>
  			</div>
  		</div>
- 	</div>
- 	<?php include('footer.php'); ?>
+<?php
+}
 
+include('footer.php');
+
+?>

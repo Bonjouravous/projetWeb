@@ -1,3 +1,4 @@
+</div>
 <footer style="width: 100%;padding-top: 2%">
 	<div class="bg-light text-center">
 		<div class="row">
@@ -20,6 +21,6 @@
 				</span>
 			</div>
 		</div>
-
+	</div>
 </footer>
 </body>

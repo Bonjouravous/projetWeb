@@ -1,5 +1,12 @@
 <?php
   include('header.php');
+  
+  $idlieu = isset($_GET['lieu']) ? $_GET['lieu'] : 'alpha';
+
+if(!is_numeric($idlieu)) {
+	echo 'Page non trouvée';
+} else {
+
 ?>
 
 
@@ -8,7 +15,7 @@
   $lieu_query = $bdd->query(
     'SELECT Lieu.Nom, LieuDescription.Description'
     .' FROM Lieu, LieuDescription'
-    .' WHERE Lieu.Id = LieuDescription.IdLieu AND Lieu.Id = '.$lieu_id
+    .' WHERE Lieu.Id = LieuDescription.IdLieu AND Lieu.Id = '.$idlieu
     .';'
   );
   if ($lieu_query->rowCount() == 0) {
@@ -35,12 +42,14 @@
   <fieldset>
   </fieldset>
   <fieldset>
-    <input type="submit" name="save"/>
-    <input type="button" name="cancel"/>
+    <input type="submit" value="save"/>
+    <input type="button" value="cancel"/>
   </fieldset>
 </form>
 
 
 <?php
+}
+
   include('footer.php');
 ?>

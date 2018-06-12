@@ -1,13 +1,12 @@
  <?php include('header.php'); ?>
- <div class="container">
  		<div class="card text-center">
  			<div class="card-header">
  				<ul class="nav nav-tabs card-header-tabs">
  					<li class="nav-item">
- 						<a class="nav-link active" href="profil.php">Mon profil</a>
+ 						<a class="nav-link active" href="user_profil.php">Mon profil</a>
  					</li>
  					<li class="nav-item">
- 						<a class="nav-link" href="editProfil.php">Editer mon profil</a>
+ 						<a class="nav-link" href="user_editprofil.php">Editer mon profil</a>
  					</li>
  				</ul>
  			</div>
@@ -18,7 +17,5 @@
 <!--  				<a href="#" class="btn btn-outline-success">Voir tout les postes</a>recherche avec comme attribut le nom de l'auteur --> 
  			</div>
  	</div>
- </div>
-<div class="fixed-bottom">
+	
  <?php include('footer.php'); ?>
- </div>

@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+include('headermin.php');
+?><!DOCTYPE html>
 <html lang="fr">
 <head>
 	<!-- Required meta tags -->
@@ -7,7 +9,7 @@
 	<title>S'inscrire</title>
 
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<link rel="stylesheet" href="style/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 </head>
 <body>
 	<style type="text/css">
@@ -102,7 +104,27 @@
 </head>
 <body>
 	<div class="signup-form">
-		<form action="new_user.php" method="post">
+<?php
+if(isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['pass'])) {
+	$pass_hache = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+
+	// Insertion
+	$req = $bdd->prepare('INSERT INTO `utilisateur` (`id`, `pseudo`, `mdp`, `image`, `description`, `mail`, `inscription`, `moderateur`, `banni`) VALUES (NULL, :pseudo, :mdp, NULL, \'\', :mail, CURDATE(), 0, 0)');
+	$req->execute(array(
+		'pseudo' => $_POST['pseudo'],
+		'mdp' => $pass_hache,
+		'mail' =>$_POST['email']));
+	?>
+	<form>
+	Votre compte a bien été créé!
+	<div class="form-group">
+		<a href="user_login.php" class="btn btn-success btn-lg btn-block">Se connecter</a>
+	</div>
+	</form>
+	<?php
+} else {
+?>
+		<form action="user_signup.php" method="post">
 			<h2>S'inscrire</h2>
 			<p class="hint-text">Créer un compte pour partager de nouveaux lieux !</p>
 			<div class="form-group">
@@ -118,13 +140,15 @@
 				<button type="submit" class="btn btn-success btn-lg btn-block">S'inscrire</button>
 			</div>
 		</form>
-		<div class="text-center" style="color: #999;">Vous avez deja un compte? <a href="login.php" style="color:#999;">Se connecter</a></div>
+		<div class="text-center" style="color: #999;">Vous avez deja un compte? <a href="user_login.php" style="color:#999;">Se connecter</a></div>
+		
+<?php } ?>
 	</div>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+	<script src="js/jquery-3.2.1.slim.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
