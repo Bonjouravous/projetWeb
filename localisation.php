@@ -1,30 +1,40 @@
-<script type="text/javascript">
+<?php
+include('header.php');
+?>
+<form id="sampleForm" name="sampleForm" method="get" action="recherche.php">
+<p>
+<label for="lat">Lattitude :</label>
+<input type="text" name="lat" id="lat" value="">
 
-function erreur( error ) {
-	switch( error.code ) {
-		case error.PERMISSION_DENIED:
-			console.log( 'L\'utilisateur a refusé la demande' );
-			break;     
-		case error.POSITION_UNAVAILABLE:
-			console.log( 'Position indéterminée' );
-			break;
-		case error.TIMEOUT:
-			console.log( 'Réponse trop lente' );
-			break;
-	}
-	
+<label for="long">Longitude :</label>
+<input type="text" name="long" id="long" value="">
+
+<label for="distance">Distance :</label>
+<input type="text" name="distance" value="2000">km
+</p>
+<p>
+<input type = 'button' onclick = 'geoloc()' value = 'Me localiser'>
+<input type="submit" value="Rechercher" />
+</p>
+</form>
+
+<script>
+function success(position) {
+	var lat = position.coords.latitude;
+	var long = position.coords.longitude;
+	document.sampleForm.lat.value = lat;
+	document.sampleForm.long.value = long;
 };
 
-function callback( position ) {
-    var lat = position.coords.latitude;
-    var lng = position.coords.longitude;
-    console.log( lat, lng );
-	document.write(lat,';',lng);
-}
-
-
-if ( navigator.geolocation ) {
-	// On demande d'envoyer la position courante à la fonction callback
-	navigator.geolocation.getCurrentPosition( callback, erreur );
-} 
+function error(err) {
+	console.warn(`ERROR(${err.code}): ${err.message}`);
+};
+	
+function geoloc() {
+	navigator.geolocation.getCurrentPosition(success, error);
+};
 </script>
+
+<?php
+include('footer.php');
+?>
