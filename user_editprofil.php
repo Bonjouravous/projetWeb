@@ -26,6 +26,5 @@
  			<!--  				<a href="#" class="btn btn-outline-success">Voir tout les postes</a>recherche avec comme attribut le nom de l'auteur --> 
  		</div>
  	</div>
-<div class="fixed-bottom">
  <?php include('footer.php'); ?>
-</div>
+
