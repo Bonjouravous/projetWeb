@@ -15,10 +15,10 @@
 
   $lieu_desc = $lieu_desc_query['description'];
   $lieu_desc = preg_replace(
-    '/[*][*] \\(.*?\\) [*][*]/', '<h2>$1<h2>', $lieu_desc
+    '/[*][*][*] (.*?) [*][*][*]/' , '<h3>$1<h3>', $lieu_desc
   );
   $lieu_desc = preg_replace(
-    '/[*][*][*] \\(.*?\\) [*][*][*]/' , '<h3>$1<h3>', $lieu_desc
+    '/[*][*] (.*?) [*][*]/', '<h2>$1<h2>', $lieu_desc
   );
   $lieu_desc = preg_replace(
     '/\\[\\[(.*?)[|](.*?)\\]\\]/', '<a href="$1">$2</a>', $lieu_desc
