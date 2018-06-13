@@ -14,26 +14,29 @@ if(!is_numeric($idlieu)) {
 	$haserror = false;
 
 	if (isset($_POST['update'])) {
-		$lieu_stmt = $bdd->prepare(
-			'UPDATE lieu SET nom = ? WHERE id = ?;'
-		);
-		$lieu_desc_stmt = $bdd->prepare(
-			'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
-			.' VALUES (?, ?, ?, ?)'
-			.';'
-		);
-		try {
-			$bdd->beginTransaction();
-			$lieu_stmt->execute(array($_POST['title'], $idlieu));
-			$lieu_desc_stmt = $bdd->execute(
-				array(date('Y-m-d'), $_POST['description'], $idlieu, $_SESSION['id'])
+		$haserror = empty($_POST['title']);
+		if (!$haserror) {
+			$lieu_stmt = $bdd->prepare(
+				'UPDATE lieu SET nom = ? WHERE id = ?;'
 			);
-			$bdd->commit();
-			$hassend = true;
-		} catch (PDOException $e) {
-			$bdd->rollback();
-			echo '<p>'.$e->getMessage().'</p>';
+			$lieu_desc_stmt = $bdd->prepare(
+				'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
+				.' VALUES (?, ?, ?, ?)'
+				.';'
+			);
+			try {
+				$bdd->beginTransaction();
+				$lieu_stmt->execute(array($_POST['title'], $idlieu));
+				$lieu_desc_stmt = $bdd->execute(
+					array(date('Y-m-d'), $_POST['description'], $idlieu, $_SESSION['id'])
+				);
+				$bdd->commit();
+			} catch (PDOException $e) {
+				$bdd->rollback();
+				echo '<p>'.$e->getMessage().'</p>';
+			}
 		}
+		$hassend = true;
 	}
 
 	if ($hassend && !$haserror) {
