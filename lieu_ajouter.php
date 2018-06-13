@@ -10,7 +10,7 @@
 		$haserror = empty($_POST['title']);
 		if (!$haserror) {
 			$lieu_stmt = $bdd->prepare(
-				'INSERT INTO lieu(creation, nom) VALUES (DATE(), ?);'
+				'INSERT INTO `lieu` (`id`, `nom`, `latitude`, `longitude`, `creation`) VALUES (NULL, ?, ?, ?, CURRENT_DATE())'
 			);
 			$lieu_desc_stmt = $bdd->prepare(
 				'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
@@ -19,7 +19,7 @@
 			);
 			try {
 				$bdd->beginTransaction();
-				$lieu_stmt->execute(array($_POST['title']));
+				$lieu_stmt->execute(array($_POST['title'], $_POST['latitude'], $_POST['longitude']));
 				$last_idlieu = $bdd->lastInsertId();
 				$lieu_desc_stmt->execute(
 					array($_POST['description'], $last_idlieu, $_SESSION['id'])
@@ -45,12 +45,16 @@
 		<input type="text" name="title" value="" />
 	</fieldset>
 	<fieldset>
+		Latitude: <input type="number" name="latitude" step="0.01" value="0" min="0." max="90"/>
+		Longitute: <input type="number" name="longitude" step="0.01" value="0" min="-180" max="180"/>
+	</fieldset>
+	<fieldset>
 		<div>
 		<p>La description supporte le formatage suivant:</p>
 		<ul>
 			<li>Titre principal: ** titre principal **</li>
-		<li>Titre secondaire: *** titre secondaire ***</li>
-		<li>Lien URL: [[http://...|texte à afficher]]</li>
+			<li>Titre secondaire: *** titre secondaire ***</li>
+			<li>Lien URL: [[http://...|texte à afficher]]</li>
 		</ul>
 	</div>
 	<div>

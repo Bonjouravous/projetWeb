@@ -1,7 +1,7 @@
 <?php
 	include('header.php');
 	
-	$idlieu = isset($_GET['lieu']) ? $_GET['lieu'] : 'alpha';
+	$idlieu = isset($_GET['lieu']) ? (int) $_GET['lieu'] : 'alpha';
 
 if(!is_numeric($idlieu)) {
 	echo 'Page non trouvée';
@@ -74,8 +74,8 @@ if(!is_numeric($idlieu)) {
 		<p>La description supporte le formatage suivant:</p>
 		<ul>
 			<li>Titre principal: ** titre principal **</li>
-		<li>Titre secondaire: *** titre secondaire ***</li>
-		<li>Lien URL: [[http://...|texte à afficher]]</li>
+			<li>Titre secondaire: *** titre secondaire ***</li>
+			<li>Lien URL: [[http://...|texte à afficher]]</li>
 		</ul>
 	</div>
 	<div>
