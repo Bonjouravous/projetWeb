@@ -1,5 +1,6 @@
 <?php
-include('headermin.php');
+include('header.php');
+$error= false;
 if(isset($_POST['envoi'])){
 	if (!empty($_POST['description'])){
 		$description = $_POST['description'];
@@ -20,10 +21,11 @@ if(isset($_POST['envoi'])){
 
 		if (is_bool($resultat) && !$resultat) {
 			echo 
-			'<form>
+			'<form class="text-center">
 			Mauvais identifiant ou mot de passe
 			</form>
 			<div class="text-center" style="color:#999;"><a href="user_editprofil.php?username='.$_SESSION['pseudo'].'" style="color:#999;">Réessayer</a></div>';
+			$error = true;
 		}
 		else
 		{
@@ -35,19 +37,23 @@ if(isset($_POST['envoi'])){
 	// Mise a jour
 				$req = $bdd->prepare("UPDATE utilisateur SET mdp = :pass_hache WHERE pseudo = :pseudo");
 				$req->execute(array('pass_hache' => $pass_hache,'pseudo' => $_SESSION['pseudo']));
+
 			}
 			else {
 				echo 
-				'<form>
+				'<form class="text-center">
 				Mauvais identifiant ou mot de passe
 				</form>
 				<div class="text-center" style="color:#999;"><a href="user_editprofil.php?username='.$_SESSION['pseudo'].'" style="color:#999;">Réessayer</a></div>';
+				$error = true;
 			}
 		}
 		
 	}
-	header("Location: user_editprofil.php?username=".$_SESSION['pseudo']);
+	if(!$error){
+		header("Location: user_editprofil.php?username=".$_SESSION['pseudo']);
+	}
 }
-
+include('footer.php');
 
 ?>
