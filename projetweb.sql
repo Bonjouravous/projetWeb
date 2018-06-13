@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 12 juin 2018 à 15:43
+-- Généré le :  mer. 13 juin 2018 à 22:59
 -- Version du serveur :  5.7.19
 -- Version de PHP :  7.0.23
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `objet` varchar(255) COLLATE utf8_bin NOT NULL,
   `message` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `lieu` (
   `longitude` float NOT NULL,
   `creation` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -65,12 +65,12 @@ CREATE TABLE IF NOT EXISTS `lieucommentaire` (
   `idlieu` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
   `message` text COLLATE utf8_bin NOT NULL,
-  `creation` date NOT NULL,
+  `creation` datetime NOT NULL,
   `supprime` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Relation_lieucommentaire_lieu` (`idlieu`),
   KEY `Relation_lieucommentaire_utilisateur` (`idutilisateur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `lieudescription` (
   PRIMARY KEY (`id`),
   KEY `Relation_lieudescription_lieu` (`idlieu`) USING BTREE,
   KEY `Relation_lieudescription_utilisateur` (`idutilisateur`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `lieumedia` (
   PRIMARY KEY (`id`),
   KEY `Relation_lieumedia_lieu` (`idlieu`),
   KEY `Relation_lieumedia_utilisateur` (`idutilisateur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -128,6 +128,23 @@ CREATE TABLE IF NOT EXISTS `lieumotcle` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `likecommentaire`
+--
+
+DROP TABLE IF EXISTS `likecommentaire`;
+CREATE TABLE IF NOT EXISTS `likecommentaire` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idcommentaire` int(11) NOT NULL,
+  `idutilisateur` int(11) NOT NULL,
+  `avis` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Relation_likecommentaire_commentaire` (`idcommentaire`),
+  KEY `Relation_likecommentaire_utilisateur` (`idutilisateur`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `likelieu`
 --
 
@@ -140,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `likelieu` (
   PRIMARY KEY (`id`),
   KEY `Relation_likelieu_lieu` (`idlieu`),
   KEY `Relation_likelieu_utilisateur` (`idutilisateur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -153,7 +170,21 @@ CREATE TABLE IF NOT EXISTS `motcle` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mot` varchar(255) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `resetmdp`
+--
+
+DROP TABLE IF EXISTS `resetmdp`;
+CREATE TABLE IF NOT EXISTS `resetmdp` (
+  `id` int(11) NOT NULL,
+  `idutilisateur` int(11) NOT NULL,
+  `codegenere` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+  KEY `Relation_resetmdp_utilisateur` (`idutilisateur`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -171,25 +202,25 @@ CREATE TABLE IF NOT EXISTS `signcommentaire` (
   PRIMARY KEY (`id`),
   KEY `Relation_signcommentaire_utilisateur` (`idutilisateur`),
   KEY `Relation_signcommentaire_commentaire` (`idcommentaire`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `signdescription`
+-- Structure de la table `signlieu`
 --
 
-DROP TABLE IF EXISTS `signdescription`;
-CREATE TABLE IF NOT EXISTS `signdescription` (
+DROP TABLE IF EXISTS `signlieu`;
+CREATE TABLE IF NOT EXISTS `signlieu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idutilisateur` int(11) NOT NULL,
-  `iddescription` int(11) NOT NULL,
+  `idlieu` int(11) NOT NULL,
   `date` date NOT NULL,
   `traite` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `Relation_signdescription_utilisateur` (`idutilisateur`),
-  KEY `Relation_signdescription_description` (`iddescription`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  KEY `Relation_signlieu_lieu` (`idlieu`) USING BTREE,
+  KEY `Relation_signlieu_utilisateur` (`idutilisateur`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -209,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `moderateur` tinyint(4) NOT NULL DEFAULT '0',
   `banni` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Contraintes pour les tables déchargées
@@ -244,11 +275,24 @@ ALTER TABLE `lieumotcle`
   ADD CONSTRAINT `Relation_lieumotcle_motcle` FOREIGN KEY (`idmot`) REFERENCES `motcle` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Contraintes pour la table `likecommentaire`
+--
+ALTER TABLE `likecommentaire`
+  ADD CONSTRAINT `Relation_likecommentaire_commentaire` FOREIGN KEY (`idcommentaire`) REFERENCES `lieucommentaire` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Relation_likecommentaire_utilisateur` FOREIGN KEY (`idutilisateur`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Contraintes pour la table `likelieu`
 --
 ALTER TABLE `likelieu`
   ADD CONSTRAINT `Relation_likelieu_lieu` FOREIGN KEY (`idlieu`) REFERENCES `lieu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Relation_likelieu_utilisateur` FOREIGN KEY (`idutilisateur`) REFERENCES `utilisateur` (`id`);
+
+--
+-- Contraintes pour la table `resetmdp`
+--
+ALTER TABLE `resetmdp`
+  ADD CONSTRAINT `Relation_resetmdp_utilisateur` FOREIGN KEY (`idutilisateur`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `signcommentaire`
@@ -258,11 +302,11 @@ ALTER TABLE `signcommentaire`
   ADD CONSTRAINT `Relation_signcommentaire_utilisateur` FOREIGN KEY (`idutilisateur`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `signdescription`
+-- Contraintes pour la table `signlieu`
 --
-ALTER TABLE `signdescription`
-  ADD CONSTRAINT `Relation_signdescription_description` FOREIGN KEY (`iddescription`) REFERENCES `lieudescription` (`id`),
-  ADD CONSTRAINT `Relation_signdescription_utilisateur` FOREIGN KEY (`idutilisateur`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `signlieu`
+  ADD CONSTRAINT `Relation_signlieu_lieu` FOREIGN KEY (`idlieu`) REFERENCES `lieu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Relation_signlieu_utilisateur` FOREIGN KEY (`idutilisateur`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

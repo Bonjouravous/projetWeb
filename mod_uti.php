@@ -43,7 +43,13 @@ if (isset($_POST['bannir'])) {
                         </tr>
                     </thead>
                     <?php
-                    $reponse = $bdd->query('SELECT DISTINCT pseudo, count(signcommentaire.id) as total FROM utilisateur INNER JOIN lieucommentaire ON utilisateur.id = lieucommentaire.idutilisateur JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire WHERE utilisateur.banni = 0 GROUP BY utilisateur.id ORDER BY count(signcommentaire.id) DESC LIMIT 0,10 ');
+                    $reponse = $bdd->query('SELECT DISTINCT pseudo, count(signcommentaire.id) as total FROM utilisateur
+					INNER JOIN lieucommentaire ON utilisateur.id = lieucommentaire.idutilisateur
+					JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire
+					WHERE utilisateur.banni = 0 AND signcommentaire.traite = 0
+					GROUP BY utilisateur.id
+					ORDER BY count(signcommentaire.id) DESC
+					LIMIT 0, 10 ');
                     while($donnees = $reponse->fetch()){
                         $pseudo = $donnees ['pseudo'];
                         $nb = $donnees['total'];

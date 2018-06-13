@@ -43,7 +43,7 @@ if ($hassend && !$haserror) {
 	?>
 
 	<div class="card p-4" >
-		<form class="text-center" id="lieu_form" action="lieu_ajouter.php" method="post">
+		<form id="sampleForm" class="text-center" id="lieu_form" action="lieu_ajouter.php" method="post">
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="form-group">
@@ -56,10 +56,10 @@ if ($hassend && !$haserror) {
 				<div class="row">
 					<div class="col-sm-6">
 						<label for="latitude">Latitude</label>
-						<input type="number" name="latitude" step="0.01" value="0" min="0." max="90" class="form-control"/>
+						<input type="number" name="latitude" id="latitude" step="0.0000001" value="0" min="0." max="90" class="form-control"/>
 					</div>
 					<div class="col-sm-6">
-						<label for="longitude">Longitude</label><input type="number" name="longitude" step="0.01" value="0" min="-180" max="180" class="form-control"/>
+						<label for="longitude">Longitude</label><input type="number" name="longitude" id="longitude" step="0.0000001" value="0" min="-180" max="180" class="form-control"/>
 					</div>
 				</div>
 			</div>
@@ -88,6 +88,7 @@ if ($hassend && !$haserror) {
 			<div class="row">
 				<div class="col-md-12">
 					<button type="submit" class='btn btn-success' name="add">Publier</button>
+					<input class="btn btn-secondary" type = 'button' onclick = 'geoloc()' value = 'Me localiser'>
 					<a role="button" onClick="history.go(-1);" class='btn btn-danger' style="color: white;">Annuler</a>
 				</div><!--/*.col-md-12-->
 			</div><!--/*.row-->
@@ -95,6 +96,22 @@ if ($hassend && !$haserror) {
 	</form>
 </div>
 
+<script>
+function success(position) {
+	var lat = position.coords.latitude;
+	var lng = position.coords.longitude;
+	$('#latitude').val(lat);
+	$('#longitude').val(lng);
+};
+
+function error(err) {
+	console.warn(`ERROR(${err.code}): ${err.message}`);
+};
+	
+function geoloc() {
+	navigator.geolocation.getCurrentPosition(success, error);
+};
+</script>
 
 
 <?php

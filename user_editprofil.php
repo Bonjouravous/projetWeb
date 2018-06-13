@@ -1,11 +1,12 @@
  <?php include('header.php'); 
  if($_GET['username'] == $_SESSION['pseudo']){
 
- 	echo '<div class="card text-center">
+ 	?>
+	<div class="card text-center">
  	<div class="card-header">
  	<ul class="nav nav-tabs card-header-tabs">
  	<li class="nav-item">
- 	<a class="nav-link" href="user_profil.php?username='.$_SESSION['pseudo'].'">Mon profil</a>
+ 	<a class="nav-link" href="user_profil.php?username=<?=$_SESSION['pseudo']?>">Mon profil</a>
  	</li>
  	<li class="nav-item">
  	<a class="nav-link active" href="user_editprofil.php">Editer mon profil</a>
@@ -13,7 +14,7 @@
  	</ul>
  	</div>
  	<div class="card-body">
- 	<form action="user_edit.php?username='.$_SESSION['pseudo']. '" method="post">
+ 	<form action="user_edit.php?username=<?=$_SESSION['pseudo']?>" method="post">
  	<div class="form-group">
  	<label for="description">Changer ma description</label>
  	<textarea id="description" name="description" class="form-control"></textarea>
@@ -32,7 +33,8 @@
  	<button name="envoi" type="submit" class="btn btn-primary">Modifier</button>
  	</form> 
  	</div>
- 	</div>';
+ 	</div>
+	<?php
  }
 
  ?>

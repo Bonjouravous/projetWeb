@@ -1,17 +1,16 @@
 <?php
-	include('header.php');
+include('header.php');
 
-	$media_dir = 'media';
-	$image_exts = array('jpeg', 'jpg', 'png', 'bmp');
+$media_dir = 'media';
+$image_exts = array('jpeg', 'jpg', 'png', 'bmp');
 
-	$idlieu = isset($_GET['lieu']) ? (int) $_GET['lieu'] : 'alpha';
+$idlieu = isset($_GET['lieu']) ? (int) $_GET['lieu'] : 'alpha';
 
 if(!is_numeric($idlieu)) {
 	echo 'Page non trouvée';
 } else {
-?>
 
-<?php
+
 	$hassend = false;
 	$haserror = false;
 
@@ -39,7 +38,7 @@ if(!is_numeric($idlieu)) {
 				'INSERT INTO lieumedia(idlieu, idutilisateur, media, date, supprimer) VALUES (?, ?, ?, NOW(), 0)'
 				.';'
 			);
-			$media_basename = date('y-m-d_H-i-s').$ext;
+			$media_basename = time().'.'.$ext;
 			$media_complete_path = $media_dir.DIRECTORY_SEPARATOR.$media_basename;
 			move_uploaded_file($_FILES['media_up']['tmp_name'], $media_complete_path);
 			try {

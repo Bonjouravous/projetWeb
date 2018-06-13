@@ -3,16 +3,13 @@
 $hassend = false;
 $haserror = false;
  
-if(!empty($_POST['mail'])){
-	$mail = htmlspecialchars($_POST['mail']);
-	if(!empty ($_POST['objet'])){
-		$objet = htmlspecialchars($_POST['objet']);
-		if(!empty ($_POST['message'])){			
-			$message = htmlspecialchars($_POST['message']);
-			$insertion = $bdd->prepare('INSERT INTO contact VALUES (NULL,?,?,?)');
-			$insertion->execute(array($mail,$objet,$message));
-			$hassend = true;
-		}
+if(!empty ($_POST['objet'])){
+	$objet = htmlspecialchars($_POST['objet']);
+	if(!empty ($_POST['message'])){			
+		$message = htmlspecialchars($_POST['message']);
+		$insertion = $bdd->prepare('INSERT INTO contact SELECT NULL, mail, ?, ? FROM utilisateur WHERE id = ?');
+		$insertion->execute(array($objet,$message, $_SESSION['id']));
+		$hassend = true;
 	}
 }
 
@@ -44,12 +41,6 @@ margin: 10px 0px 60px;
 border: 1px solid #d3d3d3;">
 <form class="text-center" action="page_contact.php" method="post">
 	<div class="row">
-		<div class="col-md-12">
-			<div class="form-group">
-				<label for="inputemail">Votre email</label>
-				<input required type="email" name="mail" class="form-control" id="inputemail" value="">
-			</div><!--/*.form-group-->
-		</div><!--/*.col-md-6-->
 		<div class="col-md-12">
 			<div class="form-group">
 				<label for="objet">Objet</label>

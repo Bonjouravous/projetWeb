@@ -128,7 +128,7 @@ include('headermin.php');
 				$pass_hache = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 
 	// Insertion
-				$req = $bdd->prepare('INSERT INTO `utilisateur` (`id`, `pseudo`, `mdp`, `image`, `description`, `mail`, `inscription`, `moderateur`, `banni`) VALUES (NULL, :pseudo, :mdp, NULL, \'\', :mail, CURDATE(), 0, 0)');
+				$req = $bdd->prepare('INSERT INTO `utilisateur` (`id`, `pseudo`, `mdp`, `image`, `description`, `mail`, `inscription`, `moderateur`, `banni`) VALUES (NULL, :pseudo, :mdp, \'"https://dummyimage.com/50x50/d3d3d3/fff"\', \'\', :mail, CURDATE(), 0, 0)');
 				$req->execute(array(
 					'pseudo' => $_POST['pseudo'],
 					'mdp' => $pass_hache,

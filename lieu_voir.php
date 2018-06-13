@@ -6,10 +6,25 @@ if(!is_numeric($idlieu)) {
 	echo 'Page non trouvée';
 } else {
 	$lieu_first_infos_stmt = $bdd->prepare(
-		'SELECT lieu.nom, lieu.latitude, lieu.longitude, lieu.creation, lieudescription.description as contenu, lieudescription.id as descriptionid, utilisateur.pseudo as auteur, lieudescription.date as lastupdate, utilisateur.id as idauteur FROM lieu
-			LEFT JOIN lieudescription ON lieu.id = lieudescription.idlieu
+		'SELECT A.*, lieudescription.description as contenu, lieudescription.id as descriptionid, lieudescription.date as lastupdate, utilisateur.pseudo as auteur, utilisateur.id as idauteur FROM
+	(SELECT
+     	LL2.avis as hasvote,
+     	SUM(IF(SIGN(LL1.avis)= 1, LL1.avis, 0)) as cpositif,
+     	-1 * SUM(IF(SIGN(LL1.avis)= -1, LL1.avis, 0)) as cnegatif,
+     	lieu.id,
+     	lieu.nom,
+     	lieu.latitude,
+     	lieu.longitude,
+     	lieu.creation,
+		signlieu.id as hassign
+     	FROM lieu
+				LEFT JOIN likelieu as LL1 ON LL1.idlieu = lieu.id
+				LEFT JOIN likelieu as LL2 ON LL2.idlieu = lieu.id AND LL2.idutilisateur = ?
+				LEFT JOIN signlieu ON signlieu.idlieu = lieu.id AND signlieu.idutilisateur = ?
+				WHERE lieu.id = ?
+				GROUP BY lieu.id) AS A
+			LEFT JOIN lieudescription ON A.id = lieudescription.idlieu
 			LEFT JOIN utilisateur ON utilisateur.id = lieudescription.idutilisateur
-			WHERE lieu.id = ?
 			ORDER BY lieudescription.date DESC
 			LIMIT 1
 		;'
@@ -26,7 +41,7 @@ if(!is_numeric($idlieu)) {
 	);
 	try {
 		$bdd->beginTransaction();
-		$lieu_first_infos_stmt->execute(array($idlieu));
+		$lieu_first_infos_stmt->execute(array($_SESSION['id'], $_SESSION['id'], $idlieu));
 		$lieu_medias_stmt->execute(array($idlieu));
 		$lieu_motcles_stmt->execute(array($idlieu));
 		$bdd->commit();
@@ -38,12 +53,18 @@ if(!is_numeric($idlieu)) {
 	$lieu_first_infos_fetch = $lieu_first_infos_stmt->fetch(PDO::FETCH_ASSOC);
 	$lieu_medias_fetch = $lieu_medias_stmt->fetchAll(PDO::FETCH_ASSOC);
 	$lieu_motcles_fetch = $lieu_motcles_stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+	if($lieu_first_infos_fetch['cpositif'] == null) $lieu_first_infos_fetch['cpositif'] = 0;
+	if($lieu_first_infos_fetch['cnegatif'] == null) $lieu_first_infos_fetch['cnegatif'] = 0;
+	if($lieu_first_infos_fetch['hasvote'] == null) $lieu_first_infos_fetch['hasvote'] = 0;
+	$lieu_first_infos_fetch['hassign'] = ($lieu_first_infos_fetch['hassign'] != null);
+	
 ?>
  	<div class="card">
  		<h5 class="card-title m-2"><?=$lieu_first_infos_fetch['nom']?></h5>
  		<img class="card-img-top" src="images/700x400.png" alt="Card image cap">
  		<div class="card-body">
- 			<span class="text-muted"><?=$lieu_first_infos_fetch['latitude'].', '.$lieu_first_infos_fetch['longitude']?></span>
+ 			<span class="text-muted"><a href="lieu_carte.php#<?=$lieu_first_infos_fetch['latitude'].','.$lieu_first_infos_fetch['longitude']?>,12" title="Voir sur la carte"><?=$lieu_first_infos_fetch['latitude'].', '.$lieu_first_infos_fetch['longitude']?></a></span>
  			<p class="card-text">
 				<?php
 				$lieu_desc = $lieu_first_infos_fetch['contenu'];
@@ -53,8 +74,10 @@ if(!is_numeric($idlieu)) {
 				echo $lieu_desc;
 				?>
 			</p>
-			<a href="#" class="btn btn-success">1024 <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
+			<a href="" id="btn_l_like_<?=$idlieu?>" class="btn_l_like btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cpositif']?></span> <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
+			<a href="" id="btn_l_dislike_<?=$idlieu?>" class="btn_l_dislike btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cnegatif']?></span> <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
 			<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
+			<a href="lieu_media_ajouter.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Poster une photo</a>
 			<div class="text-left text-muted">
 				<?php
 					foreach ($lieu_motcles_fetch as $row) {
@@ -66,65 +89,229 @@ if(!is_numeric($idlieu)) {
 			</div>
 			<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?>
 			</div>
-			<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
+			<a href="#" class="float-right<?php if($lieu_first_infos_fetch['hassign']) echo ' active'; ?>" style="color: red; font-size: 9px;" id="btn_signal_lieu">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
  			</div>
-			<div class="actionBox">
+			<div id="commentary" class="actionBox">
 				<ul class="commentList">
+				<?php
+					if(isset($_POST['submit_commentaire']) ){
+						if(isset($_POST['commentaire']) AND !empty($_POST['commentaire']) ){
+								$commentaire = htmlspecialchars($_POST['commentaire']);
+				
+								$insertion=$bdd->prepare('INSERT INTO `lieucommentaire` (`id`, `idlieu`, `idutilisateur`, `message`, `creation`, `supprime`) VALUES (NULL, ?, ?, ?, NOW(), 0) ');   
+								//$a=$_SESSION['id']; //a modifier
+								$b=3;
+								$insertion->execute(array($idlieu,$b,$commentaire));
+								$c_msg = '<span style="color:green;"> Votre commentaire a bien été posté .</span>';
+								echo $c_msg; //
+						}
+						else{
+							$commenntaire_error ='<span style="color:red;"> ecrire un commentaire .</span>';
+							echo $commenntaire_error;//
+						}
+					}
+					
+						$lieu_commentaires_query = $bdd->prepare('SELECT LC2.avis as hasvote,
+							signcommentaire.id as hassign,
+							SUM(IF(SIGN(LC1.avis)= 1, LC1.avis, 0)) as cpositif, -1*SUM(IF(SIGN(LC1.avis)= -1, LC1.avis, 0)) as cnegatif, utilisateur.pseudo, utilisateur.image, lieucommentaire.message, lieucommentaire.creation, lieucommentaire.id FROM lieucommentaire
+						JOIN utilisateur ON utilisateur.id=lieucommentaire.idutilisateur
+						LEFT JOIN likecommentaire as LC1 ON LC1.idcommentaire = lieucommentaire.id
+						LEFT JOIN likecommentaire as LC2 ON LC2.idcommentaire = lieucommentaire.id AND LC2.idutilisateur = ?
+						LEFT JOIN signcommentaire ON signcommentaire.idcommentaire = lieucommentaire.id AND signcommentaire.idutilisateur = ?
+						WHERE lieucommentaire.idlieu = ? AND lieucommentaire.supprime = 0
+						GROUP BY lieucommentaire.id
+						ORDER BY lieucommentaire.creation DESC');
+						$lieu_commentaires_query->execute(array($_SESSION['id'], $_SESSION['id'], $idlieu)); 
+					?>
+					
+					
+					<?php while($lieu_com = $lieu_commentaires_query->fetch()){
+						
+						$date = new DateTime($lieu_com['creation']);
+						$lieu_com['cpositif'] = ($lieu_com['cpositif'] == null) ? 0 : $lieu_com['cpositif'];
+						$lieu_com['cnegatif'] = ($lieu_com['cnegatif'] == null) ? 0 : $lieu_com['cnegatif'];
+						$lieu_com['hasvote'] = ($lieu_com['hasvote'] == null) ? 0 : $lieu_com['hasvote'];
+						$lieu_com['hassign'] = ($lieu_com['hassign'] != null);
+					?>
 					<li>
 						<div class="commenterImage">
-							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
+							<img src="<?=$lieu_com['image']?>" />
 						</div>
 						<div class="commentText" >
-							<p><span>NomDeL'Auteur</span></p>
-							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018 par UtilisateurNom</span>
-							<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
+							<p><span><?=$lieu_com['pseudo']?></span></p>
+							<p class="text-muted">
+								<?=$lieu_com['message']?>
+							</p>
+							<span class="date sub-text" style="font-size: 9px" >
+								<a href="" id="btn_like_<?=$lieu_com['id']?>" class="btn_like btn<?php if($lieu_com['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_com['cpositif']?></span> J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
+								<a href="" id="btn_dislike_<?=$lieu_com['id']?>" class="btn_dislike btn<?php if($lieu_com['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_com['cnegatif']?></span> J'aime Pas <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
+								Le <?=$date->format('d/m/Y à H:i:s')?>
+							</span>
+							<a href="#" class="btn_sign float-right<?php if($lieu_com['hassign']) echo ' active '; ?>" id="btn_sign_<?=$lieu_com['id']?>" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
 
 						</div>
 					</li>
-					<li>
-						<div class="commenterImage">
-							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
-						</div>
-						<div class="commentText" >
-							<p><span>NomDeL'Auteur</span></p>
-							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018 par UtilisateurNom</span>
-							<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
-
-						</div>
-					</li>
-					<li>
-						<div class="commenterImage">
-							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
-						</div>
-						<div class="commentText" >
-							<p><span>NomDeL'Auteur</span></p>
-							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018 par UtilisateurNom</span>
-							<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
-
-						</div>
-					</li>
-					<li>
-						<div class="commenterImage">
-							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
-						</div>
-						<div class="commentText" >
-							<p><span>NomDeL'Auteur</span></p>
-							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018 par UtilisateurNom</span>
-							<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
-
-						</div>
-					</li>
+					<?php } ?>
 				</ul>
-				<form class="form-inline" role="form">
+				<form class="form-inline" role="form" method="POST" action="lieu_voir.php?lieu=<?=$idlieu?>#commentary">
 					<div class="form-group">
-						<input class="form-control" type="text" placeholder="Votre commentaire" />
+						<input autocomplete="off" class="form-control" type="text" placeholder="Votre commentaire" name="commentaire" />
 					</div>
 					<div class="form-group">
-						<button class="btn btn-outline-default">Commenter</button>
+						<input class="btn btn-outline-default" type="submit" value="Commenter" name="submit_commentaire"/>
 					</div>
 				</form>
 			</div>
 		</div>
+		
+		<style>
+		.active{
+			background-color: red;
+		}
+		</style>
+		
+		<script>
+		
+		$('.btn_sign').click(function(e) {
+			var id = $(e.currentTarget).attr('id');
+			id = id.substr(9);
+			$.ajax({
+			   url : 'signalement.php', // La ressource ciblée
+			   type : 'GET', // Le type de la requête HTTP.
+			   data : 'type=commentaire&idtype=' + id,
+			   success : function(htmlcode, statut) {
+				   $('#btn_sign_'+id).addClass('active');
+				   $('#btn_sign_'+id).off('click');
+			   }
+			});
+			return false;
+		});
+		
+		$('#btn_signal_lieu').click(function(e) {
+			var id = <?=$idlieu?>;
+			$.ajax({
+			   url : 'signalement.php', // La ressource ciblée
+			   type : 'GET', // Le type de la requête HTTP.
+			   data : 'type=lieu&idtype=' + id,
+			   success : function(htmlcode, statut) {
+				   $('#btn_signal_lieu').addClass('active');
+				   $('#btn_signal_lieu').off('click');
+			   }
+			});
+			return false;
+		});
+		
+		$('.btn_l_like').click(function(e) {
+			var currenttarget = $(e.currentTarget);
+			var id = currenttarget.attr('id');
+			id = id.substr(11);
+			
+			addlike(1, 'lieu', id, function(htmlcode, statut) {
+				if($('#btn_l_like_'+id).hasClass('active')) {
+					$('#btn_l_like_'+id+' span').first().html(parseInt($('#btn_l_like_'+id+' span').first().html()) - 1);
+					$('#btn_l_like_'+id).removeClass('active');
+				}
+				if($('#btn_l_dislike_'+id).hasClass('active')) {
+					$('#btn_l_dislike_'+id+' span').first().html(parseInt($('#btn_l_dislike_'+id+' span').first().html()) - 1);
+					$('#btn_l_dislike_'+id).removeClass('active');
+				}
+				htmlcode = parseInt(htmlcode);
+				if(htmlcode == 1) {
+					$('#btn_l_like_'+id).addClass('active');
+					$('#btn_l_like_'+id+' span').first().html(parseInt($('#btn_l_like_'+id+' span').first().html()) + 1);
+				}
+				
+			});
+			
+			return false;
+		});
+		
+		$('.btn_l_dislike').click(function(e) {
+			var currenttarget = $(e.currentTarget);
+			var id = currenttarget.attr('id');
+			id = id.substr(14);
+			
+			addlike(-1, 'lieu', id, function(htmlcode, statut) {
+				if($('#btn_l_like_'+id).hasClass('active')) {
+					$('#btn_l_like_'+id+' span').first().html(parseInt($('#btn_l_like_'+id+' span').first().html()) - 1);
+					$('#btn_l_like_'+id).removeClass('active');
+				}
+				if($('#btn_l_dislike_'+id).hasClass('active')) {
+					$('#btn_l_dislike_'+id+' span').first().html(parseInt($('#btn_l_dislike_'+id+' span').first().html()) - 1);
+					$('#btn_l_dislike_'+id).removeClass('active');
+				}
+				htmlcode = parseInt(htmlcode);
+				if(htmlcode == -1) {
+					$('#btn_l_dislike_'+id).addClass('active');
+					$('#btn_l_dislike_'+id+' span').first().html(parseInt($('#btn_l_dislike_'+id+' span').first().html()) + 1);
+				}
+				
+			});
+			
+			return false;
+		});
+		
+		$('.btn_like').click(function(e) {
+			var currenttarget = $(e.currentTarget);
+			var id = currenttarget.attr('id');
+			id = id.substr(9);
+			
+			addlike(1, 'commentaire', id, function(htmlcode, statut) {
+				if($('#btn_like_'+id).hasClass('active')) {
+					$('#btn_like_'+id+' span').first().html(parseInt($('#btn_like_'+id+' span').first().html()) - 1);
+					$('#btn_like_'+id).removeClass('active');
+				}
+				if($('#btn_dislike_'+id).hasClass('active')) {
+					$('#btn_dislike_'+id+' span').first().html(parseInt($('#btn_dislike_'+id+' span').first().html()) - 1);
+					$('#btn_dislike_'+id).removeClass('active');
+				}
+				htmlcode = parseInt(htmlcode);
+				if(htmlcode == 1) {
+					$('#btn_like_'+id).addClass('active');
+					$('#btn_like_'+id+' span').first().html(parseInt($('#btn_like_'+id+' span').first().html()) + 1);
+				}
+				
+			});
+			
+			return false;
+		});
+		
+		$('.btn_dislike').click(function(e) {
+			var currenttarget = $(e.currentTarget);
+			var id = currenttarget.attr('id');
+			id = id.substr(12);
+			
+			addlike(-1, 'commentaire', id, function(htmlcode, statut) {
+				if($('#btn_like_'+id).hasClass('active')) {
+					$('#btn_like_'+id+' span').first().html(parseInt($('#btn_like_'+id+' span').first().html()) - 1);
+					$('#btn_like_'+id).removeClass('active');
+				}
+				if($('#btn_dislike_'+id).hasClass('active')) {
+					$('#btn_dislike_'+id+' span').first().html(parseInt($('#btn_dislike_'+id+' span').first().html()) - 1);
+					$('#btn_dislike_'+id).removeClass('active');
+				}
+				htmlcode = parseInt(htmlcode);
+				if(htmlcode == -1) {
+					$('#btn_dislike_'+id).addClass('active');
+					$('#btn_dislike_'+id+' span').first().html(parseInt($('#btn_dislike_'+id+' span').first().html()) + 1);
+				}
+				
+			});
+			
+			return false;
+		});
+		
+		
+		function addlike(like, type, id, callback) {
+			$.ajax({
+			   url : 'like.php', // La ressource ciblée
+			   type : 'GET', // Le type de la requête HTTP.
+			   data : 'type=' + type + '&like=' + like + '&idtype=' + id,
+			   success : callback
+			});
+		}
+		
+		</script>
 <?php
 }
 

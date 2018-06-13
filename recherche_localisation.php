@@ -11,7 +11,7 @@
 					
 				
 					
-					<select name="tags[]" multiple>
+					<select class="chosen_select" name="tags[]" multiple>
 					<?php 
 						$rep = $bdd->query('SELECT * FROM motcle');
 						$rep->execute();
@@ -33,6 +33,10 @@
 </div>
 
 <script>
+$('.chosen_select').chosen({
+	width: "95%"
+});
+
 function success(position) {
 	var lat = position.coords.latitude;
 	var long = position.coords.longitude;

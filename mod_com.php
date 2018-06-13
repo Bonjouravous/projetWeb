@@ -41,11 +41,16 @@ if (isset($_POST['supprimer'])) {
 				<p class="card-text"><div>
 					<div id="gestion_com">
 						<?php
-						$req = $bdd->query('SELECT count(signcommentaire.id), message, idcommentaire, pseudo FROM lieucommentaire JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire JOIN utilisateur ON utilisateur.id = lieucommentaire.idutilisateur WHERE signcommentaire.traite = 0 AND lieucommentaire.supprime = 0 GROUP BY utilisateur.id ORDER BY count(signcommentaire.id) DESC');
+						$req = $bdd->query('SELECT count(signcommentaire.id), lieucommentaire.message, lieucommentaire.id, utilisateur.pseudo FROM lieucommentaire
+						JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire
+						JOIN utilisateur ON utilisateur.id = lieucommentaire.idutilisateur
+						WHERE signcommentaire.traite = 0 AND lieucommentaire.supprime = 0
+						GROUP BY lieucommentaire.id
+						ORDER BY count(signcommentaire.id) DESC');
 						while($donnees = $req->fetch()){
 							$pseudo = $donnees['pseudo'];
 							$commentaire = $donnees['message'];
-							$idcom = $donnees['idcommentaire'];
+							$idcom = $donnees['id'];
 							$nb = $donnees['count(signcommentaire.id)'];
 							?>
 							<p>Pseudo : <?php echo$pseudo ?></p>

@@ -3,7 +3,7 @@ include('header.php');
 
 if(isset($_POST['traiter'])){
 	$idcom = $_POST['idcom'];
-	$stat = $bdd->prepare('UPDATE signdescription SET traite = 1 WHERE iddescription = ?');
+	$stat = $bdd->prepare('UPDATE signlieu SET traite = 1 WHERE idlieu = ?');
 	$stat->execute(array($idcom));
 }
 
@@ -36,22 +36,24 @@ if(isset($_POST['traiter'])){
 				<p class="card-text"><div>
 					<div>
 						<?php
-						$req = $bdd->query('SELECT DISTINCT nom, lieu.id as idL, count(signdescription.id), signdescription.id as idD FROM lieu JOIN lieudescription ON lieu.id = lieudescription.idlieu JOIN signdescription ON lieudescription.id = signdescription.iddescription WHERE signdescription.traite = 0 GROUP BY lieu.nom ORDER BY count(signdescription.id) DESC');
+						$req = $bdd->query('SELECT DISTINCT nom, lieu.id as idL, count(signlieu.id) FROM lieu
+						JOIN signlieu ON lieu.id = signlieu.idlieu
+						WHERE signlieu.traite = 0
+						GROUP BY lieu.nom
+						ORDER BY count(signlieu.id) DESC');
 						while($donnees = $req->fetch()){
 							$nom = $donnees['nom'];
 							$idLieu = $donnees['idL'];
-							$idcom = $donnees['idD'];
-							$nb = $donnees['count(signdescription.id)'];
+							$nb = $donnees['count(signlieu.id)'];
 							?>
 
 							<p>Nom : <?php echo $nom; ?></p> 
-							<p>Identifiant du lieu : <?php echo $idLieu; ?></p>
 							<p>Nombre de signalement : <?php echo $nb; ?></p>
-							<a href="">Lien vers la page signalé</a><!-- Lien à ajouté -->
+							<a target="_blank" href="lieu_voir?lieu=<?=$idLieu?>">Lien vers la page signalé</a><!-- Lien à ajouté -->
 
 							<form method="post" action="mod_lieu.php">
 								<input type="submit" value="Traiter" name="traiter"/>
-								<input type="hidden" value="<?php echo $idcom; ?>" name="idcom"/>
+								<input type="hidden" value="<?php echo $idLieu; ?>" name="idcom"/>
 							</form>
 
 							<?php

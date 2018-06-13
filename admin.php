@@ -44,11 +44,15 @@
   <div class="card-body">
     <h5 class="card-title text-left">Liste des Modérateurs</h5>
     <p class="card-text"><div>
+		<?php
+		$req = $bdd->query('SELECT id, pseudo FROM utilisateur WHERE moderateur = 0 AND utilisateur.banni = 0  ORDER BY pseudo ASC');
+		$datas = $req->fetchAll(PDO::FETCH_ASSOC);
+		if(count($datas) > 0) {
+		?>
             <form method="post" action="admin.php">
                 <select class="form-control" name="pseudo">
                     <?php
-                    $req = $bdd->query('SELECT id, pseudo FROM utilisateur WHERE moderateur = 0 AND utilisateur.banni = 0  ORDER BY pseudo ASC');
-                        while($donnees = $req->fetch()){
+                        foreach($datas as $donnees){
                             $pseudo = $donnees['pseudo'];
                     ?>
                             <option value="<?= $donnees['id'] ?>"><?php echo $pseudo; ?></option>
@@ -58,6 +62,7 @@
                 </select>
                 <input class="form-control btn-outline-info mb-1 mt-1" type="submit" value="Ajouter" name="ajout"/>
             </form>
+		<?php } ?>
         </div>
         <div>
                 <table>
@@ -77,10 +82,12 @@
                         <tr>
                             <td><?php echo $modo ?></td>
                             <td>
+							<?php if($id != $_SESSION['id']) { ?>
                                 <form method="post" action="admin.php">
                                     <input class="form-control btn-danger" type="submit" value="Supprimer" name="supprimer"/>
                                     <input type="hidden" value="<?php echo $id; ?>" name="id"/>
                                 </form>
+							<?php } ?>
                             </td>
                         </tr>
                                 <?php

@@ -1,7 +1,10 @@
 <?php
 include_once('headermin.php');
 
-
+if(!isConnected()) {
+	header('Location: user_login.php');
+	exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,6 +18,7 @@ include_once('headermin.php');
 	<link rel="stylesheet" href="style/bootstrap.min.css">
 	<link rel="stylesheet" href="style/font-awesome.min.css">
 	<link rel="stylesheet" href="style/style.css">
+	<link rel="stylesheet" href="style/chosen.min.css" type="text/css">
 	
 </head>
 <body>
@@ -62,6 +66,7 @@ include_once('headermin.php');
 	<script src="js/jquery-3.2.1.slim.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/chosen.jquery.min.js"></script>
 	
 	
 <div class="container">

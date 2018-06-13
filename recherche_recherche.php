@@ -27,10 +27,8 @@ function evaluer($distance, $reputation) {
 $rep = $bdd->query('SELECT lieu.nom, lieu.latitude, lieu.longitude, lieu.id, SUM(likelieu.avis) as reputation FROM lieu
 LEFT JOIN likelieu ON likelieu.idlieu = lieu.id GROUP BY lieu.id'); // gps dans lieu à changer en latitude et longitude ... pour que ça soit plus simple
 $rep->execute();
-$localisation = $rep->fetchAll();
+$localisation = $rep->fetchAll(PDO::FETCH_ASSOC);
 
-$lat1 = $_GET['lat']; // latitude de l'endroit ou se trouve l'utilisateur
-$lng1 = $_GET['long'];// longitude de l'endroit ou se trouve l'utilisateur
 $tags = array();
 if(isset($_GET['tags'])) $tags = $_GET['tags'];
 
@@ -38,12 +36,12 @@ if(isset($_GET['tags'])) $tags = $_GET['tags'];
 $r = $_GET['distance'];
 $lieux = array();
 
-if(!empty($lat1))
+if(isset($_GET['lat']))
 {
-	$latitudeUtilisateur = $lat1;
-	if(!empty($lng1))
+	$latitudeUtilisateur = $_GET['lat'];
+	if(isset($_GET['long']))
 	{
-		$longitudeUtilisateur = $lng1;
+		$longitudeUtilisateur = $_GET['long'];
 		foreach($localisation as $value)
 		{
 			$value['reputation'] = empty($value['reputation']) ? 0 : $value['reputation'];
@@ -52,6 +50,15 @@ if(!empty($lat1))
 			if ($distance <= $r) 
 			{
 				$value['distance'] = $distance;
+				// Mise en forme de la distance
+				if($value['distance'] >= 100) {
+					$value['distance'] = floor($value['distance']);
+				} else if($value['distance'] >= 10) {
+					$value['distance'] = floor($value['distance'] * 10)/10;
+				} else {
+					$value['distance'] = floor($value['distance'] * 100)/100;
+				}
+				
 				$value['evaluation'] = evaluer($distance, $value['reputation']);
 				$rep2 = $bdd->prepare('SELECT motcle.id, motcle.mot FROM motcle JOIN lieumotcle ON motcle.id = lieumotcle.idmot AND lieumotcle.idlieu = ?');
 				$rep2->execute(array($value['id']));
@@ -89,14 +96,16 @@ usort($lieux, function($a, $b) {
 	<div class="row">
 	<?php
 	//Recherche des lieux les mieux notés aux alentours 
-	foreach($lieux as $result)
+	if(count($lieux) == 0) {
+		echo 'Aucun résultat trouvé';
+	} else foreach($lieux as $result)
 	{
 		?>
 		<div class="col-lg-4" style="padding-top: 2%;padding-bottom: 2%">
 			<div class="card">
 				<div class="card-body">
 					<h5 class="card-title"><?=$result['nom']?></h5>
-					<h6 class="card-subtitle mb-2 text-muted"><?=$result['distance']?> - <?=$result['reputation']?></h6>
+					<h6 class="card-subtitle mb-2 text-muted"><?=$result['distance']?>km- <?=$result['reputation']?></h6>
 					<a href="lieu_voir.php?lieu=<?=$result['id']?>" class="card-link">Voir</a>
 					<a href="lieu_edit.php?lieu=<?=$result['id']?>" class="card-link">Modifier</a>
 					<a href="#" class="card-link">Supprimer</a>
