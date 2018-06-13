@@ -37,11 +37,14 @@ include_once('headermin.php');
 						{
 							echo '<li class="nav-item"><a class="nav-link" href="user_login.php">Se connecter</a></li>';
 						}
-						else
+						if (isConnected())
 						{
 							echo '<li class="nav-item"><a class="nav-link" href="#">Publier un lieu</a></li>';
 							echo '<li class="nav-item"><a class="nav-link" href="user_profil.php'.'?username='.$_SESSION['pseudo'].'">Mon profil</a></li>';
 							echo '<li class="nav-item"><a class="nav-link" href="user_signout.php">Se deconnecter</a></li>';
+						}
+						if (isMod()){
+							echo '<li class="nav-item"><a class="nav-link" href="admin.php">Moderation</a></li>';
 						}
 						?>
 					
