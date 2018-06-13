@@ -2,9 +2,11 @@
     include('header.php');
 
     if(isset($_POST['ajout'])){
-        $mot = $_POST['mot'];
-        $stat = $bdd->prepare('INSERT INTO motcle (id, mot) VALUES (NULL, ?)');
-        $stat->execute(array($mot));
+        if (!empty($_POST['mot'])) {
+            $mot = $_POST['mot'];
+            $stat = $bdd->prepare('INSERT INTO motcle (id, mot) VALUES (NULL, ?)');
+            $stat->execute(array($mot));
+        }
     }
 
 if (isset($_POST['supprimer'])) {
