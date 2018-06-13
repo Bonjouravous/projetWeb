@@ -17,7 +17,7 @@ if (isset($_POST['supprimer'])) {
 	<div id="gestion_com">
 		<h2>Commentaires ayant été signalé :</h2>
 		<?php
-			$req = $bdd->query('SELECT count(signcommentaire.id), message, idcommentaire, pseudo FROM lieucommentaire JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire JOIN utilisateur ON utilisateur.id = lieucommentaire.idutilisateur WHERE signcommentaire.traite = 0 AND lieucommentaire.supprime = 0 GROUP BY utilisateur.id ORDER BY count(signcommentaire.id)');
+        $req = $bdd->query('SELECT count(signcommentaire.id), message, idcommentaire, pseudo FROM lieucommentaire JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire JOIN utilisateur ON utilisateur.id = lieucommentaire.idutilisateur WHERE signcommentaire.traite = 0 AND lieucommentaire.supprime = 0 GROUP BY utilisateur.id ORDER BY count(signcommentaire.id) DESC');
 			while($donnees = $req->fetch()){
 				$pseudo = $donnees['pseudo'];
 				$commentaire = $donnees['message'];
@@ -39,7 +39,6 @@ if (isset($_POST['supprimer'])) {
 		?>
 	</div>
 </section>
-</html>
 <?php
 	include('footer.php');
 ?>
