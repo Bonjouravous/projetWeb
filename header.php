@@ -42,10 +42,11 @@ include_once('headermin.php');
 							echo '<li class="nav-item"><a class="nav-link" href="lieu_ajouter.php">Publier un lieu</a></li>';
 							echo '<li class="nav-item"><a class="nav-link" href="user_profil.php'.'?username='.$_SESSION['pseudo'].'">Mon profil</a></li>';
 							echo '<li class="nav-item"><a class="nav-link" href="user_signout.php">Se deconnecter</a></li>';
-						}
-						if (isMod()){
+                            if (isMod()){
 							echo '<li class="nav-item"><a class="nav-link" href="admin.php">Moderation</a></li>';
 						}
+						}
+						
 						?>
 					
 				</ul>
