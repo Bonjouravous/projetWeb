@@ -2,9 +2,14 @@
     include('header.php');
 
     if(isset($_POST['ajout'])){
-    $pseudo = $_POST['pseudo'];
-        $stat = $bdd->prepare('UPDATE utilisateur SET moderateur = 1 WHERE id = ?');
-        $stat->execute(array($pseudo));
+        if (!empty($_POST['pseudo'])) {
+            $pseudo = $_POST['pseudo'];
+            $stat = $bdd->prepare('UPDATE utilisateur SET moderateur = 1 WHERE id = ?');
+            $stat->execute(array($pseudo));
+        } else {
+            echo "Aucun utilisateur sélectionné";
+        }
+
     }
 
     if(isset($_POST['supprimer'])){
