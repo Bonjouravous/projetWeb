@@ -9,7 +9,7 @@ include_once('headermin.php');
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Le nom de notre super site</title>
+	<title>Let’s Discover</title>
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="style/bootstrap.min.css">
@@ -22,7 +22,7 @@ include_once('headermin.php');
 		<div class="banner">
 		</div>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 2%">
-			<a class="navbar-brand" href="index.php">Notre Super Nom de Site</a>
+			<a class="navbar-brand" href="index.php">Let’s Discover</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
