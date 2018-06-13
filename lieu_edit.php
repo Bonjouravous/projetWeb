@@ -91,7 +91,7 @@ if(!is_numeric($idlieu)) {
 			  </div><!--/*.form-group-->
     	</div><!--/*.col-md-12-->
 			<div class="col-md-12">
-				<button type="submit" class='btn btn-success' name="update" value="Mettre à jour"/>
+				<button type="submit" class='btn btn-success' name="update">Mettre à jour</button>
 				<a role="button" href="http://localhost/lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
 			</div><!--/*.col-md-12-->
 		</div><!--/*.row-->
