@@ -1,6 +1,5 @@
-<?php
-include('header.php');
-?>
+<?php include('header.php'); ?>	
+					
 <div class="card text-center">
 		<div class="card-body">
 			<form id="sampleForm" name="sampleForm" method="get" action="recherche_recherche.php">
@@ -9,7 +8,22 @@ include('header.php');
 
 					<label for="long">Longitude :&nbsp;</label><input type="text" name="long" id="long" value=""><br>
 
-					<label for="distance">Distance :&nbsp;</label><input type="text" name="distance" value="2000">km<br>
+					<label for="distance">Distance :&nbsp;</label><input type="text" name="distance" value="20">km<br>
+					
+				
+					
+					<select name="tags[]" multiple>
+					<?php 
+						$rep = $bdd->query('SELECT * FROM motcle');
+						$rep->execute();
+						$motscles = $rep->fetchAll(PDO::FETCH_ASSOC);
+						print_r($motscles);
+						
+						foreach($motscles as $motcle) {
+							echo ("<option value=".$motcle['id'].">".$motcle['mot']."</option>");
+						}
+					?>
+					</select>
 				</p>
 				<p>
 					<input type = 'button' onclick = 'geoloc()' value = 'Me localiser'>

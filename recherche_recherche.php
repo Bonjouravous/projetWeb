@@ -24,12 +24,16 @@ function evaluer($distance, $reputation) {
 	return $distance - $reputation;
 }
 
-$rep = $bdd->query('SELECT lieu.nom, lieu.latitude, lieu.longitude, lieu.id, SUM(likelieu.avis) as reputation FROM lieu LEFT JOIN likelieu ON likelieu.idlieu = lieu.id GROUP BY lieu.id'); // gps dans lieu à changer en latitude et longitude ... pour que ça soit plus simple
+$rep = $bdd->query('SELECT lieu.nom, lieu.latitude, lieu.longitude, lieu.id, SUM(likelieu.avis) as reputation FROM lieu
+LEFT JOIN likelieu ON likelieu.idlieu = lieu.id GROUP BY lieu.id'); // gps dans lieu à changer en latitude et longitude ... pour que ça soit plus simple
 $rep->execute();
 $localisation = $rep->fetchAll();
 
 $lat1 = $_GET['lat']; // latitude de l'endroit ou se trouve l'utilisateur
-$lng1 = $_GET['long'];// longitude de l'endroit ou se trouve l'utilisateur 
+$lng1 = $_GET['long'];// longitude de l'endroit ou se trouve l'utilisateur
+$tags = array();
+if(isset($_GET['tags'])) $tags = $_GET['tags'];
+
 
 $r = $_GET['distance'];
 $lieux = array();
@@ -49,7 +53,25 @@ if(!empty($lat1))
 			{
 				$value['distance'] = $distance;
 				$value['evaluation'] = evaluer($distance, $value['reputation']);
-				$lieux[] = $value;
+				$rep2 = $bdd->prepare('SELECT motcle.id, motcle.mot FROM motcle JOIN lieumotcle ON motcle.id = lieumotcle.idmot AND lieumotcle.idlieu = ?');
+				$rep2->execute(array($value['id']));
+				$motsclesbruts = $rep2->fetchAll(PDO::FETCH_ASSOC);
+				$value['motcle'] = array();
+				$motsclesids = array();
+				
+				foreach($motsclesbruts as $mcb) {
+					$value['motcle'][] = '#'.$mcb['mot'];
+					$motsclesids[] = $mcb['id'];
+				}
+				
+				$a_ajouter = true;
+				
+				foreach($tags as $tag) {
+					if(!in_array($tag, $motsclesids)) $a_ajouter = false;
+				}
+				
+				if($a_ajouter)
+					$lieux[] = $value;
 				//tableau constitué des noms des lieux proches dans un rayon de r km de l'utilisateur 
 				//echo $lieux[];
 			}
@@ -78,7 +100,7 @@ usort($lieux, function($a, $b) {
 					<a href="lieu_voir.php?lieu=<?=$result['id']?>" class="card-link">Voir</a>
 					<a href="lieu_edit.php?lieu=<?=$result['id']?>" class="card-link">Modifier</a>
 					<a href="#" class="card-link">Supprimer</a>
-					<div class="text-right text-muted">#tag1 #tag2 #tag3</div>
+					<div class="text-right text-muted"><?=implode(' ', $result['motcle'])?></div>
 				</div>
 			</div>
 		</div>
