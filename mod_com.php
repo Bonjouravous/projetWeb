@@ -3,18 +3,19 @@
 	
 	if(isset($_POST['garder'])){
 		$idcom = $_POST['idcom'];
-		$bdd->query('UPDATE signcommentaire SET taiter = 1 WHERE idcommentaire = '.$idcom);
+		$bdd->query('UPDATE signcommentaire SET traite = 1 WHERE idcommentaire = '.$idcom);
 	}
-	if(isset($_POST['supprimer'])){
+
+if(isset($_POST['supprimer'])){
 		$idcom = $_POST['idcom'];
-		$bdd->query('UPDATE lieucommentaire SET supprimer = 1 WHERE id = '.$idcom);
+		$bdd->query('UPDATE lieucommentaire SET supprime = 1 WHERE id = '.$idcom);
 	}
 ?>
 <section>
 	<div id="gestion_com">
 		<h2>Commentaires ayant été signalé :</h2>
 		<?php
-			$req = $bdd->query('SELECT count(signcommentaire.id), message, idcommentaire, pseudo FROM lieucommentaire JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire JOIN utilisateur ON utilisateur.id = lieucommentaire.idutilisateur WHERE signcommentaire.taiter = 0 AND lieucommentaire.supprimer = 0 GROUP BY utilisateur.id ORDER BY count(signcommentaire.id)');
+			$req = $bdd->query('SELECT count(signcommentaire.id), message, idcommentaire, pseudo FROM lieucommentaire JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire JOIN utilisateur ON utilisateur.id = lieucommentaire.idutilisateur WHERE signcommentaire.traite = 0 AND lieucommentaire.supprime = 0 GROUP BY utilisateur.id ORDER BY count(signcommentaire.id)');
 			while($donnees = $req->fetch()){
 				$pseudo = $donnees['pseudo'];
 				$commentaire = $donnees['message'];
@@ -34,8 +35,6 @@
 
 		}
 		?>
-		
-		
 	</div>
 </section>
 </html>

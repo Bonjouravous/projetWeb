@@ -13,7 +13,7 @@ if(isset($_POST['envoi'])){
 			$req = $bdd->prepare("UPDATE utilisateur SET image = :image WHERE pseudo = :pseudo");
 			$req->execute(array('image' => $image,'pseudo' => $pseudo));
 		}
-		header("Location: http://localhost/user_editprofil.php?username=".$_SESSION['pseudo']);
+		header("Location: user_editprofil.php?username=".$_SESSION['pseudo']);
 	}
 	
 ?>

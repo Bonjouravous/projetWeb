@@ -62,81 +62,70 @@ if(!is_numeric($idlieu)) {
 					}
 				?>
 			</div>
-			<div class="text-right text-muted">Dernière modification le <?=$lieu_first_infos_fetch['lastupdate']?></div>
-			<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?></div>
+			<div class="text-right text-muted">Dernière modification le <?=$lieu_first_infos_fetch['lastupdate']?>
+			</div>
+			<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?>
+			</div>
  			</div>
- 		</div>
- 		<div id="commentaires">
- 			<div class="titre">
- 				<label>Commentaires</label>
- 			</div>
- 			<div class="suggestion">
+			<div class="actionBox">
+				<ul class="commentList">
+					<li>
+						<div class="commenterImage">
+							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
+						</div>
+						<div class="commentText" >
+							<p><span>NomDeL'Auteur</span></p>
+							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018 par UtilisateurNom</span>
+							<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
 
- 				<p class="descriptionCommentaire">Partagez votre retour d'expérience !</p>
- 			</div>
- 			<div class="actionBox">
- 				<ul class="commentList">
- 					<li>
- 						<div class="commenterImage">
- 							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
- 						</div>
- 						<div class="commentText" >
- 							<p><span>NomDeL'Auteur</span></p>
- 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018</span>
+						</div>
+					</li>
+					<li>
+						<div class="commenterImage">
+							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
+						</div>
+						<div class="commentText" >
+							<p><span>NomDeL'Auteur</span></p>
+							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018 par UtilisateurNom</span>
+							<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
 
- 						</div>
- 					</li>
- 					<li>
- 						<div class="commenterImage">
- 							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
- 						</div>
- 						<div class="commentText" >
- 							<p><span>NomDeL'Auteur</span></p>
- 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018</span>
+						</div>
+					</li>
+					<li>
+						<div class="commenterImage">
+							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
+						</div>
+						<div class="commentText" >
+							<p><span>NomDeL'Auteur</span></p>
+							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018 par UtilisateurNom</span>
+							<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
 
- 						</div>
- 					</li>
- 					<li>
- 						<div class="commenterImage">
- 							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
- 						</div>
- 						<div class="commentText" >
- 							<p><span>NomDeL'Auteur</span></p>
- 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018</span>
+						</div>
+					</li>
+					<li>
+						<div class="commenterImage">
+							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
+						</div>
+						<div class="commentText" >
+							<p><span>NomDeL'Auteur</span></p>
+							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018 par UtilisateurNom</span>
+							<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
 
- 						</div>
- 					</li>
- 					<li>
- 						<div class="commenterImage">
- 							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
- 						</div>
- 						<div class="commentText" >
- 							<p><span>NomDeL'Auteur</span></p>
- 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018</span>
-
- 						</div>
- 					</li>
- 					<li>
- 						<div class="commenterImage">
- 							<img src="https://dummyimage.com/50x50/d3d3d3/fff" />
- 						</div>
- 						<div class="commentText" >
- 							<p><span>NomDeL'Auteur</span></p>
- 							<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio neque voluptas expedita obcaecati blanditiis distinctio numquam libero est placeat laborum repellendus consequatur, odit veniam corporis rerum iure commodi minus sunt.</p> <span class="date sub-text" style="font-size: 9px" ><a href="#" class="btn">12 J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>Le 11/06/2018</span>
-
- 						</div>
- 					</li>
- 				</ul>
- 				<form class="form-inline" role="form">
- 					<div class="form-group">
- 						<input class="form-control" type="text" placeholder="Votre commentaire" />
- 					</div>
- 					<div class="form-group">
- 						<button class="btn btn-outline-default">Commenter</button>
- 					</div>
- 				</form>
- 			</div>
- 		</div>
+						</div>
+					</li>
+				</ul>
+				<form class="form-inline" role="form">
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="Votre commentaire" />
+					</div>
+					<div class="form-group">
+						<button class="btn btn-outline-default">Commenter</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<?php
+	}
 <?php
 }
 

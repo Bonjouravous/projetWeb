@@ -64,32 +64,39 @@ if(!is_numeric($idlieu)) {
 		$lieu_desc = $data['description'];
 ?>
 
-<form id="lieu_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post">
-	<fieldset>
-		<p>Titre:</p>
-		<input type="text" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
-	</fieldset>
-	<fieldset>
-		<div>
-		<p>La description supporte le formatage suivant:</p>
-		<ul>
-			<li>Titre principal: ** titre principal **</li>
-			<li>Titre secondaire: *** titre secondaire ***</li>
-			<li>Lien URL: [[http://...|texte à afficher]]</li>
-		</ul>
-	</div>
-	<div>
-		<p>Description:</p>
-			<textarea name="description" form="lieu_form"><?php echo $lieu_desc; ?></textarea>
-	</div>
-	</fieldset>
-	<fieldset>
-		<input type="submit" name="update" value="Mettre à jour"/>
-	</fieldset>
-</form>
-
-<input type="button" name="cancel" value="Annuler" onClick="history.go(-1);"/>
-
+<div class="card p-4" >
+	<form class="text-center" id="lieu_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post">
+		<div class="row">
+    	<div class="col-md-12">
+      	<div class="form-group">
+					<label for="inputemail">Titre</label>
+					<input type="text" class="form-control" id="title" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
+    		</div><!--/*.form-group-->
+    	</div><!--/*.col-md-6-->
+    	<div class="col-md-12">
+      	<div class="form-group">
+        	<label for="description">Description</label>
+					<div>
+						<p>La description supporte le formatage suivant:</p>
+						<ul>
+							<li>Titre principal: ** titre principal **</li>
+							<li>Titre secondaire: *** titre secondaire ***</li>
+							<li>Lien URL: [[http://...|texte à afficher]]</li>
+						</ul>
+					</div>
+					<div>
+						<p>Description:</p>
+						<textarea id="description" class="form-control" name="description" form="lieu_form"><?php echo $lieu_desc; ?></textarea>
+					</div>
+			  </div><!--/*.form-group-->
+    	</div><!--/*.col-md-12-->
+			<div class="col-md-12">
+				<button type="submit" class='btn btn-success' name="update" value="Mettre à jour"/>
+				<a role="button" href="http://localhost/lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
+			</div><!--/*.col-md-12-->
+		</div><!--/*.row-->
+	</form>
+</div>
 
 <?php
 	}
