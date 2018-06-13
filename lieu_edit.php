@@ -46,7 +46,7 @@ if(!is_numeric($idlieu)) {
     </div><!--/*.col-md-12-->
     <div class="col-md-12">
       <button type='submit' class='btn btn-success'>Sauver</button>
-      <a role="button" href="http://localhost/lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
+      <a role="button" href="lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
     </div><!--/*.col-md-12-->
   </div><!--/*.row-->
 </form>
