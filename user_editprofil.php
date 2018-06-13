@@ -26,7 +26,7 @@
  	<div class="form-group">
  	<label for="oldpass">Changer mon mot de passe</label>
  	 	<input type="password" class="form-control" id="oldpass" placeholder="Mot de passe actuel" name="oldpass">
- 	<input type="password" class="form-control" id="pass" placeholder="Nouveau mot de passe" name="pass">
+ 	<input type="password" class="form-control mt-1" id="pass" placeholder="Nouveau mot de passe" name="pass">
 
  	</div>
  	<button name="envoi" type="submit" class="btn btn-primary">Modifier</button>
