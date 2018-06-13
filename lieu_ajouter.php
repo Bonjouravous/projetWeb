@@ -40,7 +40,7 @@
 	} else {
 ?>
 
-<form id="article_form" action="lieu_ajouter.php" method="post">
+<form id="lieu_form" action="lieu_ajouter.php" method="post">
 	<fieldset>
 		<p>Titre:</p>
 		<input type="text" name="title" value="" />
@@ -56,8 +56,7 @@
 	</div>
 	<div>
 		<p>Description:</p>
-			<textarea name="description" form="lieu_form">
-			</textarea>
+			<textarea name="description" form="lieu_form"></textarea>
 	</div>
 	</fieldset>
 	<fieldset>

@@ -64,7 +64,7 @@ if(!is_numeric($idlieu)) {
 		$lieu_desc = $data['description'];
 ?>
 
-<form id="article_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post">
+<form id="lieu_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post">
 	<fieldset>
 		<p>Titre:</p>
 		<input type="text" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />

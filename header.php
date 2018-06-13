@@ -39,7 +39,7 @@ include_once('headermin.php');
 						}
 						else
 						{
-							echo '<li class="nav-item"><a class="nav-link" href="#">Publier un lieu</a></li>';
+							echo '<li class="nav-item"><a class="nav-link" href="lieu_ajouter.php">Publier un lieu</a></li>';
 							echo '<li class="nav-item"><a class="nav-link" href="user_profil.php'.'?username='.$_SESSION['pseudo'].'">Mon profil</a></li>';
 							echo '<li class="nav-item"><a class="nav-link" href="user_signout.php">Se deconnecter</a></li>';
 						}
