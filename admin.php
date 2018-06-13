@@ -18,15 +18,27 @@
         $stat->execute(array($id));
     }
 ?>
+<?php if(isMod()){
+    ?>
+
     <div class="card text-center">
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
       <li class="nav-item">
-        <a class="nav-link active" href="#">Gestionnaire des modérateurs</a>
+        <a class="nav-link active" href="admin.php">Gestionnaire des modérateurs</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Signalements</a>
+        <a class="nav-link" href="mod_lieu.php">Signalements lieux</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="mod_com.php">Signalements commentaires</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="mod_uti.php">Signalements utilisateurs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="mod_cle.php">Mots clés</a>
+    </li>
     </ul>
   </div>
   <div class="card-body">
@@ -44,7 +56,7 @@
                          }
                     ?>
                 </select>
-                <input class="form-control" type="submit" value="Ajouter" name="ajout"/>
+                <input class="form-control btn-outline-info mb-1 mt-1" type="submit" value="Ajouter" name="ajout"/>
             </form>
         </div>
         <div>
@@ -66,7 +78,7 @@
                             <td><?php echo $modo ?></td>
                             <td>
                                 <form method="post" action="admin.php">
-                                    <input class="form-control" type="submit" value="Supprimer" name="supprimer"/>
+                                    <input class="form-control btn-danger" type="submit" value="Supprimer" name="supprimer"/>
                                     <input type="hidden" value="<?php echo $id; ?>" name="id"/>
                                 </form>
                             </td>
@@ -76,8 +88,8 @@
                         ?>
                     </tbody>
                 </table>
-
         </div></p>
   </div>
 </div>
+<?php } ?>
 <?php include('footer.php');?>
