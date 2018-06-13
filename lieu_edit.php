@@ -40,7 +40,7 @@ if(!is_numeric($idlieu)) {
 	}
 
 	if ($hassend && !$haserror) {
-		
+		header("Location: lieu_voir.php?lieu=".$_GET['lieu']); //ajouté par Ambroise
 	} else {
 		$lieu_stmt = $bdd->prepare(
 			'SELECT lieu.nom AS titre, lieudescription.description AS description'
@@ -92,7 +92,7 @@ if(!is_numeric($idlieu)) {
     	</div><!--/*.col-md-12-->
 			<div class="col-md-12">
 				<button type="submit" class='btn btn-success' name="update">Mettre à jour</button>
-				<a role="button" href="http://localhost/lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
+				<a role="button" href="lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
 			</div><!--/*.col-md-12-->
 		</div><!--/*.row-->
 	</form>
