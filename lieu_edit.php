@@ -27,7 +27,7 @@ if(!is_numeric($idlieu)) {
 			try {
 				$bdd->beginTransaction();
 				$lieu_stmt->execute(array($_POST['title'], $idlieu));
-				$lieu_desc_stmt = $bdd->execute(
+				$lieu_desc_stmt->execute(
 					array(date('Y-m-d'), $_POST['description'], $idlieu, $_SESSION['id'])
 				);
 				$bdd->commit();
@@ -80,11 +80,7 @@ if(!is_numeric($idlieu)) {
 	</div>
 	<div>
 		<p>Description:</p>
-			<textarea name="description" form="lieu_form">
-				<?php
-					echo $lieu_desc;
-				?>
-			</textarea>
+			<textarea name="description" form="lieu_form"><?php echo $lieu_desc; ?></textarea>
 	</div>
 	</fieldset>
 	<fieldset>

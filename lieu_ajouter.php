@@ -22,7 +22,7 @@
 				$date = date('Y-m-d');
 				$lieu_stmt->execute(array($date, $_POST['title']);
 				$last_idlieu = $bdd->lastInsertId();
-				$lieu_desc_stmt = $bdd->execute(
+				$lieu_desc_stmt->execute(
 					array($date, $_POST['description'], $last_idlieu, $_SESSION['id'])
 				);
 				$bdd->commit();
