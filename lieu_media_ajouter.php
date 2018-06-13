@@ -59,6 +59,7 @@ if(!is_numeric($idlieu)) {
 	if ($hassend && !$haserror) {
 	?>
 	<p>Votre image a bien été importé.</p>
+	<img src="<?php echo $media_complete_path ?>" width="300" height="200"/>
 	<p><a href="lieu_voir.php?lieu=<?php echo $idlieu; ?>">Accéder au lieu</a></p>
 	<?php
 	} else {

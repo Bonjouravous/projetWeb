@@ -5,7 +5,7 @@ if(isset($_GET['like']) && isset($_GET['type']) && isset($_GET['idtype']) && iss
 	$typelike = $_GET['type'];
 	$idtype = $_GET['idtype'];
 	$idutilisateur = $_GET['idutilisateur'];
-	if(($like == 1 || $like == -1) && in_array($typelike, array('lieu', 'commentaire'))){
+	if(($like == 1 || $like == -1) && in_array($typelike, array('lieu', 'commentaire'))&& is_numeric($idtype)&& is_numeric($idutilisateur)){
 		//Avis de l'utilisateur actuel
 		$rep = $bdd->prepare('SELECT avis FROM like'.$typelike.' WHERE idutilisateur=? AND id'.$typelike.'=?');
 		$rep->execute(array($idutilisateur,$idtype));
@@ -25,6 +25,10 @@ if(isset($_GET['like']) && isset($_GET['type']) && isset($_GET['idtype']) && iss
 			echo "like annulé";
 		}
 	
+	}
+	else{
+		
+	echo "invalide";
 	}
 }
 
