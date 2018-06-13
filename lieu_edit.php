@@ -1,12 +1,11 @@
 <?php
 	include('header.php');
-	
+
 	$idlieu = isset($_GET['lieu']) ? (int) $_GET['lieu'] : 'alpha';
 
 if(!is_numeric($idlieu)) {
 	echo 'Page non trouvée';
 } else {
-
 ?>
 
 <?php
@@ -14,7 +13,10 @@ if(!is_numeric($idlieu)) {
 	$haserror = false;
 
 	if (isset($_POST['update'])) {
-		$haserror = empty($_POST['title']);
+		if (empty($_POST['title'])) {
+			$haserror = true;
+		}
+
 		if (!$haserror) {
 			$lieu_stmt = $bdd->prepare(
 				'UPDATE lieu SET nom = ? WHERE id = ?;'
@@ -40,13 +42,16 @@ if(!is_numeric($idlieu)) {
 	}
 
 	if ($hassend && !$haserror) {
-		header("Location: lieu_voir.php?lieu=".$_GET['lieu']); //ajouté par Ambroise
+	?>
+	<p>Votre lieu a bien été édité.</p>
+	<p><a href="lieu_voir.php?lieu=<?php echo $idlieu; ?>">Accéder au lieu</a></p>
+	<?php
 	} else {
 		$lieu_stmt = $bdd->prepare(
 			'SELECT lieu.nom AS titre, lieudescription.description AS description'
 			.' FROM lieu, lieudescription'
 			.' WHERE lieu.id = lieudescription.idlieu'
-			.'  AND lieu.id = ?'
+			.'	AND lieu.id = ?'
 			.' ORDER BY lieudescription.date DESC'
 			.' LIMIT 1'
 			.';'
@@ -65,17 +70,17 @@ if(!is_numeric($idlieu)) {
 ?>
 
 <div class="card p-4" >
-	<form class="text-center" id="lieu_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post">
+	<form class="text-center" id="lieu_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post" enctype="multipart/form-data">
 		<div class="row">
-    	<div class="col-md-12">
-      	<div class="form-group">
+			<div class="col-md-12">
+				<div class="form-group">
 					<label for="inputemail">Titre</label>
 					<input type="text" class="form-control" id="title" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
-    		</div><!--/*.form-group-->
-    	</div><!--/*.col-md-6-->
-    	<div class="col-md-12">
-      	<div class="form-group">
-        	<label for="description">Description</label>
+				</div><!--/*.form-group-->
+			</div><!--/*.col-md-6-->
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="description">Description</label>
 					<div>
 						<p>La description supporte le formatage suivant:</p>
 						<ul>
@@ -88,8 +93,8 @@ if(!is_numeric($idlieu)) {
 						<p>Description:</p>
 						<textarea id="description" class="form-control" name="description" form="lieu_form"><?php echo $lieu_desc; ?></textarea>
 					</div>
-			  </div><!--/*.form-group-->
-    	</div><!--/*.col-md-12-->
+				</div><!--/*.form-group-->
+			</div><!--/*.col-md-12-->
 			<div class="col-md-12">
 				<button type="submit" class='btn btn-success' name="update">Mettre à jour</button>
 				<a role="button" href="lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>

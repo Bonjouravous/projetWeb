@@ -35,7 +35,10 @@
 	}
 
 	if ($hassend && !$haserror) {
-		
+	?>
+	<p>Votre lieu a bien été ajouté.</p>
+	<p><a href="lieu_voir.php?lieu=<?php echo $last_idlieu; ?>">Accéder au lieu</a></p>
+	<?php
 	} else {
 ?>
 
