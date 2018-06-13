@@ -21,7 +21,7 @@ $donnees = $req->fetch();
  				</ul>
  			</div>
  			<div class="card-body">
- 				<img height="200" width="200" src="<?php echo $donnees['image']; ?>" class="img-thumbnail mb-3">
+ 				<img height="200" width="200" src="<?php echo $donnees['image']; ?>" class="img-thumbnail mb-3" alt="photo de profil">
  				<h5 class="card-title"><?php echo $donnees['pseudo']; ?></h5>
  				<p class="card-text"><?php echo $donnees['description']; ?></p>
 <!--  				<a href="#" class="btn btn-outline-success">Voir tout les postes</a>recherche avec comme attribut le nom de l'auteur --> 
