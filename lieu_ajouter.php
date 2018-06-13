@@ -1,12 +1,5 @@
 <?php
 	include('header.php');
-	
-	$idlieu = isset($_GET['lieu']) ? $_GET['lieu'] : 'alpha';
-
-if(!is_numeric($idlieu)) {
-	echo 'Page non trouvée';
-} else {
-
 ?>
 
 <?php
@@ -28,7 +21,7 @@ if(!is_numeric($idlieu)) {
 			$lieu_stmt->execute(array($date, $_POST['title']);
 			$last_idlieu = $bdd->lastInsertId();
 			$lieu_desc_stmt = $bdd->execute(
-				array($date, $_POST['description'], $last_idlieu, $_SESSION['id']
+				array($date, $_POST['description'], $last_idlieu, $_SESSION['id'])
 			);
 			$bdd->commit();
 			$hassend = true;
@@ -73,7 +66,6 @@ if(!is_numeric($idlieu)) {
 
 <?php
 	}
-}
 
 	include('footer.php');
 ?>

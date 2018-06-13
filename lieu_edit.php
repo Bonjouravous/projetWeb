@@ -24,9 +24,9 @@ if(!is_numeric($idlieu)) {
 		);
 		try {
 			$bdd->beginTransaction();
-			$lieu_stmt->execute(array($_POST['title'], $_GET['idlieu']));
+			$lieu_stmt->execute(array($_POST['title'], $idlieu));
 			$lieu_desc_stmt = $bdd->execute(
-				array(date('Y-m-d'), $_POST['description'], $_GET['idlieu'], $_SESSION['id']
+				array(date('Y-m-d'), $_POST['description'], $idlieu, $_SESSION['id'])
 			);
 			$bdd->commit();
 			$hassend = true;
@@ -61,7 +61,7 @@ if(!is_numeric($idlieu)) {
 		$lieu_desc = $data['description'];
 ?>
 
-<form id="article_form" action="lieu_edit.php" method="post">
+<form id="article_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post">
 	<fieldset>
 		<p>Titre:</p>
 		<input type="text" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
