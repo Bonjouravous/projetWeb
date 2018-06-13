@@ -16,7 +16,7 @@ if(!is_numeric($idlieu)) {
 	);
 	/* Mettre en premier les medias récents ou anciens ? */
 	$lieu_medias_stmt = $bdd->prepare(
-		'SELECT media FROM media WHERE idlieu = ? AND supprimer != 1 ORDER BY date ASC;'
+		'SELECT media FROM media WHERE idlieu = ? AND supprimer != 1 ORDER BY date DESC;'
 	);
 	$lieu_motcles_stmt = $bdd->prepare(
 		'SELECT motcle.mot FROM motcle, lieumotcle'
