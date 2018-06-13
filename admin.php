@@ -17,7 +17,7 @@
             <form method="post" action="admin.php">
                 <select name="pseudo">
                     <?php
-                        $req = $bdd->query('SELECT pseudo FROM utilisateur WHERE moderateur = 0');
+                    $req = $bdd->query('SELECT pseudo FROM utilisateur WHERE moderateur = 0 ORDER BY pseudo ASC');
                         while($donnees = $req->fetch()){
                             $pseudo = $donnees['pseudo'];
                     ?>
@@ -31,7 +31,7 @@
         </div>
         <div>
             <h3>Liste des Modérateurs</h3>
-            <form method="post" action="admin.php">
+
                 <table>
                     <thead>
                           <tr>
@@ -41,7 +41,7 @@
                     </thead>
                     <tbody>
                         <?php
-                            $req = $bdd->query('SELECT pseudo, id FROM utilisateur WHERE moderateur = 1');
+                        $req = $bdd->query('SELECT pseudo, id FROM utilisateur WHERE moderateur = 1 ORDER BY pseudo ASC');
                             while($donnees = $req->fetch()){
                                 $modo = $donnees['pseudo'];
                                 $id = $donnees['id'];
@@ -49,16 +49,18 @@
                         <tr>
                             <td><?php echo $modo ?></td>
                             <td>
+                                <form method="post" action="admin.php">
                                     <input type="submit" value="Supprimer" name="supprimer"/>
                                     <input type="hidden" value="<?php echo $id; ?>" name="id"/>
+                                </form>
                             </td>
                         </tr>
+                                <?php
+                            }
+                        ?>
                     </tbody>
                 </table>
-            </form>
-            <?php
-                            }
-            ?>
+
         </div>
     </section>
     </html>
