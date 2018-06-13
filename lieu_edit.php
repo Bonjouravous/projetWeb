@@ -1,7 +1,7 @@
 <?php
-  include('header.php');
-  
-  $idlieu = isset($_GET['lieu']) ? $_GET['lieu'] : 'alpha';
+	include('header.php');
+	
+	$idlieu = isset($_GET['lieu']) ? (int) $_GET['lieu'] : 'alpha';
 
 if(!is_numeric($idlieu)) {
 	echo 'Page non trouvée';
@@ -9,53 +9,98 @@ if(!is_numeric($idlieu)) {
 
 ?>
 
-
 <?php
-  /* A définir: "$lieu_id". */
-  $lieu_query = $bdd->query(
-    'SELECT Lieu.Nom, LieuDescription.Description'
-    .' FROM Lieu, LieuDescription'
-    .' WHERE Lieu.Id = LieuDescription.IdLieu AND Lieu.Id = '.$idlieu
-    .';'
-  );
-  if ($lieu_query->rowCount() == 0) {
-    $lieu_titre = '';
-    $lieu_desc = '';
-  } else {
-    $data = $lieu_query->fetch();
-    $lieu_titre = $data['nom'];
-    $lieu_desc = $data['description'];
-  }
+	$hassend = false;
+	$haserror = false;
+
+	if (isset($_POST['update'])) {
+		$haserror = empty($_POST['title']);
+		if (!$haserror) {
+			$lieu_stmt = $bdd->prepare(
+				'UPDATE lieu SET nom = ? WHERE id = ?;'
+			);
+			$lieu_desc_stmt = $bdd->prepare(
+				'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
+				.' VALUES (NOW(), ?, ?, ?)'
+				.';'
+			);
+			try {
+				$bdd->beginTransaction();
+				$lieu_stmt->execute(array($_POST['title'], $idlieu));
+				$lieu_desc_stmt->execute(
+					array($_POST['description'], $idlieu, $_SESSION['id'])
+				);
+				$bdd->commit();
+			} catch (PDOException $e) {
+				$bdd->rollback();
+				echo '<p>'.$e->getMessage().'</p>';
+			}
+		}
+		$hassend = true;
+	}
+
+	if ($hassend && !$haserror) {
+		
+	} else {
+		$lieu_stmt = $bdd->prepare(
+			'SELECT lieu.nom AS titre, lieudescription.description AS description'
+			.' FROM lieu, lieudescription'
+			.' WHERE lieu.id = lieudescription.idlieu'
+			.'  AND lieu.id = ?'
+			.' ORDER BY lieudescription.date DESC'
+			.' LIMIT 1'
+			.';'
+		);
+		try {
+			$bdd->beginTransaction();
+			$lieu_stmt->execute(array($idlieu));
+			$bdd->commit();
+		} catch (PDOException $e) {
+			$bdd->rollback();
+			echo '<p>'.$e->getMessage().'</p>';
+		}
+		$data = $lieu_stmt->fetch();
+		$lieu_titre = $data['titre'];
+		$lieu_desc = $data['description'];
 ?>
-<div class="card p-4" >
-<form class="text-center" action="editeur_traitement.php" method="post">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <label for="inputemail">Titre</label>
-        <input type="text" name="title" class="form-control" id="title" value=<?php echo '"'.$lieu_titre.'"'; ?>/>
-      </div><!--/*.form-group-->
-    </div><!--/*.col-md-6-->
-    <div class="col-md-12">
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" name="desciption" class="form-control"><?php
-        echo $lieu_desc;
-      ?></textarea>
-      </div><!--/*.form-group-->
-    </div><!--/*.col-md-12-->
-    <div class="col-md-12">
-      <button type='submit' class='btn btn-success'>Sauver</button>
-      <a role="button" href="lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
-    </div><!--/*.col-md-12-->
-  </div><!--/*.row-->
-</form>
-</div>
-</div>
 
+<div class="card p-4" >
+	<form class="text-center" id="lieu_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post">
+		<div class="row">
+    	<div class="col-md-12">
+      	<div class="form-group">
+					<label for="inputemail">Titre</label>
+					<input type="text" class="form-control" id="title" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
+    		</div><!--/*.form-group-->
+    	</div><!--/*.col-md-6-->
+    	<div class="col-md-12">
+      	<div class="form-group">
+        	<label for="description">Description</label>
+					<div>
+						<p>La description supporte le formatage suivant:</p>
+						<ul>
+							<li>Titre principal: ** titre principal **</li>
+							<li>Titre secondaire: *** titre secondaire ***</li>
+							<li>Lien URL: [[http://...|texte à afficher]]</li>
+						</ul>
+					</div>
+					<div>
+						<p>Description:</p>
+						<textarea id="description" class="form-control" name="description" form="lieu_form"><?php echo $lieu_desc; ?></textarea>
+					</div>
+			  </div><!--/*.form-group-->
+    	</div><!--/*.col-md-12-->
+			<div class="col-md-12">
+				<button type="submit" class='btn btn-success' name="update">Mettre à jour</button>
+				<a role="button" href="http://localhost/lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
+			</div><!--/*.col-md-12-->
+		</div><!--/*.row-->
+	</form>
+</div>
 
 <?php
+	}
 }
 
-  include('footer.php');
+	include('footer.php');
 ?>
