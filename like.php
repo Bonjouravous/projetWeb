@@ -1,12 +1,11 @@
 <?php include('headermin.php');
 
-if(isset($_POST['like']) && isset($_POST['type']) && isset($_POST['idtype']) && isset($_POST['idutilisateur'])){
-	if($_POST['like'] == 1 || $_POST['like'] == -1){
-		$like = $_POST['like'];
-		$typelike = $_POST['type'];
-		$idtype = $_POST['idtype'];
-		$idutilisateur = $_POST['idutilisateur'];
-
+if(isset($_GET['like']) && isset($_GET['type']) && isset($_GET['idtype']) && isset($_GET['idutilisateur'])){
+	$like = $_GET['like'];
+	$typelike = $_GET['type'];
+	$idtype = $_GET['idtype'];
+	$idutilisateur = $_GET['idutilisateur'];
+	if(($like == 1 || $like == -1) && in_array($typelike, array('lieu', 'commentaire'))){
 		//Avis de l'utilisateur actuel
 		$rep = $bdd->prepare('SELECT avis FROM like'.$typelike.' WHERE idutilisateur=? AND id'.$typelike.'=?');
 		$rep->execute(array($idutilisateur,$idtype));
@@ -16,12 +15,15 @@ if(isset($_POST['like']) && isset($_POST['type']) && isset($_POST['idtype']) && 
 			$setlike = $bdd->prepare('INSERT INTO like'.$typelike.' VALUES (NULL, ?, ?, ?)');
 			$setlike->execute(array($idtype,$idutilisateur,$like));
 			echo $like."like";
-		} else if($like != $rep_avis['avis']) {
+		} elseif($like != $rep_avis['avis']) {
 			$setlike = $bdd->prepare('UPDATE like'.$typelike.' SET avis=? WHERE id'.$typelike.'=? AND idutilisateur=?');
 			$setlike->execute(array($like,$idtype,$idutilisateur));
 			echo $like."like";
-		} else
-			echo "pas de changement";
+		} else{
+			$setlike = $bdd->prepare('DELETE FROM like'.$typelike.' WHERE id'.$typelike.'=? AND idutilisateur=?');
+			$setlike->execute(array($idtype,$idutilisateur));
+			echo "like annulé";
+		}
 	
 	}
 }
