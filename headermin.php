@@ -8,3 +8,14 @@ catch(Exception $e)
 {
 	die('Erreur : '.$e->getMessage());
 }
+
+function userConnected(){
+	return isset($_SESSION['id']) AND isset($_SESSION['pseudo']);
+}
+
+function isMod(){
+	$req = $bdd->prepare('SELECT moderateur FROM utilisateur WHERE pseudo = :pseudo');
+	$req->execute(array('pseudo' => $_SESSION['pseudo']));
+	$resultat = $req->fetch();
+	return $resultat['moderateur'] == 1;
+}
