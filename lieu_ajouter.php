@@ -15,18 +15,20 @@ if(!is_numeric($idlieu)) {
 
 	if (isset($_POST['add'])) {
 		$lieu_stmt = $bdd->prepare(
-			'INSERT INTO lieu(nom) VALUES (?);'
+			'INSERT INTO lieu(creation, nom) VALUES (?, ?);'
 		);
-		$lieu_desc_stmt = $bdd->prepare(
-			'INSERT_INTO lieudescription(description, idutilisateur, idlieu)'
-			.' VALUES (?, ?, ?);'
+				$lieu_desc_stmt = $bdd->prepare(
+			'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
+			.' VALUES (?, ?, ?, ?)'
+			.';'
 		);
 		try {
 			$bdd->beginTransaction();
-			$lieu_stmt->execute(array($_POST['title']));
+			$date = date('Y-m-d');
+			$lieu_stmt->execute(array($date, $_POST['title']);
 			$last_idlieu = $bdd->lastInsertId();
 			$lieu_desc_stmt = $bdd->execute(
-				array($_POST['description'], $_SESSION['id'], $last_idlieu
+				array($date, $_POST['description'], $last_idlieu, $_SESSION['id']
 			);
 			$bdd->commit();
 			$hassend = true;

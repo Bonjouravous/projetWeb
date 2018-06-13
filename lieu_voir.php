@@ -33,14 +33,21 @@ $data = $lieu_first_infos_query->fetch(PDO::FETCH_ASSOC);
 			<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
 			<div class="text-left text-muted">
 				<?php
-					$lieu_motcles_query = $bdd->query(
+					$lieu_motcles_stmt = $bdd->prepare(
 						'SELECT motcle.mot FROM motcle, lieumotcle'
-						.' WHERE lieumotcle.idlieu = '.$idlieu
-						.' AND lieumotcle.idmot = motcle.id'
+						.' WHERE lieumotcle.idlieu = ?'
+						.'  AND lieumotcle.idmot = motcle.id'
 						.';'
 					);
-					$lieu_motcles_query->execute();
-					$data_motcles = $lieu_motcles_query->fetchAll();
+					try {
+						$bdd->beginTransaction();
+						$lieu_motcles_stmt->execute(array($idlieu));
+						$bdd->commit();
+					} catch (PDOException $e) {
+						$bdd->rollback();
+						echo '<p>'.$e->getMessage().'</p>';
+					}
+					$data_motcles = $lieu_motcles_stmt->fetchAll();
 					foreach ($data_motcles as $row) {
 						echo '#'.$row['mot'].' ';
 					}

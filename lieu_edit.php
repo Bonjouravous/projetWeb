@@ -18,13 +18,15 @@ if(!is_numeric($idlieu)) {
 			'UPDATE lieu SET nom = ? WHERE id = ?;'
 		);
 		$lieu_desc_stmt = $bdd->prepare(
-			'UPDATE lieudescription SET description = ?, idutilisateur = ? WHERE idlieu = ?;'
+			'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
+			.' VALUES (?, ?, ?, ?)'
+			.';'
 		);
 		try {
 			$bdd->beginTransaction();
 			$lieu_stmt->execute(array($_POST['title'], $_GET['idlieu']));
 			$lieu_desc_stmt = $bdd->execute(
-				array($_POST['description'], $_SESSION['id'], $_GET['idlieu']
+				array(date('Y-m-d'), $_POST['description'], $_GET['idlieu'], $_SESSION['id']
 			);
 			$bdd->commit();
 			$hassend = true;
@@ -37,15 +39,25 @@ if(!is_numeric($idlieu)) {
 	if ($hassend && !$haserror) {
 		
 	} else {
-		$lieu_query = $bdd->query(
-			'SELECT lieu.nom, lieudescription.description'
+		$lieu_stmt = $bdd->prepare(
+			'SELECT lieu.nom AS titre, lieudescription.description AS description'
 			.' FROM lieu, lieudescription'
-			.' WHERE lieu.id = lieudescription.idlieu AND lieu.id = '.$lieu_id
+			.' WHERE lieu.id = lieudescription.idlieu'
+			.'  AND lieu.id = ?'
+			.' ORDER BY lieudescription.date DESC'
+			.' LIMIT 1'
 			.';'
 		);
-		$lieu_query->execute();
-		$data = $lieu_query->fetch();
-		$lieu_titre = $data['nom'];
+		try {
+			$bdd->beginTransaction();
+			$lieu_stmt->execute(array($idlieu));
+			$bdd->commit();
+		} catch (PDOException $e) {
+			$bdd->rollback();
+			echo '<p>'.$e->getMessage().'</p>';
+		}
+		$data = $lieu_stmt->fetch();
+		$lieu_titre = $data['titre'];
 		$lieu_desc = $data['description'];
 ?>
 
