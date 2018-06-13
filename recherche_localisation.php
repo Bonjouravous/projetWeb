@@ -2,13 +2,12 @@
 					
 <div class="card text-center">
 		<div class="card-body">
-			<form id="sampleForm" name="sampleForm" method="get" action="recherche_recherche.php">
+			<form id="sampleForm" name="sampleForm" method="get" action="recherche_recherche.php" class="form-group">
 				<p>
-					<label for="lat">Lattitude :&nbsp;</label><input type="text" name="lat" id="lat" value=""><br>
+					<label class="float-left" for="lat">Latitude :&nbsp;</label><input class="form-control" type="text" name="lat" id="lat" value=""><br>
+					<label class="float-left" for="long">Longitude :&nbsp;</label><input type="text" name="long" id="long" class="form-control" value=""><br>
 
-					<label for="long">Longitude :&nbsp;</label><input type="text" name="long" id="long" value=""><br>
-
-					<label for="distance">Distance :&nbsp;</label><input type="text" name="distance" value="20">km<br>
+					<label class="float-left" for="distance">Distance :&nbsp;</label><small id="photoHelp" class="form-text text-muted text-right">en kilomètres</small><input class="form-control" type="text" name="distance" value="20"><br>
 					
 				
 					
@@ -26,8 +25,8 @@
 					</select>
 				</p>
 				<p>
-					<input type = 'button' onclick = 'geoloc()' value = 'Me localiser'>
-					<input type="submit" value="Rechercher" />
+					<input class="btn btn-secondary" type = 'button' onclick = 'geoloc()' value = 'Me localiser'>
+					<input class="btn btn-primary" type="submit" value="Rechercher" />
 				</p>
 			</form>
 		</div>
