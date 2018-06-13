@@ -40,9 +40,9 @@ if(!is_numeric($idlieu)) {
 	$lieu_motcles_fetch = $lieu_motcles_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
  	<div class="card">
+ 		<h5 class="card-title m-2"><?=$lieu_first_infos_fetch['nom']?></h5>
  		<img class="card-img-top" src="images/700x400.png" alt="Card image cap">
  		<div class="card-body">
- 			<h5 class="card-title"><?=$lieu_first_infos_fetch['nom']?></h5>
  			<span class="text-muted"><?=$lieu_first_infos_fetch['latitude'].', '.$lieu_first_infos_fetch['longitude']?></span>
  			<p class="card-text">
 				<?php
