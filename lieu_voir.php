@@ -124,8 +124,6 @@ if(!is_numeric($idlieu)) {
 				</form>
 			</div>
 		</div>
-		<?php
-	}
 <?php
 }
 
