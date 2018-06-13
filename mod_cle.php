@@ -5,6 +5,11 @@
         $mot = $_POST['mot'];
         $bdd->query('INSERT INTO motcle (id, mot) VALUES (NULL, '."'$mot'".')');
     }
+
+if (isset($_POST['supprimer'])) {
+    $mot = $_POST['mot'];
+    $bdd->query('DELETE FROM motcle WHERE mot =' . "'$mot'");
+}
 ?>
 
 <section>
@@ -14,15 +19,20 @@
         <form method="post" action="mod_cle.php">
             <input type="text" name="mot" placeholder="Nouveau mot-clé"/>
             <input type="submit" value ="Ajouter" name="ajout"/>
+        </form>
     </div>
     <div>
         <h3>Liste des mots-clés</h3>
         <?php
-            $req = $bdd->query('SELECT mot FROM motcle');
+        $req = $bdd->query('SELECT mot FROM motcle ORDER BY mot ASC');
             while($donnees = $req->fetch()) {
                 $mot = $donnees['mot'];
         ?>
         <p><?php echo $mot; ?></p>
+                <form method="post" action="mod_cle.php">
+                    <input type="submit" value="Supprimer" name="supprimer"/>
+                    <input type="hidden" value="<?php echo $mot; ?>" name="mot"/>
+                </form>
         <?php
             }
         ?>
