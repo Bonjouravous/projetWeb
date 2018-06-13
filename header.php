@@ -50,8 +50,8 @@ include_once('headermin.php');
 						?>
 					
 				</ul>
-				<div class="form-inline my-2 my-lg-0">
-					<a class="btn btn-outline-success my-2 my-sm-0" href="recherche_localisation.php">Autour de moi</a>
+				<div class="form-inline my-2 my-lg-0 p-0">
+					<a class="btn btn-outline-success my-2 my-sm-0" href="recherche_localisation.php"><i class="fa fa-map-marker m-0" style="font-size: 15px;"> Autour de moi</i></a>
 				</div>
 			</div>
 		</nav>
