@@ -3,12 +3,14 @@
 
     if(isset($_POST['ajout'])){
     $pseudo = $_POST['pseudo'];
-    $bdd->query('UPDATE utilisateur SET moderateur = 1 WHERE pseudo = '."'$pseudo'");
+        $stat = $bdd->prepare('UPDATE utilisateur SET moderateur = 1 WHERE id = ?');
+        $stat->execute(array($pseudo));
     }
 
     if(isset($_POST['supprimer'])){
     $id = $_POST['id'];
-    $bdd->query('UPDATE utilisateur SET moderateur = 0 WHERE id = '.$id);
+        $stat = $bdd->prepare('UPDATE utilisateur SET moderateur = 0 WHERE id = ?');
+        $stat->execute(array($id));
     }
 ?>
     <section>
@@ -17,11 +19,11 @@
             <form method="post" action="admin.php">
                 <select name="pseudo">
                     <?php
-                    $req = $bdd->query('SELECT pseudo FROM utilisateur WHERE moderateur = 0 ORDER BY pseudo ASC');
+                    $req = $bdd->query('SELECT id, pseudo FROM utilisateur WHERE moderateur = 0 AND utilisateur.banni = 0  ORDER BY pseudo ASC');
                         while($donnees = $req->fetch()){
                             $pseudo = $donnees['pseudo'];
                     ?>
-                        <option><?php echo $pseudo;?></option>
+                            <option value="<?= $donnees['id'] ?>"><?php echo $pseudo; ?></option>
                     <?php
                          }
                     ?>
@@ -41,7 +43,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        $req = $bdd->query('SELECT pseudo, id FROM utilisateur WHERE moderateur = 1 ORDER BY pseudo ASC');
+                        $req = $bdd->query('SELECT pseudo, id FROM utilisateur WHERE moderateur = 1 AND utilisateur.banni = 0 ORDER BY pseudo ASC');
                             while($donnees = $req->fetch()){
                                 $modo = $donnees['pseudo'];
                                 $id = $donnees['id'];

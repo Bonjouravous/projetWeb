@@ -3,12 +3,14 @@
 
     if(isset($_POST['ajout'])){
         $mot = $_POST['mot'];
-        $bdd->query('INSERT INTO motcle (id, mot) VALUES (NULL, '."'$mot'".')');
+        $stat = $bdd->prepare('INSERT INTO motcle (id, mot) VALUES (NULL, ?)');
+        $stat->execute(array($mot));
     }
 
 if (isset($_POST['supprimer'])) {
     $mot = $_POST['mot'];
-    $bdd->query('DELETE FROM motcle WHERE mot =' . "'$mot'");
+    $stat = $bdd->prepare('DELETE FROM motcle WHERE mot = ?');
+    $stat->execute(array($mot));
 }
 ?>
 

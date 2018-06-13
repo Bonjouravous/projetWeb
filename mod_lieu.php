@@ -3,7 +3,8 @@
 	
 	if(isset($_POST['traiter'])){
 		$idcom = $_POST['idcom'];
-		$bdd->query('UPDATE signdescription SET traite = 1 WHERE iddescription = '.$idcom);
+        $stat = $bdd->prepare('UPDATE signdescription SET traite = 1 WHERE iddescription = ?');
+        $stat->execute(array($idcom));
 	}
 
 ?>

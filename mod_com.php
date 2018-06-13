@@ -3,13 +3,15 @@
 	
 	if(isset($_POST['garder'])){
 		$idcom = $_POST['idcom'];
-		$bdd->query('UPDATE signcommentaire SET traite = 1 WHERE idcommentaire = '.$idcom);
-	}
+        $stat = $bdd->prepare('UPDATE signcommentaire SET traite = 1 WHERE idcommentaire = ?');
+        $stat->execute(array($idcom));
+    }
 
-if(isset($_POST['supprimer'])){
-		$idcom = $_POST['idcom'];
-		$bdd->query('UPDATE lieucommentaire SET supprime = 1 WHERE id = '.$idcom);
-	}
+if (isset($_POST['supprimer'])) {
+    $idcom = $_POST['idcom'];
+    $stat = $bdd->prepare('UPDATE lieucommentaire SET supprime = 1 WHERE id = ' . $idcom);
+    $stat->execute(array($idcom));
+}
 ?>
 <section>
 	<div id="gestion_com">
