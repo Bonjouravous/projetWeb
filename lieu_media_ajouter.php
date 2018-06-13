@@ -57,11 +57,15 @@ if(!is_numeric($idlieu)) {
 	}
 
 	if ($hassend && !$haserror) {
+	?>
+	<p>Votre image a bien été importé.</p>
+	<p><a href="lieu_voir.php?lieu=<?php echo $idlieu; ?>">Accéder au lieu</a></p>
+	<?php
 	} else {
 ?>
 
 <div class="card p-4" >
-	<form class="text-center" id="lieu_form" action="lieu_edit.php?lieu=<?=$idlieu?>" method="post" enctype="multipart/form-data">
+	<form class="text-center" id="lieu_form" action="lieu_media_ajouter.php?lieu=<?=$idlieu?>" method="post" enctype="multipart/form-data">
 		<div class="row">
 			<div>
 				<input type="file" name="media_up"/>
