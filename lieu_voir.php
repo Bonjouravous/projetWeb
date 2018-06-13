@@ -36,8 +36,8 @@ if(!is_numeric($idlieu)) {
 	}
 
 	$lieu_first_infos_fetch = $lieu_first_infos_stmt->fetch(PDO::FETCH_ASSOC);
-	$lieu_medias_fetch = $lieu_medias_stmt->fetchAll();
-	$lieu_motcles_fetch = $lieu_motcles_stmt->fetchAll();
+	$lieu_medias_fetch = $lieu_medias_stmt->fetchAll(PDO::FETCH_ASSOC);
+	$lieu_motcles_fetch = $lieu_motcles_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
  	<div class="card">
  		<img class="card-img-top" src="images/700x400.png" alt="Card image cap">
@@ -47,8 +47,8 @@ if(!is_numeric($idlieu)) {
  			<p class="card-text">
 				<?php
 				$lieu_desc = $lieu_first_infos_fetch['contenu'];
-				$lieu_desc = preg_replace('/[*][*][*] (.*?) [*][*][*]/' , '<h3>$1<h3>', $lieu_desc);
-				$lieu_desc = preg_replace('/[*][*] (.*?) [*][*]/', '<h2>$1<h2>', $lieu_desc);
+				$lieu_desc = preg_replace('/[*][*][*] (.*?) [*][*][*]/' , '<h3>$1</h3>', $lieu_desc);
+				$lieu_desc = preg_replace('/[*][*] (.*?) [*][*]/', '<h2>$1</h2>', $lieu_desc);
 				$lieu_desc = preg_replace('/\\[\\[(.*?)[|](.*?)\\]\\]/', '<a href="$1">$2</a>', $lieu_desc);
 				echo $lieu_desc;
 				?>

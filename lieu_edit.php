@@ -21,14 +21,14 @@ if(!is_numeric($idlieu)) {
 			);
 			$lieu_desc_stmt = $bdd->prepare(
 				'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
-				.' VALUES (?, ?, ?, ?)'
+				.' VALUES (NOW(), ?, ?, ?)'
 				.';'
 			);
 			try {
 				$bdd->beginTransaction();
 				$lieu_stmt->execute(array($_POST['title'], $idlieu));
 				$lieu_desc_stmt->execute(
-					array(date('Y-m-d'), $_POST['description'], $idlieu, $_SESSION['id'])
+					array($_POST['description'], $idlieu, $_SESSION['id'])
 				);
 				$bdd->commit();
 			} catch (PDOException $e) {
