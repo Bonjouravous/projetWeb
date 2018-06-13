@@ -13,11 +13,22 @@
         $stat->execute(array($id));
     }
 ?>
-    <section>
-        <h2>Gestionnaire des Modérateurs</h2>
-        <div>
+    <div class="card text-center">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Gestionnaire des modérateurs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Signalements</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title text-left">Liste des Modérateurs</h5>
+    <p class="card-text"><div>
             <form method="post" action="admin.php">
-                <select name="pseudo">
+                <select class="form-control" name="pseudo">
                     <?php
                     $req = $bdd->query('SELECT id, pseudo FROM utilisateur WHERE moderateur = 0 AND utilisateur.banni = 0  ORDER BY pseudo ASC');
                         while($donnees = $req->fetch()){
@@ -28,12 +39,10 @@
                          }
                     ?>
                 </select>
-                <input type="submit" value="Ajouter" name="ajout"/>
+                <input class="form-control" type="submit" value="Ajouter" name="ajout"/>
             </form>
         </div>
         <div>
-            <h3>Liste des Modérateurs</h3>
-
                 <table>
                     <thead>
                           <tr>
@@ -52,7 +61,7 @@
                             <td><?php echo $modo ?></td>
                             <td>
                                 <form method="post" action="admin.php">
-                                    <input type="submit" value="Supprimer" name="supprimer"/>
+                                    <input class="form-control" type="submit" value="Supprimer" name="supprimer"/>
                                     <input type="hidden" value="<?php echo $id; ?>" name="id"/>
                                 </form>
                             </td>
@@ -63,6 +72,7 @@
                     </tbody>
                 </table>
 
-        </div>
-    </section>
+        </div></p>
+  </div>
+</div>
 <?php include('footer.php');?>
