@@ -66,6 +66,7 @@ if(!is_numeric($idlieu)) {
 			</div>
 			<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?>
 			</div>
+			<a href="#" class="float-right" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
  			</div>
 			<div class="actionBox">
 				<ul class="commentList">
