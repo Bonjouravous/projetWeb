@@ -4,9 +4,6 @@ include('header.php');
 $media_dir = 'media';
 $image_exts = array('jpeg', 'jpg', 'png', 'bmp');
 
-?>
-
-<?php
 $hassend = false;
 $haserror = false;
 $hasmedia = false;
@@ -54,9 +51,9 @@ if (isset($_POST['add'])) {
 			}
 			try {
 				$bdd->beginTransaction();
-				$lieu_stmt->execute(array($_POST['title'], $_POST['latitude'], $_POST['longitude']));
+				$lieu_stmt->execute(array(htmlspecialchars($_POST['title']), $_POST['latitude'], $_POST['longitude']));
 				$last_idlieu = $bdd->lastInsertId();
-				$lieu_desc_stmt->execute(array($_POST['description'], $last_idlieu, $_SESSION['id']));
+				$lieu_desc_stmt->execute(array(htmlspecialchars($_POST['description']), $last_idlieu, $_SESSION['id']));
 				if ($hasmedia) {
 					$lieu_media_stmt->execute(array($last_idlieu, $_SESSION['id'], $media_basename));
 				}
@@ -92,10 +89,11 @@ if ($hassend && !$haserror) {
 				<div class="row">
 					<div class="col-sm-6">
 						<label for="latitude">Latitude</label>
-						<input type="number" name="latitude" id="latitude" step="0.0000001" value="0.0" min="0.0" max="90.0" class="form-control"/>
+						<input type="number" name="latitude" id="latitude" step="0.00000000001" value="<?=(isset($_GET['lat']) ? round($_GET['lat'], 6) : '0.0')?>" min="0.0" max="90.0" class="form-control"/>
 					</div>
 					<div class="col-sm-6">
-						<label for="longitude">Longitude</label><input type="number" name="longitude" id="longitude" step="0.0000001" value="0.0" min="-180.0" max="180.0" class="form-control"/>
+						<label for="longitude">Longitude</label>
+						<input type="number" name="longitude" id="longitude" step="0.00000000001" value="<?=(isset($_GET['lng']) ? round($_GET['lng'], 6) : '0.0')?>" min="-180.0" max="180.0" class="form-control"/>
 					</div>
 				</div>
 			</div>

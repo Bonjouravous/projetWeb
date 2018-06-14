@@ -8,7 +8,7 @@ $donnees = $req->fetch();
  			<div class="card-header">
  				<ul class="nav nav-tabs card-header-tabs">
  					<li class="nav-item">
- 						<a class="nav-link active" href="user_profil.php">Profil</a>
+ 						<a class="nav-link active" href="user_profil.php?username=<?=$_SESSION['pseudo']?>">Profil</a>
  					</li>
  					<?php 
  					if($_GET['username'] == $_SESSION['pseudo']){
@@ -29,34 +29,33 @@ $donnees = $req->fetch();
                     			$badge_commentaire;
                     			$badge_likeDonnes;
 
-                    			$grade_commentaire_query = $bdd->prepare('select count(id)as nb from lieucommentaire where lieucommentaire.idutilisateur=?');
+                    			$grade_commentaire_query = $bdd->prepare('select count(id) as nb from lieucommentaire where lieucommentaire.idutilisateur=?');
                     			$grade_commentaire_query->execute(array($donnees['id'] ));
-                    			$grade_commentaire = $grade_commentaire_query->fetch(); 
-            
-                    			if($grade_commentaire['nb']>=0 && $grade_commentaire['nb']<5){
-                    				$badge_commentaire='Tchatteur timide';
-                    			}
-                    			elseif ($grade_commentaire['nb']>=5 AND $grade_commentaire['nb']<10) {
-                    				$badge_commentaire='Tchatteur actif';
-                    			}
-                    			elseif($grade_commentaire['nb']>=10){
-                    				$badge_commentaire='Tchateur sans limite';
-                    			}
-
+                    			$gd = $grade_commentaire_query->fetch(); 
+								
+								if($gd['nb'] >= 10) {
+									$badge_commentaire = 'Tchatcheur sans limite'; 
+								} else if($gd['nb'] >= 5) {
+									$badge_commentaire = 'Tchatteur actif';
+								} else if($gd['nb'] > 0) {
+									$badge_commentaire = 'Tchatteur timide';
+								} else {
+									$badge_commentaire = '';
+								}
 
                     			$grade_likeDonnes_query = $bdd->prepare('select count(id) as nb from likecommentaire where likecommentaire.idutilisateur=?');
                     			$grade_likeDonnes_query->execute(array($donnees['id']));
-                    			$grade_likeDonnes= $grade_likeDonnes_query->fetch(); 
-
-                    			if($grade_likeDonnes['nb']>=0 && $grade_likeDonnes['nb']<5){
-                    				$badge_likeDonnes='aime un peu';
-                    			}
-                    			elseif ($grade_likeDonnes['nb']>=5 AND $grade_likeDonnes['nb']<10) {
-                    				$badge_likeDonnes='aime beaucoup';
-                    			}
-                    			elseif($grade_likeDonnes['nb']>=10){
-                    				$badge_likeDonnes='aime passionement';
-                    			}
+                    			$gld= $grade_likeDonnes_query->fetch(); 
+								
+								if($gld['nb'] >= 10) {
+									$badge_likeDonnes='Aime Passionement';
+								} else if($gld['nb'] >= 5) {
+									$badge_likeDonnes='Aime Beaucoup';
+								} else if($gld['nb'] > 0) {
+									$badge_likeDonnes='Aime un peu';
+								} else {
+									$badge_likeDonnes='';
+								}
 						?>
 								<span style="color:green;"><?=$badge_commentaire?></span></br>
 								<span style="color:green;"><?=$badge_likeDonnes?></span>

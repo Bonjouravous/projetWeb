@@ -63,6 +63,14 @@ function initMap() {
 	
 	google.maps.event.addListener(map, 'dragend', actcenter);
 	google.maps.event.addListener(map, 'zoom_changed', actcenter);
+	google.maps.event.addListener(map, "rightclick", function( event ) {
+		
+		var oInfo = new google.maps.InfoWindow({
+			'content' : '<a href="lieu_ajouter.php?lat='+event.latLng.lat()+'&lng='+event.latLng.lng()+'">Ajouter un lieu ici</a>', // contenu qui sera affiché  
+			'map' : map,                                           // carte sur laquelle est affichée l'InfoWindow    
+			'position' : event.latLng       // position d'affichage de l'InfoWindow
+		});
+	});
 }
 
 function actcenter() {

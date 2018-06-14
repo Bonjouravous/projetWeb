@@ -124,19 +124,29 @@ include('headermin.php');
 			}
 			else{
 				$pass_hache = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+				$generatedcode ="";
+				for($i=0;$i<8;$i++)
+				{
+					$generatedcode .= mt_rand(0,9);
+				}
 
 	// Insertion
-				$req = $bdd->prepare('INSERT INTO `utilisateur` (`id`, `pseudo`, `mdp`, `image`, `description`, `mail`, `inscription`, `moderateur`, `banni`) VALUES (NULL, :pseudo, :mdp, \'"https://dummyimage.com/50x50/d3d3d3/fff"\', \'\', :mail, CURDATE(), 0, 0)');
+				$req = $bdd->prepare('INSERT INTO `utilisateur` (`id`, `pseudo`, `mdp`, `image`, `description`, `mail`, `inscription`, `moderateur`, `banni`, codevalidation) VALUES (NULL, :pseudo, :mdp, \'https://dummyimage.com/50x50/d3d3d3/fff\', \'\', :mail, CURDATE(), 0, 0, :code)');
 				$req->execute(array(
 					'pseudo' => $_POST['pseudo'],
 					'mdp' => $pass_hache,
-					'mail' =>$_POST['email']));
-				echo '<form>
-				Votre compte a bien été créé!
-				<div class="form-group">
-				<a href="user_login.php" class="btn btn-success btn-lg btn-block">Se connecter</a>
-				</div>
-				</form>';
+					'mail' =>$_POST['email'],
+					'code' => $generatedcode
+					));
+				?>
+				<form>
+				Le code suivant confirmera votre adresse : <?php echo $generatedcode; ?>
+				
+				</br>
+				<p>Confirmer votre inscription <a href="user_validation.php?validationcode=<?=$generatedcode?>">user_validation.php?validationcode=<?=$generatedcode?></a></p>.
+				
+				</form>
+				<?php
 
 			}
 		} 

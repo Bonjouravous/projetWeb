@@ -28,9 +28,9 @@ if(!is_numeric($idlieu)) {
 			);
 			try {
 				$bdd->beginTransaction();
-				$lieu_stmt->execute(array($_POST['title'], $idlieu));
+				$lieu_stmt->execute(array(htmlspecialchars($_POST['title']), $idlieu));
 				$lieu_desc_stmt->execute(
-					array($_POST['description'], $idlieu, $_SESSION['id'])
+					array(htmlspecialchars($_POST['description']), $idlieu, $_SESSION['id'])
 				);
 				$bdd->commit();
 				$hassend = true;

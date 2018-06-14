@@ -21,19 +21,19 @@ if(!is_numeric($idlieu)) {
 					$info = pathinfo($_FILES['media_up']['name']);
 					$ext = $info['extension'];
 					if (!in_array($ext, $image_exts)) {
-						$haserror = true;
+						$haserror = 'Extension invalide ('.$ext.')';
 					}
 				} else {
-					$haserror = true;
+					$haserror = 'Fichier trop gros';
 				}
 			} else {
-				$haserror = true;
+				$haserror = 'Erreur d\'envoi du fichier';
 			}
 		} else {
-			$haserror = true;
+			$haserror = 'Pas de fichier renseigné';
 		}
 
-		if (!$haserror) {
+		if ($haserror != false) {
 			$lieu_media_stmt = $bdd->prepare(
 				'INSERT INTO lieumedia(idlieu, idutilisateur, media, date, supprimer) VALUES (?, ?, ?, NOW(), 0)'
 				.';'
@@ -56,7 +56,7 @@ if(!is_numeric($idlieu)) {
 		}
 	}
 
-	if ($hassend && !$haserror) {
+	if ($hassend && $haserror != false) {
 		?>
 		<p>Votre image a bien été importé.</p>
 		<img src="<?php echo $media_complete_path ?>" width="300" height="200"/>
@@ -65,55 +65,8 @@ if(!is_numeric($idlieu)) {
 	} else {
 		?>
 
-		<div class="card p-4" >
-			<form class="text-center" id="lieu_form" action="lieu_media_ajouter.php?lieu=<?=$idlieu?>" method="post" enctype="multipart/form-data">
-				<div class="row">
-					<div class="col-lg-12 form-group">
-						<!-- Button trigger modal -->
-						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
-							Importer une photo
-						</button>
-
-						<!-- Modal -->
-						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-lg" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Importer</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<div class="file-loading">
-											<input id="input-b9" name="media_up" type="file">
-										</div>
-										<div id="kartik-file-errors"></div>
-									</div>
-									<div class="modal-footer">
-										<button type="submit" class='btn btn-success' name="add">Ajouter</button>
-										<a role="button" onClick="history.go(-1);" class='btn btn-danger' style="color: white;">Annuler</a>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-						<script>
-							$(document).on('ready', function() {
-								$("#input-b9").fileinput({
-									showPreview: false,
-									showUpload: false,
-									elErrorContainer: '#kartik-file-errors',
-									allowedFileExtensions: ["jpg", "png", "gif"]
-        //uploadUrl: '/site/file-upload-single'
-    });
-							});
-						</script>
-					</div>
-				</div><!--/*.row-->
-			</form>
-		</div>
+		<p>Une erreur est survenue, veuillez réessayer (<?=$haserror?>)</p>
+		<p><a href="lieu_voir.php?lieu=<?php echo $idlieu; ?>">Accéder au lieu</a></p>
 
 		<?php
 	}

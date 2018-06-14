@@ -27,13 +27,7 @@ if(!is_numeric($idlieu)) {
 			$hassend = true;
 		}
 
-<<<<<<< HEAD
-		<div class="card p-4" >
-			<div class="row">
-				<div class="col-md-12">
-					<form id="sampleForm" name="sampleForm" method="post" action="lieu_modifier_motcle.php?lieu=<?=$idlieu?>" class="form-group">
-						<select class="chosen_select form-control" name="tags[]" multiple>
-=======
+		
 		if ($hassend && !$haserror) {
 			?>
 			<p>Mots-clés modifiés.</p>
@@ -46,7 +40,6 @@ if(!is_numeric($idlieu)) {
 					<div class="col-md-12">
 						<form id="sampleForm" name="sampleForm" method="post" action="lieu_modifier_motcle.php?lieu=<?=$idlieu?>" class="form-group">
 							<select class="chosen_select form-control" name="tags[]" multiple>
->>>>>>> bc012871f14cab8e00d13f27c82dfad546c82282
 							<?php
 							$lieu_motcles_choice_stmt = $bdd->prepare(
 								'SELECT motcle.mot, motcle.id AS idmot, lieumotcle.id AS isselected'
@@ -61,7 +54,6 @@ if(!is_numeric($idlieu)) {
 							<?php
 							}
 							?>
-<<<<<<< HEAD
 						</select>
 						
 						<button type="submit" class='btn btn-success mt-1' name="save">Enregistrer</button>
@@ -75,21 +67,12 @@ if(!is_numeric($idlieu)) {
 
 
 		<?php
-=======
-							</select>
-							<button type="submit" class='btn btn-success mt-1' name="save">Enregistrer</button>
-							<a role="button" onClick="history.go(-1);" class='btn btn-danger mt-1' style="color: white;">Annuler</a>
-						</form>
-					</div><!--/*.col-md-12-->
-				</div><!--/*.row-->
-			</div>
-			<?php
+
 		}
 		$bdd->commit();
 	} catch (PDOException $e) {
 		$bdd->rollback();
 		echo '<p>'.$e->getMessage().'</p>';
->>>>>>> bc012871f14cab8e00d13f27c82dfad546c82282
 	}
 }
 

@@ -1,6 +1,10 @@
 <?php
 include('header.php');
+$media_dir = 'media';
+$image_exts = array('jpeg', 'jpg', 'png', 'bmp');
+
 $error= false;
+$msg = false;
 if(isset($_POST['envoi'])){
 	if (!empty($_POST['description'])){
 		$description = $_POST['description'];
@@ -8,6 +12,26 @@ if(isset($_POST['envoi'])){
 		$req = $bdd->prepare("UPDATE utilisateur SET description = :description WHERE pseudo = :pseudo");
 		$req->execute(array('description' => htmlspecialchars($description),'pseudo' => $pseudo));
 	}
+	
+	if (isset($_FILES['media_up'])) {
+		if ($_FILES['media_up']['error'] == 0) {
+			if ($_FILES['media_up']['size'] <= 800000) {
+				$info = pathinfo($_FILES['media_up']['name']);
+				$ext = $info['extension'];
+				if (in_array($ext, $image_exts)) {
+					@mkdir($media_dir);
+					$fname = $media_dir.'/profilimage_'.$_SESSION['id'].'.'.$ext;
+					move_uploaded_file($_FILES['media_up']['tmp_name'], $fname);
+					$req = $bdd->prepare("UPDATE utilisateur SET image = ? WHERE id=?");
+					$req->execute(array($fname, $_SESSION['id']));
+				}
+				else $msg = "Extension invalide (".$ext.")";
+			} else {
+				$msg = "L'image est trop grosse";
+			}
+		}
+	}
+	
 	if (!empty($_POST['photo'])){
 		$image = $_POST['photo'];
 		$pseudo = $_SESSION['pseudo'];
@@ -20,11 +44,7 @@ if(isset($_POST['envoi'])){
 		$resultat = $req->fetch();
 
 		if (is_bool($resultat) && !$resultat) {
-			echo 
-			'<form class="text-center">
-			Mauvais identifiant ou mot de passe
-			</form>
-			<div class="text-center" style="color:#999;"><a href="user_editprofil.php?username='.$_SESSION['pseudo'].'" style="color:#999;">Réessayer</a></div>';
+			$msg = 'Utilisateur introuvable';
 			$error = true;
 		}
 		else
@@ -37,22 +57,18 @@ if(isset($_POST['envoi'])){
 	// Mise a jour
 				$req = $bdd->prepare("UPDATE utilisateur SET mdp = :pass_hache WHERE pseudo = :pseudo");
 				$req->execute(array('pass_hache' => $pass_hache,'pseudo' => $_SESSION['pseudo']));
-
+				$msg = 'Mot de passe mis à jour!';
 			}
 			else {
-				echo 
-				'<form class="text-center">
-				Mauvais identifiant ou mot de passe
-				</form>
-				<div class="text-center" style="color:#999;"><a href="user_editprofil.php?username='.$_SESSION['pseudo'].'" style="color:#999;">Réessayer</a></div>';
+				$msg = 'Mauvais mot de passe';
 				$error = true;
 			}
 		}
 		
 	}
-	if(!$error){
-		header("Location: user_editprofil.php?username=".$_SESSION['pseudo']);
-	}
+	
+	header("Location: user_editprofil.php?error=".($error ? 'true' : 'false')."&username=".$_SESSION['pseudo'].'&msg='.$msg);
+
 }
 include('footer.php');
 

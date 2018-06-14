@@ -57,7 +57,7 @@ if (isset($_POST['supprimer'])) {
 							$nb = $donnees['count(signcommentaire.id)'];
 							?>
 							<p>Pseudo : <?php echo$pseudo ?></p>
-							<p>Nombre de singalement : <?php echo$nb ?></p>
+							<p>Nombre de signalement : <?php echo$nb ?></p>
 							<p>Commentaire : <?php echo$commentaire?></p>
 
 							<form method="post" action="mod_com.php">

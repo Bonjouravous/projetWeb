@@ -37,6 +37,7 @@ if(!isConnected()) {
 					<li class="nav-item">
 						<a class="nav-link" href="page_contact.php">Contact</a>
 					</li>
+					<li class="nav-item"><a class="nav-link" href="lieu_carte.php">Carte</a></li>
 						<?php 
 						if (!isset($_SESSION['id']) AND !isset($_SESSION['pseudo']))
 						{

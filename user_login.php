@@ -7,6 +7,7 @@ include('headermin.php');
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Se connecter</title>
+	<link rel="icon" href="images/icone.png" />
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="style/bootstrap.min.css">
@@ -106,7 +107,7 @@ include('headermin.php');
 
 		if(isset($_POST['pseudo']) && isset($_POST['pass'])) {
 	//  Récupération de l'utilisateur et de son pass hashé
-			$req = $bdd->prepare('SELECT id, mdp FROM utilisateur WHERE pseudo = :pseudo');
+			$req = $bdd->prepare('SELECT id, mdp FROM utilisateur WHERE pseudo = :pseudo AND banni=0 AND codevalidation=0');
 			$req->execute(array('pseudo' => $_POST['pseudo']));
 			$resultat = $req->fetch();
 
@@ -153,6 +154,7 @@ include('headermin.php');
 				</div>
 			</form>
 			<div class="text-center" style="color:#999;">Vous n'avez pas de compte? <a href="user_signup.php" style="color:#999;">S'enregistrer</a></div>
+			<div class="text-center" style="color:#999;">Mot de passe oublié? <a href="mdp_recuperation.php" style="color:#999;">Réinitialiser</a></div>
 
 
 			<?php

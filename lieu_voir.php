@@ -5,6 +5,17 @@ $idlieu = isset($_GET['lieu']) ? (int) $_GET['lieu'] : 'alpha';
 if(!is_numeric($idlieu)) {
 	echo 'Page non trouvée';
 } else {
+	
+	if(isset($_POST['delete']) && isMod()) {
+		$req = $bdd->prepare('DELETE FROM lieu WHERE id=?');
+		$req->execute(array($idlieu));
+		?>
+		<div class="card">
+			Ce lieu a été définitivement supprimé de nos bases de données, ainsi que tous ses commentaires et toutes ses images.
+		</div>
+		<?php
+	} else {
+	
 	$lieu_first_infos_stmt = $bdd->prepare(
 		'SELECT A.*, lieudescription.description as contenu, lieudescription.id as descriptionid, lieudescription.date as lastupdate, utilisateur.pseudo as auteur, utilisateur.id as idauteur FROM
 		(SELECT
@@ -29,10 +40,11 @@ if(!is_numeric($idlieu)) {
 		LIMIT 1
 		;'
 	);
-	/* Mettre en premier les medias récents ou anciens ? */
+	
 	$lieu_medias_stmt = $bdd->prepare(
 		'SELECT media FROM lieumedia WHERE idlieu = ? AND supprimer != 1 ORDER BY date DESC;'
 	);
+	
 	$lieu_motcles_stmt = $bdd->prepare(
 		'SELECT motcle.mot FROM motcle, lieumotcle'
 		.' WHERE lieumotcle.idlieu = ?'
@@ -124,8 +136,8 @@ if(!is_numeric($idlieu)) {
 						<p class="card-text">
 							<?php
 							$lieu_desc = $lieu_first_infos_fetch['contenu'];
-							$lieu_desc = preg_replace('/[*][*][*] (.*?) [*][*][*]/' , '<h3>$1</h3>', $lieu_desc);
-							$lieu_desc = preg_replace('/[*][*] (.*?) [*][*]/', '<h2>$1</h2>', $lieu_desc);
+							$lieu_desc = preg_replace('/[*][*][*](.*?)[*][*][*]/' , '<h3>$1</h3>', $lieu_desc);
+							$lieu_desc = preg_replace('/[*][*](.*?)[*][*]/', '<h2>$1</h2>', $lieu_desc);
 							$lieu_desc = preg_replace('/\\[\\[(.*?)[|](.*?)\\]\\]/', '<a href="$1">$2</a>', $lieu_desc);
 							echo $lieu_desc;
 							?>
@@ -133,9 +145,13 @@ if(!is_numeric($idlieu)) {
 						<a href="" id="btn_l_like_<?=$idlieu?>" class="btn_l_like btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cpositif']?></span> <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
 						<a href="" id="btn_l_dislike_<?=$idlieu?>" class="btn_l_dislike btn btn-danger<?php if($lieu_first_infos_fetch['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cnegatif']?></span> <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
 						<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
-						<a href="lieu_media_ajouter.php?lieu=<?=$idlieu?>" class="btn btn-outline-primary">Importer une photo</a>
-						<a href="#" class="btn btn-outline-primary">Gérer les photos</a>
-						<a href="#" class="btn btn-danger float-right">Supprimer</a>
+						<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
+							Importer une photo
+						</button>
+						<a href="mod_img.php?lieu=<?=$idlieu?>" class="btn btn-outline-primary">Gérer les photos</a>
+						<form style="display: inline;" action="lieu_voir.php?lieu=<?=$idlieu?>" method="post">
+							<input type="submit" class="btn btn-danger float-right" name="delete" value="Supprimer"/>
+						</form>
 						<div class="text-left text-muted mt-4">
 							<?php
 							foreach ($lieu_motcles_fetch as $row) {
@@ -153,6 +169,9 @@ if(!is_numeric($idlieu)) {
 					<div id="commentary" class="actionBox">
 						<ul class="commentList">
 							<?php
+							
+							/** GESTION DES COMMENTAIRES **/
+							
 							if(isset($_POST['submit_commentaire']) ){
 								if(isset($_POST['commentaire']) AND !empty($_POST['commentaire']) ){
 									$commentaire = htmlspecialchars($_POST['commentaire']);
@@ -196,17 +215,14 @@ if(!is_numeric($idlieu)) {
                     		<div class="commentText" >
                     			<p><span><?= $lieu_com['pseudo'] ?></span></p>
                     			<p class="text-muted">
-<<<<<<< HEAD
                     				
                     			<?php
                     			$emoji_replace = array(':)', ':-)', '(angry)', ':3', ":'(", ':|', ':(', ':-(', ';)', ';-)', ' euh');
                     			$emoji_new = array('<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_angry.png" />','<img src="images/emojis/emo_cat.png" />','<img src="images/emojis/emo_cry.png" />','<img src="images/emojis/emo_noreaction.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/euh.gif" />');
                     			$lieu_com['message']=str_replace($emoji_replace, $emoji_new, $lieu_com['message']);
                     			?>
-=======
-            
->>>>>>> bc012871f14cab8e00d13f27c82dfad546c82282
-                    			<?=$lieu_com['message']?>
+								
+								<?=$lieu_com['message']?>
                     		</p>
                     		<span class="date sub-text" style="font-size: 9px" >
                     			<a href="" id="btn_like_<?=$lieu_com['id']?>" class="btn_like btn<?php if($lieu_com['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_com['cpositif']?></span> J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
@@ -229,6 +245,32 @@ if(!is_numeric($idlieu)) {
                 </form>
             </div>
         </div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<form class="text-center" id="lieu_form" action="lieu_media_ajouter.php?lieu=<?=$idlieu?>" method="post" enctype="multipart/form-data">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Importer</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="file-loading">
+								<input id="input-b9" name="media_up" type="file">
+							</div>
+							<div id="kartik-file-errors"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class='btn btn-success' name="add">Ajouter</button>
+							<a role="button" data-dismiss="modal" class='btn btn-danger' style="color: white;">Annuler</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 
         <style>
         .active{
@@ -239,6 +281,15 @@ if(!is_numeric($idlieu)) {
     </style>
 
     <script>
+	
+		$(document).on('ready', function() {
+			$("#input-b9").fileinput({
+				showPreview: true,
+				showUpload: true,
+				elErrorContainer: '#kartik-file-errors',
+				allowedFileExtensions: ["jpg", "png", "gif"]
+			});
+		});
 
     	$('.btn_sign').click(function(e) {
     		var id = $(e.currentTarget).attr('id');
@@ -381,6 +432,7 @@ if(!is_numeric($idlieu)) {
 
     </script>
     <?php
+	}
 }
 
 include('footer.php');
