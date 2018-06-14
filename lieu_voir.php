@@ -66,70 +66,97 @@ if(!is_numeric($idlieu)) {
 		
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 			<ol class="carousel-indicators">
-				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-			</ol>
-			<div class="carousel-inner">
 				<?php
+				$est_premier = true;
+				$indice = 0;
 				foreach ($lieu_medias_fetch as $row) {
 					$media = $row ['media'];
 					$media_complete_path = $media_dir . '/' . $media;
+					if ($est_premier) {
+						?>
+							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+						<?php
+						$est_premier = false;
+					}
+					else{ 
+						$indice = $indice + 1;?>
+						<li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $indice; ?>"></li>
+					<?php } ?>
+					<?php }
 					?>
-					<div class="carousel-item">
-						<img class="d-block w-100" src="<?php echo $media_complete_path ?>" alt="First slide">
-					</div>
+				</ol>
+				<div class="carousel-inner">
 					<?php
-				}
-				?>
-			</div>
-			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>
-		<div class="card-body">
-			<span class="text-muted"><a href="lieu_carte.php#<?=$lieu_first_infos_fetch['latitude'].','.$lieu_first_infos_fetch['longitude']?>,12" title="Voir sur la carte"><?=$lieu_first_infos_fetch['latitude'].', '.$lieu_first_infos_fetch['longitude']?></a></span>
-			<p class="card-text">
-				<?php
-				$lieu_desc = $lieu_first_infos_fetch['contenu'];
-				$lieu_desc = preg_replace('/[*][*][*] (.*?) [*][*][*]/' , '<h3>$1</h3>', $lieu_desc);
-				$lieu_desc = preg_replace('/[*][*] (.*?) [*][*]/', '<h2>$1</h2>', $lieu_desc);
-				$lieu_desc = preg_replace('/\\[\\[(.*?)[|](.*?)\\]\\]/', '<a href="$1">$2</a>', $lieu_desc);
-				echo $lieu_desc;
-				?>
-			</p>
-			<a href="" id="btn_l_like_<?=$idlieu?>" class="btn_l_like btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cpositif']?></span> <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
-			<a href="" id="btn_l_dislike_<?=$idlieu?>" class="btn_l_dislike btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cnegatif']?></span> <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
-			<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
-			<a href="lieu_media_ajouter.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Poster une photo</a>
-			<div class="text-left text-muted">
-				<?php
-				foreach ($lieu_motcles_fetch as $row) {
-					echo '#'.$row['mot'].' ';
-				}
-				?>
-			</div>
-			<a href="lieu_ajouter_motcle.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier les mots-clés</a>
-			<div class="text-right text-muted">Dernière modification le <?=$lieu_first_infos_fetch['lastupdate']?>
-			</div>
-			<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?>
-			</div>
-			<a href="#" class="float-right<?php if($lieu_first_infos_fetch['hassign']) echo ' invisible'; ?>" style="color: red; font-size: 9px;" id="btn_signal_lieu">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
-		</div>
-		<div id="commentary" class="actionBox">
-			<ul class="commentList">
-				<?php
-				if(isset($_POST['submit_commentaire']) ){
-					if(isset($_POST['commentaire']) AND !empty($_POST['commentaire']) ){
-						$commentaire = htmlspecialchars($_POST['commentaire']);
-						$insertion=$bdd->prepare('INSERT INTO `lieucommentaire` (`id`, `idlieu`, `idutilisateur`, `message`, `creation`, `supprime`) VALUES (NULL, ?, ?, ?, NOW(), 0) ');   
-						$insertion->execute(array($idlieu,$_SESSION['id'],$commentaire));
-						$c_msg = '<span style="color:green;"> Votre commentaire a bien été posté .</span>';
+					$est_premier = true;
+					foreach ($lieu_medias_fetch as $row) {
+						$media = $row ['media'];
+						$media_complete_path = $media_dir . '/' . $media;
+						if ($est_premier) {
+							?>
+							<div class="carousel-item active">
+								<img width="400" height="700" class="d-block w-100" src="<?php echo $media_complete_path ?>" alt="First slide">
+							</div>
+							<?php
+							$est_premier = false;}
+							else{ ?>
+							<div class="carousel-item">
+								<img width="400" height="700" class="d-block w-100" src="<?php echo $media_complete_path ?>" alt="First slide">
+							</div>
+							<?php } ?>
+							<?php }
+							?>
+						</div>
+						<?php if($indice > 0){ ?>
+
+						
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+						<?php } ?>
+					</div>
+					<div class="card-body">
+						<span class="text-muted"><a href="lieu_carte.php#<?=$lieu_first_infos_fetch['latitude'].','.$lieu_first_infos_fetch['longitude']?>,12" title="Voir sur la carte"><?=$lieu_first_infos_fetch['latitude'].', '.$lieu_first_infos_fetch['longitude']?></a></span>
+						<p class="card-text">
+							<?php
+							$lieu_desc = $lieu_first_infos_fetch['contenu'];
+							$lieu_desc = preg_replace('/[*][*][*] (.*?) [*][*][*]/' , '<h3>$1</h3>', $lieu_desc);
+							$lieu_desc = preg_replace('/[*][*] (.*?) [*][*]/', '<h2>$1</h2>', $lieu_desc);
+							$lieu_desc = preg_replace('/\\[\\[(.*?)[|](.*?)\\]\\]/', '<a href="$1">$2</a>', $lieu_desc);
+							echo $lieu_desc;
+							?>
+						</p>
+						<a href="" id="btn_l_like_<?=$idlieu?>" class="btn_l_like btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cpositif']?></span> <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
+						<a href="" id="btn_l_dislike_<?=$idlieu?>" class="btn_l_dislike btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cnegatif']?></span> <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
+						<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
+						<a href="lieu_media_ajouter.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Poster une photo</a>
+						<div class="text-left text-muted">
+							<?php
+							foreach ($lieu_motcles_fetch as $row) {
+								echo '#'.$row['mot'].' ';
+							}
+							?>
+						</div>
+						<a href="lieu_ajouter_motcle.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier les mots-clés</a>
+						<div class="text-right text-muted">Dernière modification le <?=$lieu_first_infos_fetch['lastupdate']?>
+						</div>
+						<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?>
+						</div>
+						<a href="#" class="float-right<?php if($lieu_first_infos_fetch['hassign']) echo ' invisible'; ?>" style="color: red; font-size: 9px;" id="btn_signal_lieu">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
+					</div>
+					<div id="commentary" class="actionBox">
+						<ul class="commentList">
+							<?php
+							if(isset($_POST['submit_commentaire']) ){
+								if(isset($_POST['commentaire']) AND !empty($_POST['commentaire']) ){
+									$commentaire = htmlspecialchars($_POST['commentaire']);
+									$insertion=$bdd->prepare('INSERT INTO `lieucommentaire` (`id`, `idlieu`, `idutilisateur`, `message`, `creation`, `supprime`) VALUES (NULL, ?, ?, ?, NOW(), 0) ');   
+									$insertion->execute(array($idlieu,$_SESSION['id'],$commentaire));
+									$c_msg = '<span style="color:green;"> Votre commentaire a bien été posté .</span>';
                             echo $c_msg; //
                         }
                         else{
