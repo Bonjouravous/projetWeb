@@ -3,7 +3,7 @@
 ?>
 
 <?php
-$idlieu = isset($_GET['lieu']) ? (int) $_GET['lieu'] : 'alpha';
+$idlieu = isset($_GET['lieu']) ? $_GET['lieu'] : 'alpha';
 
 if(!is_numeric($idlieu)) {
 	echo 'Page non trouvée';
@@ -31,26 +31,23 @@ if(!is_numeric($idlieu)) {
 		<select class="chosen_select" name="tags[]" multiple>
 		<?php
 			$lieu_motcles_choice_stmt = $bdd->prepare(
-				'SELECT motcle.mot as mot, motcle.id as id FROM motcle, lieumotcle'
-				.' WHERE motcle.id NOT IN ('
-				.'  SELECT idmot FROM lieumotcle WHERE lieumotcle.idlieu = ?'
-				.' )'
-				.';'
+				'SELECT motcle.mot, motcle.id AS idmot, lieumotcle.id AS isselected FROM motcle
+				LEFT JOIN lieumotcle ON lieumotcle.idmot = motcle.id AND lieumotcle.idlieu = ?
+				ORDER BY motcle.mot ASC;'
 			);
 			try {
 				$bdd->beginTransaction();
-				$lieu_motcles_choice_stmt->execute($idlieu, $idlieu);
+				$lieu_motcles_choice_stmt->execute($idlieu);
 				$bdd->commit();
 			} catch (PDOException $e) {
 				$bdd->rollback();
 				echo '<p>'.$e->getMessage().'</p>';
 			}
 			$lieu_motcles_choice_fetch = $lieu_motcles_choice_stmt->fetchAll(PDO::FETCH_ASSOC);
-			print_r($lieu_motcles_choice_fetch);
 
 			foreach($lieu_motcles_choice_fetch as $motcle) {
 			?>
-				<option value="<?php echo $motcle['id']; ?>"><?php echo $motcle['mot']; ?></option>
+				<option <?php if (!is_null($motcle['isselected'])) { echo 'selected'; } ?> value="<?php echo $motcle['idmot']; ?>"><?php echo $motcle['mot']; ?></option>
 			<?php
 			}
 		?>
