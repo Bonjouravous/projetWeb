@@ -121,7 +121,7 @@ if ($hassend && !$haserror) {
 				</div><!--/*.col-md-12-->
 			</div>
 			<div>
-				<input type="file" name="media_up"/>
+				<input class="form-group form-control" type="file" name="media_up"/>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
