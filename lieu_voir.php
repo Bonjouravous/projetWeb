@@ -100,11 +100,11 @@ if(!is_numeric($idlieu)) {
 								$insertion=$bdd->prepare('INSERT INTO `lieucommentaire` (`id`, `idlieu`, `idutilisateur`, `message`, `creation`, `supprime`) VALUES (NULL, ?, ?, ?, NOW(), 0) ');   
 								$insertion->execute(array($idlieu,$_SESSION['id'],$commentaire));
 								$c_msg = '<span style="color:green;"> Votre commentaire a bien été posté .</span>';
-								echo $c_msg; //
+								echo $c_msg; 
 						}
 						else{
 							$commenntaire_error ='<span style="color:red;"> ecrire un commentaire .</span>';
-							echo $commenntaire_error;//
+							echo $commenntaire_error;
 						}
 					}
 					
@@ -120,6 +120,9 @@ if(!is_numeric($idlieu)) {
 						ORDER BY lieucommentaire.creation DESC LIMIT 0,100');
 						$lieu_commentaires_query->execute(array($_SESSION['id'], $_SESSION['id'], $idlieu)); 
 					?>
+					<?php	
+									
+					?>
 					
 					
 					<?php while($lieu_com = $lieu_commentaires_query->fetch()){
@@ -130,12 +133,13 @@ if(!is_numeric($idlieu)) {
 						$lieu_com['hasvote'] = ($lieu_com['hasvote'] == null) ? 0 : $lieu_com['hasvote'];
 						$lieu_com['hassign'] = ($lieu_com['hassign'] != null);
 					?>
+					
 					<li>
 						<div class="commenterImage">
 							<img src="<?=$lieu_com['image']?>" />
 						</div>
 						<div class="commentText" >
-							<p><span><?=$lieu_com['pseudo']?></span></p>
+							<p><span>  <a href="user_profil.php?username=<?=$lieu_com['pseudo']?>"><?=$lieu_com['pseudo']?> </a></span></p>
 							<p class="text-muted">
 								<style type="text/css">
 									#text-muted img{
@@ -144,11 +148,13 @@ if(!is_numeric($idlieu)) {
 									}
 								</style>
                                 <?php 
-                                	$emoji_replace = array(':)',':-)','(angry)',':3',":'(",':|',':(',':-(',';)',';-)',' euh');
+                                	$emoji_replace = array(':)',':-)','(angry)',':3',":'(",':|',':(',':-(',';)',';-)','euh');
                                 	$emoji_new = array('<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_angry.png" />','<img src="images/emojis/emo_cat.png" />','<img src="images/emojis/emo_cry.png" />','<img src="images/emojis/emo_noreaction.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/euh.gif" />');
                                 	$lieu_com['message']=str_replace($emoji_replace, $emoji_new, $lieu_com['message']);
                                 ?>
+								
 								<?=$lieu_com['message']?>
+								
 							</p>
 							<span class="date sub-text" style="font-size: 9px" >
 								<a href="" id="btn_like_<?=$lieu_com['id']?>" class="btn_like btn<?php if($lieu_com['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_com['cpositif']?></span> J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
