@@ -11,23 +11,28 @@ if(!is_numeric($idlieu)) {
 	$hassend = false;
 	$haserror = false;
 
-	if (isset($_POST['tags'])) {
-		foreach ($_POST['tags'] as $tag) {
-			${'tag'.$tag.'stmt'} = 'INSERT INTO lieumotcle(idlieu, idmot) VALUES (?, ?);';
-		}
-		foreach ($_POST['tags'] as $tag) {
-			try {
-				
-			} catch (PDOException $e) {
-				
+	if (isset($_POST['save']) && isset($_POST['tags'])) {
+		try {
+			$bdd->beginTransaction();
+			$clear_stmt = $bdd->prepare('DELETE FROM lieumotcle WHERE idlieu = ?;');
+			$clear_stmt->execute(array($idlieu));
+			foreach ($_POST['tags'] as $tag) {
+				${$tag.'_stmt'} = $bdd->prepare(
+					'INSERT INTO lieumotcle(idlieu, idmot) VALUES (?, ?);'
+				);
+				${$tag.'_stmt'}->execute(array($idlieu, $tag));
 			}
+			$bdd->commit();
+			$hassend = true;
+		} catch (PDOException $e) {
+			$bdd->rollback();
+			echo '<p>'.$e->getMessage().'</p>';
 		}
-		$hassend = true;
 	}
 
 	if ($hassend && !$haserror) {
 	?>
-	<p>Mots-clés ajoutés.</p>
+	<p>Mots-clés modifiés.</p>
 	<p><a href="lieu_voir.php?lieu=<?php echo $idlieu; ?>">Accéder au lieu</a></p>
 	<?php
 	} else {
@@ -53,14 +58,14 @@ if(!is_numeric($idlieu)) {
 			$lieu_motcles_choice_fetch = $lieu_motcles_choice_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 			foreach($lieu_motcles_choice_fetch as $row) {
-			?>
-				<option <?php if (!is_null($row['isselected'])) { echo 'selected'; } ?> value="<?php echo $row['idmot']; ?>"><?php echo $row['mot']; ?></option>
-			<?php
+		?>
+			<option <?php if (!is_null($row['isselected'])) { echo 'selected'; } ?> value="<?php echo $row['idmot']; ?>"><?php echo $row['mot']; ?></option>
+		<?php
 			}
 		?>
 		</select>
 		<div class="col-md-12">
-			<button type="submit" class='btn btn-success' name="add">Enregistrer</button>
+			<button type="submit" class='btn btn-success' name="save">Enregistrer</button>
 			<a role="button" onClick="history.go(-1);" class='btn btn-danger' style="color: white;">Annuler</a>
 		</div><!--/*.col-md-12-->
 	</form>
