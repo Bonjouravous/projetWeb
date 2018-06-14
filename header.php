@@ -12,8 +12,9 @@ if(!isConnected()) {
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Let’s Discover</title>
-
+	<link rel="icon" href="images/icone.png" />
+    <title>Let’s Discover</title>
+    
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="style/bootstrap.min.css">
 	<link rel="stylesheet" href="style/font-awesome.min.css">
