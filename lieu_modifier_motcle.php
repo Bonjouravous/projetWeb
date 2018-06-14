@@ -41,8 +41,8 @@ if(!is_numeric($idlieu)) {
 		?>
 
 		<div class="card p-4" >
-				<div class="row">
-					<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-12">
 					<form id="sampleForm" name="sampleForm" method="post" action="lieu_modifier_motcle.php?lieu=<?=$idlieu?>" class="form-group">
 						<select class="chosen_select form-control" name="tags[]" multiple>
 							<?php
@@ -68,12 +68,11 @@ if(!is_numeric($idlieu)) {
 							}
 							?>
 						</select>
-						
-							<button type="submit" class='btn btn-success mt-1' name="save">Enregistrer</button>
-							<a role="button" onClick="history.go(-1);" class='btn btn-danger mt-1' style="color: white;">Annuler</a>
-						</div><!--/*.col-md-12-->
+						<button type="submit" class='btn btn-success mt-1' name="save">Enregistrer</button>
+						<a role="button" onClick="history.go(-1);" class='btn btn-danger mt-1' style="color: white;">Annuler</a>
 					</form>
-				</div><!--/*.row-->
+				</div><!--/*.col-md-12-->
+			</div><!--/*.row-->
 		</div>
 
 
