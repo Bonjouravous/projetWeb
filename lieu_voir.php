@@ -131,7 +131,7 @@ if(!is_numeric($idlieu)) {
 							?>
 						</p>
 						<a href="" id="btn_l_like_<?=$idlieu?>" class="btn_l_like btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cpositif']?></span> <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
-						<a href="" id="btn_l_dislike_<?=$idlieu?>" class="btn_l_dislike btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cnegatif']?></span> <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
+						<a href="" id="btn_l_dislike_<?=$idlieu?>" class="btn_l_dislike btn btn-danger<?php if($lieu_first_infos_fetch['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cnegatif']?></span> <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
 						<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
 						<a href="lieu_media_ajouter.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Poster une photo</a>
 						<div class="text-left text-muted mt-4">
@@ -212,7 +212,7 @@ if(!is_numeric($idlieu)) {
                     			<a href="" id="btn_dislike_<?=$lieu_com['id']?>" class="btn_dislike btn<?php if($lieu_com['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_com['cnegatif']?></span> J'aime Pas <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
                     			Le <?=$date->format('d/m/Y à H:i:s')?>
                     		</span>
-                    		<a href="#" class="btn_sign float-right<?php if($lieu_com['hassign']) echo ' invisible '; ?>" id="btn_sign_<?=$lieu_com['id']?>" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
+                    		<a href="#" class="btn_sign text-right<?php if($lieu_com['hassign']) echo ' invisible '; ?>" id="btn_sign_<?=$lieu_com['id']?>" style="color: red; font-size: 9px;">Signaler <i class="fa fa-bell" style="font-size: 9px; padding:0;"></i></a>
 
                     	</div>
                     </li>
