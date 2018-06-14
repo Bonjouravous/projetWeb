@@ -99,9 +99,7 @@ if(!is_numeric($idlieu)) {
 								$commentaire = htmlspecialchars($_POST['commentaire']);
 				
 								$insertion=$bdd->prepare('INSERT INTO `lieucommentaire` (`id`, `idlieu`, `idutilisateur`, `message`, `creation`, `supprime`) VALUES (NULL, ?, ?, ?, NOW(), 0) ');   
-								//$a=$_SESSION['id']; //a modifier
-								$b=3;
-								$insertion->execute(array($idlieu,$b,$commentaire));
+								$insertion->execute(array($idlieu,$_SESSION['id'],$commentaire));
 								$c_msg = '<span style="color:green;"> Votre commentaire a bien été posté .</span>';
 								echo $c_msg; //
 						}
