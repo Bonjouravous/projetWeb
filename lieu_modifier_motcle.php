@@ -82,3 +82,8 @@ if(!is_numeric($idlieu)) {
 }
 include('footer.php');
 ?>
+<script>
+$('.chosen_select').chosen({
+	width: "95%"
+});
+</script>
