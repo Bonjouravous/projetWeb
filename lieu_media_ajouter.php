@@ -33,7 +33,7 @@ if(!is_numeric($idlieu)) {
 			$haserror = 'Pas de fichier renseigné';
 		}
 
-		if ($haserror != false) {
+		if ($haserror == false) { // Pas d'erreurs
 			$lieu_media_stmt = $bdd->prepare(
 				'INSERT INTO lieumedia(idlieu, idutilisateur, media, date, supprimer) VALUES (?, ?, ?, NOW(), 0)'
 				.';'
