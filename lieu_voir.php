@@ -85,6 +85,7 @@ if(!is_numeric($idlieu)) {
 					}
 				?>
 			</div>
+			<a href="lieu_ajouter_motcles.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier les mot-clés</a>
 			<div class="text-right text-muted">Dernière modification le <?=$lieu_first_infos_fetch['lastupdate']?>
 			</div>
 			<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?>

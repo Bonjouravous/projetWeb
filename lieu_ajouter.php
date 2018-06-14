@@ -1,5 +1,9 @@
 <?php
 include('header.php');
+
+$media_dir = 'media';
+$image_exts = array('jpeg', 'jpg', 'png', 'bmp');
+
 ?>
 
 <?php
@@ -41,6 +45,7 @@ if (isset($_POST['add'])) {
 				);
 				$media_basename = time().'.'.$ext;
 				$media_complete_path = $media_dir.DIRECTORY_SEPARATOR.$media_basename;
+				@mkdir($media_dir);
 				move_uploaded_file($_FILES['media_up']['tmp_name'], $media_complete_path);
 			}
 			try {
