@@ -108,7 +108,6 @@ usort($lieux, function($a, $b) {
 					<h6 class="card-subtitle mb-2 text-muted"><?=$result['distance']?>km- <?=$result['reputation']?></h6>
 					<a href="lieu_voir.php?lieu=<?=$result['id']?>" class="card-link">Voir</a>
 					<a href="lieu_edit.php?lieu=<?=$result['id']?>" class="card-link">Modifier</a>
-					<a href="#" class="card-link">Supprimer</a>
 					<div class="text-right text-muted"><?=implode(' ', $result['motcle'])?></div>
 				</div>
 			</div>
