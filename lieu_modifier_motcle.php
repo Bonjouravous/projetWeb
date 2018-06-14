@@ -11,16 +11,18 @@ if(!is_numeric($idlieu)) {
 	$hassend = false;
 	$haserror = false;
 
-	if (isset($_POST['save']) && isset($_POST['tags'])) {
+	if (isset($_POST['save'])) {
 		try {
 			$bdd->beginTransaction();
 			$clear_stmt = $bdd->prepare('DELETE FROM lieumotcle WHERE idlieu = ?;');
 			$clear_stmt->execute(array($idlieu));
-			foreach ($_POST['tags'] as $tag) {
-				${$tag.'_stmt'} = $bdd->prepare(
-					'INSERT INTO lieumotcle(idlieu, idmot) VALUES (?, ?);'
-				);
-				${$tag.'_stmt'}->execute(array($idlieu, $tag));
+			if (isset($_POST['tags'])) {
+				foreach ($_POST['tags'] as $tag) {
+					${$tag.'_stmt'} = $bdd->prepare(
+						'INSERT INTO lieumotcle(idlieu, idmot) VALUES (?, ?);'
+					);
+					${$tag.'_stmt'}->execute(array($idlieu, $tag));
+				}
 			}
 			$bdd->commit();
 			$hassend = true;
