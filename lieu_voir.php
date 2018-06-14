@@ -188,7 +188,11 @@ if(!is_numeric($idlieu)) {
 
                     $lieu_commentaires_query = $bdd->prepare('SELECT LC2.avis as hasvote,
                     	signcommentaire.id as hassign,
-                    	SUM(IF(SIGN(LC1.avis)= 1, LC1.avis, 0)) as cpositif, -1*SUM(IF(SIGN(LC1.avis)= -1, LC1.avis, 0)) as cnegatif, utilisateur.pseudo, utilisateur.image, lieucommentaire.message, lieucommentaire.creation, lieucommentaire.id FROM lieucommentaire
+                    	SUM(IF(SIGN(LC1.avis)= 1, LC1.avis, 0)) as cpositif, -1*SUM(IF(SIGN(LC1.avis)= -1, LC1.avis, 0)) as cnegatif,
+						utilisateur.pseudo,
+						utilisateur.image,
+						utilisateur.id as userid,
+						lieucommentaire.message, lieucommentaire.creation, lieucommentaire.id FROM lieucommentaire
                     	JOIN utilisateur ON utilisateur.id=lieucommentaire.idutilisateur
                     	LEFT JOIN likecommentaire as LC1 ON LC1.idcommentaire = lieucommentaire.id
                     	LEFT JOIN likecommentaire as LC2 ON LC2.idcommentaire = lieucommentaire.id AND LC2.idutilisateur = ?
@@ -213,15 +217,8 @@ if(!is_numeric($idlieu)) {
                     			<img src="<?=$lieu_com['image']?>" alt="photo-profil"/>
                     		</div>
                     		<div class="commentText" >
-                    			<p><span><?= $lieu_com['pseudo'] ?></span></p>
-                    			<p class="text-muted">
-                    				
-                    			<?php
-                    			$emoji_replace = array(':)', ':-)', '(angry)', ':3', ":'(", ':|', ':(', ':-(', ';)', ';-)', ' euh');
-                    			$emoji_new = array('<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_angry.png" />','<img src="images/emojis/emo_cat.png" />','<img src="images/emojis/emo_cry.png" />','<img src="images/emojis/emo_noreaction.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/euh.gif" />');
-                    			$lieu_com['message']=str_replace($emoji_replace, $emoji_new, $lieu_com['message']);
-                    			?>
-								
+                    			<p><span><a href="user_profil.php?username=<?= $lieu_com['pseudo'] ?>"><?= $lieu_com['pseudo'] ?></a></span></p>
+                    			<p class="text-muted">								
 								<?=$lieu_com['message']?>
                     		</p>
                     		<span class="date sub-text" style="font-size: 9px" >

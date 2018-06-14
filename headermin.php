@@ -2,7 +2,11 @@
 session_start();
 try
 {
-	$bdd = new PDO('mysql:host=sql.franceserv.fr;dbname=kant-serveur_db4;charset=utf8', 'kant-serveur', '//63moi');
+	$server = '';
+	$dbname = '';
+	$username = '';
+	$password =  '';
+	$bdd = new PDO("mysql:host=$server;dbname=$dbname;charset=utf8", $username, $password);
 }
 catch(Exception $e)
 {

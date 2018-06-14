@@ -15,7 +15,7 @@
  	</div>
  	<div class="card-body">
 	<?php
-	if(isset($_GET['error'])) { ?>
+	if(isset($_GET['error']) && !empty($_GET['msg'])) { ?>
 		<div style="border: 1px solid black; border-radius: 5px;" class="form-group">
 			<p><?=$_GET['msg']?></p>
 		</div>

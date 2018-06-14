@@ -52,7 +52,7 @@ if(isset($_POST['traiter'])){
 
 							<p>Nom : <?php echo $nom; ?></p> 
 							<p>Nombre de signalement : <?php echo $nb; ?></p>
-							<a target="_blank" href="lieu_voir?lieu=<?=$idLieu?>">Lien vers la page signalé</a><!-- Lien à ajouté -->
+							<a target="_blank" href="lieu_voir.php?lieu=<?=$idLieu?>">Lien vers la page signalé</a><!-- Lien à ajouté -->
 
 							<form method="post" action="mod_lieu.php">
 								<input type="submit" class="form-control btn-outline-primary mb-1 mt-1" value="Traiter" name="traiter"/>

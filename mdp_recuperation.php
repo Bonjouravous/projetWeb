@@ -132,7 +132,7 @@ include('headermin.php');
 			?>
 			<form>
 				<h2>Envoi</h2>
-				<p class="hint-text">Un mail avez demandé une réinitialisation de votre mot de passe. Cliquez sur ce lien <a href="mdp_traitement.php?code=<?=$generatedcode?>">mdp_traitement.php?code=<?=$generatedcode?></a> pour réinitialiser votre mot de passe.</p>
+				<p class="hint-text">Vous avez demandé une réinitialisation de votre mot de passe. Cliquez sur ce lien <a href="mdp_traitement.php?code=<?=$generatedcode?>">mdp_traitement.php?code=<?=$generatedcode?></a> pour réinitialiser votre mot de passe.</p>
 			</form>
 			<?php
 		}
