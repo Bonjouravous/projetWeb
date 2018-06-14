@@ -34,19 +34,22 @@ if (isset($_POST['supprimer'])) {
 					<li class="nav-item">
 						<a class="nav-link" href="mod_cle.php">Mots clés</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="mod_contact.php">Messages</a>
+					</li>
 				</ul>
 			</div>
 			<div class="card-body">
 				<h5 class="card-title text-left">Commentaires ayant été signalé </h5>
-				<p class="card-text"><div>
+				<div class="card-text">
 					<div id="gestion_com">
 						<?php
 						$req = $bdd->query('SELECT count(signcommentaire.id), lieucommentaire.message, lieucommentaire.id, utilisateur.pseudo FROM lieucommentaire
-						JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire
-						JOIN utilisateur ON utilisateur.id = lieucommentaire.idutilisateur
-						WHERE signcommentaire.traite = 0 AND lieucommentaire.supprime = 0
-						GROUP BY lieucommentaire.id
-						ORDER BY count(signcommentaire.id) DESC');
+							JOIN signcommentaire ON lieucommentaire.id = signcommentaire.idcommentaire
+							JOIN utilisateur ON utilisateur.id = lieucommentaire.idutilisateur
+							WHERE signcommentaire.traite = 0 AND lieucommentaire.supprime = 0
+							GROUP BY lieucommentaire.id
+							ORDER BY count(signcommentaire.id) DESC');
 						while($donnees = $req->fetch()){
 							$pseudo = $donnees['pseudo'];
 							$commentaire = $donnees['message'];
@@ -68,7 +71,7 @@ if (isset($_POST['supprimer'])) {
 						}
 						?>
 					</div>
-				</div></p>
+				</div>
 			</div>
 		</div>
 	</section>

@@ -7,7 +7,7 @@
 					<label class="float-left" for="lat">Latitude :&nbsp;</label><input class="form-control" type="text" name="lat" id="lat" value=""><br>
 					<label class="float-left" for="long">Longitude :&nbsp;</label><input type="text" name="long" id="long" class="form-control" value=""><br>
 
-					<label class="float-left" for="distance">Distance :&nbsp;</label><small id="photoHelp" class="form-text text-muted text-right">en kilomètres</small><input class="form-control" type="text" name="distance" value="20"><br>
+					<label class="float-left"">Distance :&nbsp;</label><small id="help" class="form-text text-muted text-right">en kilomètres</small><input class="form-control" type="text" name="distance" value="20"><br>
 					
 				
 					

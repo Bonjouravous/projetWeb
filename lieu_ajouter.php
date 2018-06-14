@@ -83,7 +83,7 @@ if ($hassend && !$haserror) {
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="form-group">
-						<label for="inputemail">Titre</label>
+						<label for="title">Titre</label>
 						<input type="text" class="form-control" id="title" name="title"/>
 					</div><!--/*.form-group-->
 				</div><!--/*.col-md-6-->
@@ -104,58 +104,56 @@ if ($hassend && !$haserror) {
 					<div class="form-group">
 						<div class="card border-secondary mb-3">
 							<div class="card-header">Description</div>
-								<div class="card-body text-secondary">
-									<h5 class="card-title">La description supporte le formatage suivant</h5>
-									<p class="card-text" >
-										<ul style="list-style-type: none;">
-											<li>** titre principal **</li>
-											<li>*** titre secondaire ***</li>
-											<li>[[<small>http://...</small>|texte à afficher]]</li>
-										</ul>
-									</p>
+							<div class="card-body text-secondary">
+								<h5 class="card-title">La description supporte le formatage suivant</h5>
+								<p class="card-text" >
+									<ul style="list-style-type: none;">
+										<li>** titre principal **</li>
+										<li>*** titre secondaire ***</li>
+										<li>[[<small>http://...</small>|texte à afficher]]</li>
+									</ul>
 								</div>
 							</div>
-						<div>
-							<label for="description">Description</label>
-							<textarea id="description" class="form-control" name="description"></textarea>
-						</div>
-					</div><!--/*.form-group-->
-				</div><!--/*.col-md-12-->
-			</div>
-			<div>
-				<input class="form-group form-control" type="file" name="media_up"/>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<button type="submit" class='btn btn-success' name="add">Publier</button>
-					<input class="btn btn-secondary" type = 'button' onclick = 'geoloc()' value = 'Me localiser'>
-					<a role="button" onClick="history.go(-1);" class='btn btn-danger' style="color: white;">Annuler</a>
-				</div><!--/*.col-md-12-->
-			</div><!--/*.row-->
+							<div>
+								<label for="description">Description</label>
+								<textarea id="description" class="form-control" name="description"></textarea>
+							</div>
+						</div><!--/*.form-group-->
+					</div><!--/*.col-md-12-->
+				</div>
+				<div>
+					<input class="form-group form-control" type="file" name="media_up"/>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<button type="submit" class='btn btn-success' name="add">Publier</button>
+						<input class="btn btn-secondary" type = 'button' onclick = 'geoloc()' value = 'Me localiser'>
+						<a role="button" onClick="history.go(-1);" class='btn btn-danger' style="color: white;">Annuler</a>
+					</div><!--/*.col-md-12-->
+				</div><!--/*.row-->
+			</form>
 		</div>
-	</form>
-</div>
 
-<script>
-function success(position) {
-	var lat = position.coords.latitude;
-	var lng = position.coords.longitude;
-	$('#latitude').val(parseFloat(lat));
-	$('#longitude').val(parseFloat(lng));
-};
+		<script>
+			function success(position) {
+				var lat = position.coords.latitude;
+				var lng = position.coords.longitude;
+				$('#latitude').val(parseFloat(lat));
+				$('#longitude').val(parseFloat(lng));
+			};
 
-function error(err) {
-	console.warn(`ERROR(${err.code}): ${err.message}`);
-};
-	
-function geoloc() {
-	navigator.geolocation.getCurrentPosition(success, error);
-};
-</script>
+			function error(err) {
+				console.warn(`ERROR(${err.code}): ${err.message}`);
+			};
+
+			function geoloc() {
+				navigator.geolocation.getCurrentPosition(success, error);
+			};
+		</script>
 
 
-<?php
-}
+		<?php
+	}
 
-include('footer.php');
-?>
+	include('footer.php');
+	?>

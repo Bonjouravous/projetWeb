@@ -39,11 +39,14 @@
     <li class="nav-item">
         <a class="nav-link" href="mod_cle.php">Mots clés</a>
     </li>
+    <li class="nav-item">
+                        <a class="nav-link" href="mod_contact.php">Messages</a>
+                    </li>
     </ul>
   </div>
   <div class="card-body">
     <h5 class="card-title text-left">Liste des Modérateurs</h5>
-    <p class="card-text"><div>
+    <div class="card-text">
 		<?php
 		$req = $bdd->query('SELECT id, pseudo FROM utilisateur WHERE moderateur = 0 AND utilisateur.banni = 0  ORDER BY pseudo ASC');
 		$datas = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -95,7 +98,7 @@
                         ?>
                     </tbody>
                 </table>
-        </div></p>
+        </div>
   </div>
 </div>
 <?php } ?>

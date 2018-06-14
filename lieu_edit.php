@@ -74,7 +74,7 @@ if(!is_numeric($idlieu)) {
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="inputemail">Titre</label>
+							<label for="title">Titre</label>
 							<input type="text" class="form-control" id="title" name="title" value=<?php echo '"'.$lieu_titre.'"'; ?> />
 						</div><!--/*.form-group-->
 					</div><!--/*.col-md-6-->
@@ -85,11 +85,11 @@ if(!is_numeric($idlieu)) {
 									<div class="card-header">Description</div>
 									<div class="card-body text-secondary">
 										<h5 class="card-title">La description supporte le formatage suivant</h5>
-										<p class="card-text" >						<ul style="list-style-type: none;">
+										<div class="card-text">						<ul style="list-style-type: none;">
 											<li>** titre principal **</li>
 											<li>*** titre secondaire ***</li>
 											<li>[[<small>http://...</small>|texte à afficher]]</li>
-										</ul></p>
+										</ul>
 									</div>
 								</div>
 								<label for="description">Description</label>
@@ -102,11 +102,12 @@ if(!is_numeric($idlieu)) {
 						<a role="button" href="lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
 					</div><!--/*.col-md-12-->
 				</div><!--/*.row-->
-			</form>
-		</div>
+			</div>
+		</form>
+	</div>
 
-		<?php
-	}
+	<?php
+}
 }
 
 include('footer.php');

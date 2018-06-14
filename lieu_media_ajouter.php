@@ -86,7 +86,7 @@ if(!is_numeric($idlieu)) {
 									</div>
 									<div class="modal-body">
 										<div class="file-loading">
-											<input id="input-b9" name="media_up" type="file"'>
+											<input id="input-b9" name="media_up" type="file">
 										</div>
 										<div id="kartik-file-errors"></div>
 									</div>

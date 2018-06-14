@@ -36,11 +36,14 @@ if (isset($_POST['supprimer'])) {
                 <li class="nav-item">
                     <a class="nav-link active" href="mod_cle.php">Mots clés</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="mod_contact.php">Messages</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
             <h5 class="card-title text-left">Mots-clés</h5>
-            <p class="card-text"><div>
+            <div class="card-text">
              <div>
                 <h5>Ajout d'un mot-clé</h5>
                 <form class="form-group" method="post" action="mod_cle.php">
@@ -64,7 +67,7 @@ if (isset($_POST['supprimer'])) {
                 }
                 ?>
             </div>
-        </div></p>
+        </div>
     </div>
 </div>
 </section>

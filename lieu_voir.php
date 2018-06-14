@@ -191,17 +191,12 @@ if(!is_numeric($idlieu)) {
                     	?>
                     	<li>
                     		<div class="commenterImage">
-                    			<img src="<?=$lieu_com['image']?>" />
+                    			<img src="<?=$lieu_com['image']?>" alt="photo-profil"/>
                     		</div>
                     		<div class="commentText" >
                     			<p><span><?= $lieu_com['pseudo'] ?></span></p>
                     			<p class="text-muted">
-                    				<style type="text/css">
-                    				#text-muted img{
-                    					position: relative;
-                    					top:2px;
-                    				}
-                    			</style>
+                    				
                     			<?php
                     			$emoji_replace = array(':)', ':-)', '(angry)', ':3', ":'(", ':|', ':(', ':-(', ';)', ';-)', ' euh');
                     			$emoji_new = array('<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_angry.png" />','<img src="images/emojis/emo_cat.png" />','<img src="images/emojis/emo_cry.png" />','<img src="images/emojis/emo_noreaction.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/euh.gif" />');
@@ -220,7 +215,7 @@ if(!is_numeric($idlieu)) {
                     </li>
                     <?php } ?>
                 </ul>
-                <form class="form-inline" role="form" method="POST" action="lieu_voir.php?lieu=<?=$idlieu?>#commentary">
+                <form class="form-inline" method="POST" action="lieu_voir.php?lieu=<?=$idlieu?>#commentary">
                 	<div class="form-group">
                 		<input autocomplete="off" class="form-control" type="text" placeholder="Votre commentaire" name="commentaire" />
                 	</div>

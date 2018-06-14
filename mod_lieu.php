@@ -29,11 +29,14 @@ if(isset($_POST['traiter'])){
 					<li class="nav-item">
 						<a class="nav-link" href="mod_cle.php">Mots clés</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="mod_contact.php">Messages</a>
+					</li>
 				</ul>
 			</div>
 			<div class="card-body">
 				<h5 class="card-title text-left">Lieux ayant été signalé</h5>
-				<p class="card-text"><div>
+				<div class="card-text">
 					<div>
 						<?php
 						$req = $bdd->query('SELECT DISTINCT nom, lieu.id as idL, count(signlieu.id) FROM lieu
@@ -60,7 +63,7 @@ if(isset($_POST['traiter'])){
 						}
 						?>
 					</div>
-				</div></p>
+				</div>
 			</div>
 		</div>
 	</section>
