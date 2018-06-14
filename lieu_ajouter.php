@@ -70,7 +70,7 @@ if ($hassend && !$haserror) {
 	?>
 
 	<div class="card p-4" >
-		<form id="sampleForm" class="text-center" id="lieu_form" action="lieu_ajouter.php" method="post">
+		<form class="text-center" id="lieu_form" action="lieu_ajouter.php" method="post">
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="form-group">
@@ -83,10 +83,10 @@ if ($hassend && !$haserror) {
 				<div class="row">
 					<div class="col-sm-6">
 						<label for="latitude">Latitude</label>
-						<input type="number" name="latitude" id="latitude" step="00.0000001" value="0.0" min="0.0" max="90.0" class="form-control"/>
+						<input type="number" name="latitude" id="latitude" step="0.0000001" value="0.0" min="0.0" max="90.0" class="form-control"/>
 					</div>
 					<div class="col-sm-6">
-						<label for="longitude">Longitude</label><input type="number" name="longitude" id="longitude" step="000.0000001" value="0.0" min="-180.0" max="180.0" class="form-control"/>
+						<label for="longitude">Longitude</label><input type="number" name="longitude" id="longitude" step="0.0000001" value="0.0" min="-180.0" max="180.0" class="form-control"/>
 					</div>
 				</div>
 			</div>
@@ -108,7 +108,7 @@ if ($hassend && !$haserror) {
 							</div>
 						<div>
 							<label for="description">Description</label>
-							<textarea id="description" class="form-control" name="description" form="lieu_form"></textarea>
+							<textarea id="description" class="form-control" name="description"></textarea>
 						</div>
 					</div><!--/*.form-group-->
 				</div><!--/*.col-md-12-->
@@ -131,8 +131,8 @@ if ($hassend && !$haserror) {
 function success(position) {
 	var lat = position.coords.latitude;
 	var lng = position.coords.longitude;
-	$('#latitude').val(lat);
-	$('#longitude').val(lng);
+	$('#latitude').val(parseFloat(lat));
+	$('#longitude').val(parseFloat(lng));
 };
 
 function error(err) {
