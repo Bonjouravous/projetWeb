@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 13 juin 2018 à 22:59
--- Version du serveur :  5.7.19
--- Version de PHP :  7.0.23
+-- Hôte : 127.0.0.1
+-- Généré le :  jeu. 14 juin 2018 à 16:30
+-- Version du serveur :  5.7.17
+-- Version de PHP :  5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -28,14 +28,12 @@ SET time_zone = "+00:00";
 -- Structure de la table `contact`
 --
 
-DROP TABLE IF EXISTS `contact`;
-CREATE TABLE IF NOT EXISTS `contact` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
   `email` varchar(100) COLLATE utf8_bin NOT NULL,
   `objet` varchar(255) COLLATE utf8_bin NOT NULL,
-  `message` text COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `message` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -43,15 +41,21 @@ CREATE TABLE IF NOT EXISTS `contact` (
 -- Structure de la table `lieu`
 --
 
-DROP TABLE IF EXISTS `lieu`;
-CREATE TABLE IF NOT EXISTS `lieu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lieu` (
+  `id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8_bin NOT NULL,
   `latitude` float NOT NULL,
   `longitude` float NOT NULL,
-  `creation` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `creation` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `lieu`
+--
+
+INSERT INTO `lieu` (`id`, `nom`, `latitude`, `longitude`, `creation`) VALUES
+(8, 'hello', 1, 11, '2018-06-14'),
+(9, 'uuu', 0, 0, '2018-06-14');
 
 -- --------------------------------------------------------
 
@@ -59,18 +63,21 @@ CREATE TABLE IF NOT EXISTS `lieu` (
 -- Structure de la table `lieucommentaire`
 --
 
-DROP TABLE IF EXISTS `lieucommentaire`;
-CREATE TABLE IF NOT EXISTS `lieucommentaire` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lieucommentaire` (
+  `id` int(11) NOT NULL,
   `idlieu` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
   `message` text COLLATE utf8_bin NOT NULL,
   `creation` datetime NOT NULL,
-  `supprime` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Relation_lieucommentaire_lieu` (`idlieu`),
-  KEY `Relation_lieucommentaire_utilisateur` (`idutilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `supprime` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `lieucommentaire`
+--
+
+INSERT INTO `lieucommentaire` (`id`, `idlieu`, `idutilisateur`, `message`, `creation`, `supprime`) VALUES
+(7, 8, 5, 'azz', '2018-06-14 10:23:15', 0);
 
 -- --------------------------------------------------------
 
@@ -78,17 +85,22 @@ CREATE TABLE IF NOT EXISTS `lieucommentaire` (
 -- Structure de la table `lieudescription`
 --
 
-DROP TABLE IF EXISTS `lieudescription`;
-CREATE TABLE IF NOT EXISTS `lieudescription` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lieudescription` (
+  `id` int(11) NOT NULL,
   `idlieu` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
   `description` text COLLATE utf8_bin NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Relation_lieudescription_lieu` (`idlieu`) USING BTREE,
-  KEY `Relation_lieudescription_utilisateur` (`idutilisateur`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `lieudescription`
+--
+
+INSERT INTO `lieudescription` (`id`, `idlieu`, `idutilisateur`, `description`, `date`) VALUES
+(9, 8, 5, 'yes', '2018-06-14 10:22:53'),
+(10, 9, 5, '** MON LIEU **\r\n\r\n*** histoire ***\r\n\r\n*** uuuu ***', '2018-06-14 10:55:03'),
+(11, 9, 5, '** MON LIEU **\r\n\r\n*** histoire ***\r\naeazeaea\r\n*** uuuu ***', '2018-06-14 10:55:19');
 
 -- --------------------------------------------------------
 
@@ -96,18 +108,14 @@ CREATE TABLE IF NOT EXISTS `lieudescription` (
 -- Structure de la table `lieumedia`
 --
 
-DROP TABLE IF EXISTS `lieumedia`;
-CREATE TABLE IF NOT EXISTS `lieumedia` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lieumedia` (
+  `id` int(11) NOT NULL,
   `idlieu` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
   `media` varchar(255) COLLATE utf8_bin NOT NULL,
   `date` date NOT NULL,
-  `supprimer` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Relation_lieumedia_lieu` (`idlieu`),
-  KEY `Relation_lieumedia_utilisateur` (`idutilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `supprimer` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -115,14 +123,10 @@ CREATE TABLE IF NOT EXISTS `lieumedia` (
 -- Structure de la table `lieumotcle`
 --
 
-DROP TABLE IF EXISTS `lieumotcle`;
-CREATE TABLE IF NOT EXISTS `lieumotcle` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lieumotcle` (
+  `id` int(11) NOT NULL,
   `idlieu` int(11) NOT NULL,
-  `idmot` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Relation_lieumotcle_lieu` (`idlieu`),
-  KEY `Relation_lieumotcle_motcle` (`idmot`)
+  `idmot` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -131,16 +135,19 @@ CREATE TABLE IF NOT EXISTS `lieumotcle` (
 -- Structure de la table `likecommentaire`
 --
 
-DROP TABLE IF EXISTS `likecommentaire`;
-CREATE TABLE IF NOT EXISTS `likecommentaire` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `likecommentaire` (
+  `id` int(11) NOT NULL,
   `idcommentaire` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
-  `avis` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Relation_likecommentaire_commentaire` (`idcommentaire`),
-  KEY `Relation_likecommentaire_utilisateur` (`idutilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `avis` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `likecommentaire`
+--
+
+INSERT INTO `likecommentaire` (`id`, `idcommentaire`, `idutilisateur`, `avis`) VALUES
+(16, 7, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -148,16 +155,19 @@ CREATE TABLE IF NOT EXISTS `likecommentaire` (
 -- Structure de la table `likelieu`
 --
 
-DROP TABLE IF EXISTS `likelieu`;
-CREATE TABLE IF NOT EXISTS `likelieu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `likelieu` (
+  `id` int(11) NOT NULL,
   `idlieu` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
-  `avis` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Relation_likelieu_lieu` (`idlieu`),
-  KEY `Relation_likelieu_utilisateur` (`idutilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `avis` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `likelieu`
+--
+
+INSERT INTO `likelieu` (`id`, `idlieu`, `idutilisateur`, `avis`) VALUES
+(12, 8, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -165,12 +175,17 @@ CREATE TABLE IF NOT EXISTS `likelieu` (
 -- Structure de la table `motcle`
 --
 
-DROP TABLE IF EXISTS `motcle`;
-CREATE TABLE IF NOT EXISTS `motcle` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mot` varchar(255) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `motcle` (
+  `id` int(11) NOT NULL,
+  `mot` varchar(255) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `motcle`
+--
+
+INSERT INTO `motcle` (`id`, `mot`) VALUES
+(6, 'a');
 
 -- --------------------------------------------------------
 
@@ -178,12 +193,10 @@ CREATE TABLE IF NOT EXISTS `motcle` (
 -- Structure de la table `resetmdp`
 --
 
-DROP TABLE IF EXISTS `resetmdp`;
-CREATE TABLE IF NOT EXISTS `resetmdp` (
+CREATE TABLE `resetmdp` (
   `id` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
-  `codegenere` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
-  KEY `Relation_resetmdp_utilisateur` (`idutilisateur`)
+  `codegenere` varchar(16) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -192,17 +205,20 @@ CREATE TABLE IF NOT EXISTS `resetmdp` (
 -- Structure de la table `signcommentaire`
 --
 
-DROP TABLE IF EXISTS `signcommentaire`;
-CREATE TABLE IF NOT EXISTS `signcommentaire` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `signcommentaire` (
+  `id` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
   `idcommentaire` int(11) NOT NULL,
   `date` date NOT NULL,
-  `traite` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Relation_signcommentaire_utilisateur` (`idutilisateur`),
-  KEY `Relation_signcommentaire_commentaire` (`idcommentaire`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `traite` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `signcommentaire`
+--
+
+INSERT INTO `signcommentaire` (`id`, `idutilisateur`, `idcommentaire`, `date`, `traite`) VALUES
+(3, 5, 7, '2018-06-14', 0);
 
 -- --------------------------------------------------------
 
@@ -210,17 +226,21 @@ CREATE TABLE IF NOT EXISTS `signcommentaire` (
 -- Structure de la table `signlieu`
 --
 
-DROP TABLE IF EXISTS `signlieu`;
-CREATE TABLE IF NOT EXISTS `signlieu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `signlieu` (
+  `id` int(11) NOT NULL,
   `idutilisateur` int(11) NOT NULL,
   `idlieu` int(11) NOT NULL,
   `date` date NOT NULL,
-  `traite` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Relation_signlieu_lieu` (`idlieu`) USING BTREE,
-  KEY `Relation_signlieu_utilisateur` (`idutilisateur`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `traite` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `signlieu`
+--
+
+INSERT INTO `signlieu` (`id`, `idutilisateur`, `idlieu`, `date`, `traite`) VALUES
+(3, 5, 8, '2018-06-14', 0),
+(4, 5, 9, '2018-06-14', 0);
 
 -- --------------------------------------------------------
 
@@ -228,9 +248,8 @@ CREATE TABLE IF NOT EXISTS `signlieu` (
 -- Structure de la table `utilisateur`
 --
 
-DROP TABLE IF EXISTS `utilisateur`;
-CREATE TABLE IF NOT EXISTS `utilisateur` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `utilisateur` (
+  `id` int(11) NOT NULL,
   `pseudo` varchar(100) COLLATE utf8_bin NOT NULL,
   `mdp` varchar(255) COLLATE utf8_bin NOT NULL,
   `image` varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -239,9 +258,185 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `inscription` date NOT NULL,
   `moderateur` tinyint(4) NOT NULL DEFAULT '0',
   `banni` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `codevalidation` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`id`, `pseudo`, `mdp`, `image`, `description`, `mail`, `inscription`, `moderateur`, `banni`, `codevalidation`) VALUES
+(4, 'a', '$2y$10$x8j0RtfNGTEokWjkppYXFOWI96/F95lbFLGyjRCUfyy..ceqbx/fe', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Grosser_Panda.JPG/220px-Grosser_Panda.JPG', 'zef', 'a@a.a', '2018-06-14', 1, 0, 0),
+(5, 'aa', '$2y$10$oiRFLX8xgMVos83gNma39OmoGeewNtWyo2/N0r9V.RRDoveVD9wxm', '\"https://dummyimage.com/50x50/d3d3d3/fff\"', '', 'aa@a.a', '2018-06-14', 0, 0, 0);
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `lieu`
+--
+ALTER TABLE `lieu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `lieucommentaire`
+--
+ALTER TABLE `lieucommentaire`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_lieucommentaire_lieu` (`idlieu`),
+  ADD KEY `Relation_lieucommentaire_utilisateur` (`idutilisateur`);
+
+--
+-- Index pour la table `lieudescription`
+--
+ALTER TABLE `lieudescription`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_lieudescription_lieu` (`idlieu`) USING BTREE,
+  ADD KEY `Relation_lieudescription_utilisateur` (`idutilisateur`) USING BTREE;
+
+--
+-- Index pour la table `lieumedia`
+--
+ALTER TABLE `lieumedia`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_lieumedia_lieu` (`idlieu`),
+  ADD KEY `Relation_lieumedia_utilisateur` (`idutilisateur`);
+
+--
+-- Index pour la table `lieumotcle`
+--
+ALTER TABLE `lieumotcle`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_lieumotcle_lieu` (`idlieu`),
+  ADD KEY `Relation_lieumotcle_motcle` (`idmot`);
+
+--
+-- Index pour la table `likecommentaire`
+--
+ALTER TABLE `likecommentaire`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_likecommentaire_commentaire` (`idcommentaire`),
+  ADD KEY `Relation_likecommentaire_utilisateur` (`idutilisateur`);
+
+--
+-- Index pour la table `likelieu`
+--
+ALTER TABLE `likelieu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_likelieu_lieu` (`idlieu`),
+  ADD KEY `Relation_likelieu_utilisateur` (`idutilisateur`);
+
+--
+-- Index pour la table `motcle`
+--
+ALTER TABLE `motcle`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `resetmdp`
+--
+ALTER TABLE `resetmdp`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_resetmdp_utilisateur` (`idutilisateur`);
+
+--
+-- Index pour la table `signcommentaire`
+--
+ALTER TABLE `signcommentaire`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_signcommentaire_utilisateur` (`idutilisateur`),
+  ADD KEY `Relation_signcommentaire_commentaire` (`idcommentaire`);
+
+--
+-- Index pour la table `signlieu`
+--
+ALTER TABLE `signlieu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Relation_signlieu_lieu` (`idlieu`) USING BTREE,
+  ADD KEY `Relation_signlieu_utilisateur` (`idutilisateur`) USING BTREE;
+
+--
+-- Index pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `lieu`
+--
+ALTER TABLE `lieu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT pour la table `lieucommentaire`
+--
+ALTER TABLE `lieucommentaire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT pour la table `lieudescription`
+--
+ALTER TABLE `lieudescription`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT pour la table `lieumedia`
+--
+ALTER TABLE `lieumedia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `lieumotcle`
+--
+ALTER TABLE `lieumotcle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `likecommentaire`
+--
+ALTER TABLE `likecommentaire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT pour la table `likelieu`
+--
+ALTER TABLE `likelieu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT pour la table `motcle`
+--
+ALTER TABLE `motcle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT pour la table `resetmdp`
+--
+ALTER TABLE `resetmdp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `signcommentaire`
+--
+ALTER TABLE `signcommentaire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT pour la table `signlieu`
+--
+ALTER TABLE `signlieu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT pour la table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Contraintes pour les tables déchargées
 --

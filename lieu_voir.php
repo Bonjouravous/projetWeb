@@ -196,12 +196,16 @@ if(!is_numeric($idlieu)) {
                     		<div class="commentText" >
                     			<p><span><?= $lieu_com['pseudo'] ?></span></p>
                     			<p class="text-muted">
+<<<<<<< HEAD
                     				
                     			<?php
                     			$emoji_replace = array(':)', ':-)', '(angry)', ':3', ":'(", ':|', ':(', ':-(', ';)', ';-)', ' euh');
                     			$emoji_new = array('<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_angry.png" />','<img src="images/emojis/emo_cat.png" />','<img src="images/emojis/emo_cry.png" />','<img src="images/emojis/emo_noreaction.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/euh.gif" />');
                     			$lieu_com['message']=str_replace($emoji_replace, $emoji_new, $lieu_com['message']);
                     			?>
+=======
+            
+>>>>>>> bc012871f14cab8e00d13f27c82dfad546c82282
                     			<?=$lieu_com['message']?>
                     		</p>
                     		<span class="date sub-text" style="font-size: 9px" >
