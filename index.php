@@ -34,11 +34,11 @@
   $reputations = $rep->fetchAll(PDO::FETCH_ASSOC);
 
   foreach($reputations as $reputation){ ?>
-    <div class="col-md-3 col-sm-6 m-4">
-  <div class="card" style="width: 18rem;">
+    <div class="col-md-3 col-sm-6 mb-2">
+  <div class="card">
     <div class="card-body">
       <h5 class="card-title"><?= $reputation['nom']?></h5>
-      <h6 class="card-subtitle mb-2 text-muted"><?= $reputation['latitude']?></h6>
+      <h6 class="card-subtitle mb-2 text-muted">Coord: <?= $reputation['latitude']?> , <?= $reputation['longitude']?></h6>
       <p class="card-text"></p>
       <a href="lieu_voir.php?lieu=<?= $reputation['id']?>" class="card-link">Voir</a>
     </div>
