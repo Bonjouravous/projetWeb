@@ -7,7 +7,7 @@
 	$haserror = false;
 ?>
 
-<form id="sampleForm" name="sampleForm" method="post" action="lieu_ajouter_motcles.php" class="form-group">
+<form id="sampleForm" name="sampleForm" method="post" action="lieu_ajouter_motcle.php" class="form-group">
 	<select class="chosen_select" name="tags[]" multiple>
 	<?php
 		$lieu_motcles_stmt = $bdd->prepare('SELECT mot FROM motcle WHERE ');

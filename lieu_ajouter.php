@@ -9,6 +9,7 @@ $image_exts = array('jpeg', 'jpg', 'png', 'bmp');
 <?php
 $hassend = false;
 $haserror = false;
+$hasmedia = false;
 
 if (isset($_POST['add'])) {
 	$haserror = empty($_POST['title']);
@@ -21,6 +22,7 @@ if (isset($_POST['add'])) {
 					if (!in_array($ext, $image_exts)) {
 						$haserror = true;
 					}
+					$hasmedia = true;
 				} else {
 					$haserror = true;
 				}
@@ -38,7 +40,7 @@ if (isset($_POST['add'])) {
 				.' VALUES (NOW(), ?, ?, ?)'
 				.';'
 			);
-			if (isset($ext)) {
+			if ($hasmedia) {
 				$lieu_media_stmt = $bdd->prepare(
 					'INSERT INTO lieumedia(idlieu, idutilisateur, media, date, supprimer) VALUES (?, ?, ?, NOW(), 0)'
 					.';'
@@ -53,7 +55,7 @@ if (isset($_POST['add'])) {
 				$lieu_stmt->execute(array($_POST['title'], $_POST['latitude'], $_POST['longitude']));
 				$last_idlieu = $bdd->lastInsertId();
 				$lieu_desc_stmt->execute(array($_POST['description'], $last_idlieu, $_SESSION['id']));
-				if (isset($ext)) {
+				if ($hasmedia) {
 					$lieu_media_stmt->execute(array($last_idlieu, $_SESSION['id'], $media_basename));
 				}
 				$bdd->commit();
@@ -75,7 +77,7 @@ if ($hassend && !$haserror) {
 	?>
 
 	<div class="card p-4" >
-		<form class="text-center" id="lieu_form" action="lieu_ajouter.php" method="post">
+		<form class="text-center" id="lieu_form" action="lieu_ajouter.php" method="post" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="form-group">
