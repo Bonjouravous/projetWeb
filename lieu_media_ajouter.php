@@ -47,12 +47,12 @@ if(!is_numeric($idlieu)) {
 					array($idlieu, $_SESSION['id'], $media_basename)
 				);
 				$bdd->commit();
+				$hassend = true;
 			} catch (PDOException $e) {
 				$bdd->rollback();
 				echo '<p>'.$e->getMessage().'</p>';
 			}
 		}
-		$hassend = true;
 	}
 
 	if ($hassend && !$haserror) {
@@ -72,7 +72,7 @@ if(!is_numeric($idlieu)) {
 			</div>
 			<div class="col-md-12">
 				<button type="submit" class='btn btn-success' name="add">Ajouter</button>
-				<a role="button" href="http://localhost/lieu_voir.php?lieu=<?php echo $_GET['lieu']; ?>" class='btn btn-danger'>Annuler</a>
+				<a role="button" onClick="history.go(-1);" class='btn btn-danger' style="color: white;">Annuler</a>
 			</div><!--/*.col-md-12-->
 		</div><!--/*.row-->
 	</form>

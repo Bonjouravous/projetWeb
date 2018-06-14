@@ -33,12 +33,12 @@ if(!is_numeric($idlieu)) {
 					array($_POST['description'], $idlieu, $_SESSION['id'])
 				);
 				$bdd->commit();
+				$hassend = true;
 			} catch (PDOException $e) {
 				$bdd->rollback();
 				echo '<p>'.$e->getMessage().'</p>';
 			}
 		}
-		$hassend = true;
 	}
 
 	if ($hassend && !$haserror) {

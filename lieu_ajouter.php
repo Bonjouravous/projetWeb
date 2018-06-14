@@ -9,29 +9,61 @@ $haserror = false;
 if (isset($_POST['add'])) {
 	$haserror = empty($_POST['title']);
 	if (!$haserror) {
-		$lieu_stmt = $bdd->prepare(
-			'INSERT INTO `lieu` (`id`, `nom`, `latitude`, `longitude`, `creation`) VALUES (NULL, ?, ?, ?, CURRENT_DATE())'
-		);
-		$lieu_desc_stmt = $bdd->prepare(
-			'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
-			.' VALUES (NOW(), ?, ?, ?)'
-			.';'
-		);
-		try {
-			$bdd->beginTransaction();
-			$lieu_stmt->execute(array($_POST['title'], $_POST['latitude'], $_POST['longitude']));
-			$last_idlieu = $bdd->lastInsertId();
-			$lieu_desc_stmt->execute(
-				array($_POST['description'], $last_idlieu, $_SESSION['id'])
+		if (isset($_FILES['media_up'])) {
+			if ($_FILES['media_up']['error'] == 0) {
+				if ($_FILES['media_up']['size'] <= 8000000) {
+					$info = pathinfo($_FILES['media_up']['name']);
+					$ext = $info['extension'];
+					if (!in_array($ext, $image_exts)) {
+						$haserror = true;
+					}
+				} else {
+					$haserror = true;
+				}
+			} else {
+				$haserror = true;
+			}
+		} else {
+		}
+
+		if (!$haserror) {
+			$lieu_stmt = $bdd->prepare(
+				'INSERT INTO `lieu` (`id`, `nom`, `latitude`, `longitude`, `creation`) VALUES (NULL, ?, ?, ?, CURRENT_DATE())'
 			);
-			$bdd->commit();
-			$hassend = true;
-		} catch (PDOException $e) {
-			$bdd->rollback();
-			echo '<p>'.$e->getMessage().'</p>';
+			$lieu_desc_stmt = $bdd->prepare(
+				'INSERT INTO lieudescription(date, description, idlieu, idutilisateur)'
+				.' VALUES (NOW(), ?, ?, ?)'
+				.';'
+			);
+			if (isset($ext)) {
+				$lieu_media_stmt = $bdd->prepare(
+					'INSERT INTO lieumedia(idlieu, idutilisateur, media, date, supprimer) VALUES (?, ?, ?, NOW(), 0)'
+					.';'
+				);
+				$media_basename = time().'.'.$ext;
+				$media_complete_path = $media_dir.DIRECTORY_SEPARATOR.$media_basename;
+				move_uploaded_file($_FILES['media_up']['tmp_name'], $media_complete_path);
+			}
+			try {
+				$bdd->beginTransaction();
+				$lieu_stmt->execute(array($_POST['title'], $_POST['latitude'], $_POST['longitude']));
+				$last_idlieu = $bdd->lastInsertId();
+				$lieu_desc_stmt->execute(
+					array($_POST['description'], $last_idlieu, $_SESSION['id'])
+				);
+				if (isset($ext)) {
+					$lieu_media_stmt->execute(
+						array($last_idlieu, $_SESSION['id'], $media_basename)
+					);
+				}
+				$bdd->commit();
+				$hassend = true;
+			} catch (PDOException $e) {
+				$bdd->rollback();
+				echo '<p>'.$e->getMessage().'</p>';
+			}
 		}
 	}
-	$hassend = true;
 }
 
 if ($hassend && !$haserror) {
@@ -56,10 +88,10 @@ if ($hassend && !$haserror) {
 				<div class="row">
 					<div class="col-sm-6">
 						<label for="latitude">Latitude</label>
-						<input type="number" name="latitude" id="latitude" step="0.0000001" value="0" min="0." max="90" class="form-control"/>
+						<input type="number" name="latitude" id="latitude" step="00.0000001" value="0.0" min="0.0" max="90.0" class="form-control"/>
 					</div>
 					<div class="col-sm-6">
-						<label for="longitude">Longitude</label><input type="number" name="longitude" id="longitude" step="0.0000001" value="0" min="-180" max="180" class="form-control"/>
+						<label for="longitude">Longitude</label><input type="number" name="longitude" id="longitude" step="000.0000001" value="0.0" min="-180.0" max="180.0" class="form-control"/>
 					</div>
 				</div>
 			</div>
@@ -84,6 +116,9 @@ if ($hassend && !$haserror) {
 						</div>
 					</div><!--/*.form-group-->
 				</div><!--/*.col-md-12-->
+			</div>
+			<div>
+				<input type="file" name="media_up"/>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
