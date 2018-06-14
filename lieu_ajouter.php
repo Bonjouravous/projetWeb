@@ -19,13 +19,15 @@ if (isset($_POST['add'])) {
 				if ($_FILES['media_up']['size'] <= 8000000) {
 					$info = pathinfo($_FILES['media_up']['name']);
 					$ext = $info['extension'];
-					if (!in_array($ext, $image_exts)) {
+					if (in_array($ext, $image_exts)) {
+						$hasmedia = true;
+					} else {
 						$haserror = true;
 					}
-					$hasmedia = true;
 				} else {
 					$haserror = true;
 				}
+			} else if ($_FILES['media_up']['error'] == 4) {
 			} else {
 				$haserror = true;
 			}

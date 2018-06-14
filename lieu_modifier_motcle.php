@@ -12,7 +12,7 @@ if(!is_numeric($idlieu)) {
 	$haserror = false;
 
 	if (isset($_POST['tags[]'])) {
-		foreach ($_POST['tags[]'] as $id) {
+		foreach ($_POST['tags[]'] as $tag) {
 			
 		}
 		$hassend = true;
@@ -27,17 +27,17 @@ if(!is_numeric($idlieu)) {
 ?>
 
 </div><!--/*.col-md-12-->
-	<form id="sampleForm" name="sampleForm" method="post" action="lieu_ajouter_motcle.php?lieu=<?=$idlieu?>" class="form-group">
+	<form id="sampleForm" name="sampleForm" method="post" action="lieu_modifier_motcle.php?lieu=<?=$idlieu?>" class="form-group">
 		<select class="chosen_select" name="tags[]" multiple>
 		<?php
 			$lieu_motcles_choice_stmt = $bdd->prepare(
-				'SELECT motcle.mot, motcle.id AS idmot, lieumotcle.id AS isselected FROM motcle
-				LEFT JOIN lieumotcle ON lieumotcle.idmot = motcle.id AND lieumotcle.idlieu = ?
-				ORDER BY motcle.mot ASC;'
+				'SELECT motcle.mot, motcle.id AS idmot, lieumotcle.id AS isselected'
+				.' FROM motcle LEFT JOIN lieumotcle ON lieumotcle.idmot = motcle.id AND lieumotcle.idlieu = ?'
+				.' ORDER BY motcle.mot ASC;'
 			);
 			try {
 				$bdd->beginTransaction();
-				$lieu_motcles_choice_stmt->execute($idlieu);
+				$lieu_motcles_choice_stmt->execute(array($idlieu));
 				$bdd->commit();
 			} catch (PDOException $e) {
 				$bdd->rollback();
@@ -45,15 +45,15 @@ if(!is_numeric($idlieu)) {
 			}
 			$lieu_motcles_choice_fetch = $lieu_motcles_choice_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			foreach($lieu_motcles_choice_fetch as $motcle) {
+			foreach($lieu_motcles_choice_fetch as $row) {
 			?>
-				<option <?php if (!is_null($motcle['isselected'])) { echo 'selected'; } ?> value="<?php echo $motcle['idmot']; ?>"><?php echo $motcle['mot']; ?></option>
+				<option <?php if (!is_null($row['isselected'])) { echo 'selected'; } ?> value="<?php echo $row['idmot']; ?>"><?php echo $row['mot']; ?></option>
 			<?php
 			}
 		?>
 		</select>
 		<div class="col-md-12">
-			<button type="submit" class='btn btn-success' name="add">Ajouter</button>
+			<button type="submit" class='btn btn-success' name="add">Enregistrer</button>
 			<a role="button" onClick="history.go(-1);" class='btn btn-danger' style="color: white;">Annuler</a>
 		</div><!--/*.col-md-12-->
 	</form>
