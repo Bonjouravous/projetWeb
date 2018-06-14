@@ -56,7 +56,7 @@ function initMap() {
 		});
 		marker.addListener('click', function() {
 			(new google.maps.InfoWindow({
-				content: "Titre : " + feature.title + "<br>" + "<a href='lieu_voir.php?lieu=" + feature.id + "'>Voir</a>"
+				content: "" + feature.title + "<br>" + "<a href='lieu_voir.php?lieu=" + feature.id + "'>Voir</a>"
 			})).open(map, marker);
 		});
 	});
