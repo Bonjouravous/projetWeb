@@ -11,7 +11,6 @@ if(!is_numeric($idlieu)) {
 } else {
 
 
-	$hassend = false;
 	$haserror = false;
 
 	if (isset($_POST['add'])) {
@@ -48,15 +47,16 @@ if(!is_numeric($idlieu)) {
 					array($idlieu, $_SESSION['id'], $media_basename)
 				);
 				$bdd->commit();
-				$hassend = true;
 			} catch (PDOException $e) {
 				$bdd->rollback();
 				echo '<p>'.$e->getMessage().'</p>';
 			}
 		}
+	} else {
+		$haserror ='Erreur de formulaire';
 	}
 
-	if ($hassend && $haserror != false) {
+	if ($haserror == false) {
 		?>
 		<p>Votre image a bien été importé.</p>
 		<img src="<?php echo $media_complete_path ?>" width="300" height="200"/>
