@@ -119,45 +119,46 @@ include('headermin.php');
 				</form>
 				<div class="text-center" style="color:#999;"><a href="user_signup.php" style="color:#999;">Réessayer</a></div>';
 			}
-			if($rep2){
+			else if($rep2){
 				echo '		<form>
 				Cet e-mail est déjà utilisé !
 				</form>
 				<div class="text-center" style="color:#999;"><a href="user_signup.php" style="color:#999;">Réessayer</a></div>';
 			}
-			else{
-				
-				
-				
-				$pass_hache = password_hash($_POST['pass'], PASSWORD_DEFAULT);
-	// Insertion
-				$req = $bdd->prepare('INSERT INTO `utilisateur` (`id`, `pseudo`, `mdp`, `image`, `description`, `mail`, `inscription`, `moderateur`, `banni`) VALUES (NULL, :pseudo, :mdp, \'"https://dummyimage.com/50x50/d3d3d3/fff"\', \'\', :mail, CURDATE(), 0, 0)');
-				$req->execute(array(
-					'pseudo' => $_POST['pseudo'],
-					'mdp' => $pass_hache,
-					'mail' =>$_POST['email']));
-				
+			else {
 				
 				$generatedcode ="";
 			
 				for($i=0;$i<8;$i++)
 				{
-					$codevalidation .= mt_rand(0,9);
+					$generatedcode .= mt_rand(0,9);
 				}
-
-				$requete = $bdd-> prepare('INSERT INTO utilisateur VALUES(NULL,?,?)');
-				$requete ->execute(array($idutilisateur, $generatedcode));
-				echo "Mail : ".$mail." et code : ".$codevalidation;
 				
+				$pass_hache = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+	// Insertion
+				$req = $bdd->prepare('INSERT INTO `utilisateur` (`id`, `pseudo`, `mdp`, `image`, `description`, `mail`, `inscription`, `moderateur`, `banni`, codevalidation) VALUES (NULL, :pseudo, :mdp, \'"https://dummyimage.com/50x50/d3d3d3/fff"\', \'\', :mail, CURDATE(), 0, 0, :code)');
+				$req->execute(array(
+					'pseudo' => $_POST['pseudo'],
+					'mdp' => $pass_hache,
+					'mail' =>$_POST['email'],
+					'code' => $generatedcode
+					));
+				
+	
 				?>
+				<form>
+				Le code suivant confirmera votre adresse : <?php echo $generatedcode; ?>
+				
 				</br>
-				<p>Afin de confirmer votre inscription, veuillez taper le code reçu <a href = "validation_traitement.php"> ici </a></p>.
+				<p>Confirmer votre inscription <a href = "validation_traitement.php"> ici </a></p>.
+				
+				</form>
 				<?php
 			}
 		} 
 		else {
 			?>
-			<form action="user_signup.php" method="post">
+			<form action="validation_test.php" method="post">
 				<h2>S'inscrire</h2>
 				<p class="hint-text">Créer un compte pour partager de nouveaux lieux !</p>
 				<div class="form-group">
