@@ -11,9 +11,16 @@ if(!is_numeric($idlieu)) {
 	$hassend = false;
 	$haserror = false;
 
-	if (isset($_POST['tags[]'])) {
-		foreach ($_POST['tags[]'] as $tag) {
-			
+	if (isset($_POST['tags'])) {
+		foreach ($_POST['tags'] as $tag) {
+			${'tag'.$tag.'stmt'} = 'INSERT INTO lieumotcle(idlieu, idmot) VALUES (?, ?);';
+		}
+		foreach ($_POST['tags'] as $tag) {
+			try {
+				
+			} catch (PDOException $e) {
+				
+			}
 		}
 		$hassend = true;
 	}
