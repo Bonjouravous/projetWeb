@@ -18,11 +18,11 @@ if (isset($_POST['supprimer'])) {
 
     foreach ($lieu_medias_fetch as $row) {
         $id = $row['id'];
-        ?>
-        <p>Identifiant du lieu : <?php echo $idlieu; ?></p>
-        <?php
         $media = $row ['media'];
         $media_complete_path = $media_dir . '/' . $media;
+        ?>
+        <p>Identifiant : <?php echo $media; ?></p>
+        <?php
         ?>
         <a href="<?php echo $media_complete_path; ?>" target="_blank"><img class="card-img-top"
                                                                            src="<?php echo $media_complete_path; ?>"
