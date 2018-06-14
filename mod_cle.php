@@ -57,7 +57,7 @@ if (isset($_POST['supprimer'])) {
                     ?>
                     <p><?php echo $mot; ?></p>
                     <form method="post" action="mod_cle.php">
-                        <input type="submit" value="Supprimer" name="supprimer"/>
+                        <input class="btn btn-outline-danger" type="submit" value="Supprimer" name="supprimer"/>
                         <input type="hidden" value="<?php echo $mot; ?>" name="mot"/>
                     </form>
                     <?php
