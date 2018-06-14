@@ -13,7 +13,7 @@
 					
 					<select class="chosen_select" name="tags[]" multiple>
 					<?php 
-						$rep = $bdd->query('SELECT * FROM motcle');
+						$rep = $bdd->query('SELECT * FROM motcle ORDER BY mot ASC');
 						$rep->execute();
 						$motscles = $rep->fetchAll(PDO::FETCH_ASSOC);
 						print_r($motscles);
