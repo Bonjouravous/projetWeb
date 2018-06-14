@@ -97,7 +97,6 @@ if(!is_numeric($idlieu)) {
 					if(isset($_POST['submit_commentaire']) ){
 						if(isset($_POST['commentaire']) AND !empty($_POST['commentaire']) ){
 								$commentaire = htmlspecialchars($_POST['commentaire']);
-				
 								$insertion=$bdd->prepare('INSERT INTO `lieucommentaire` (`id`, `idlieu`, `idutilisateur`, `message`, `creation`, `supprime`) VALUES (NULL, ?, ?, ?, NOW(), 0) ');   
 								$insertion->execute(array($idlieu,$_SESSION['id'],$commentaire));
 								$c_msg = '<span style="color:green;"> Votre commentaire a bien été posté .</span>';
@@ -118,7 +117,7 @@ if(!is_numeric($idlieu)) {
 						LEFT JOIN signcommentaire ON signcommentaire.idcommentaire = lieucommentaire.id AND signcommentaire.idutilisateur = ?
 						WHERE lieucommentaire.idlieu = ? AND lieucommentaire.supprime = 0
 						GROUP BY lieucommentaire.id
-						ORDER BY lieucommentaire.creation DESC');
+						ORDER BY lieucommentaire.creation DESC LIMIT 0,100');
 						$lieu_commentaires_query->execute(array($_SESSION['id'], $_SESSION['id'], $idlieu)); 
 					?>
 					
@@ -138,6 +137,17 @@ if(!is_numeric($idlieu)) {
 						<div class="commentText" >
 							<p><span><?=$lieu_com['pseudo']?></span></p>
 							<p class="text-muted">
+								<style type="text/css">
+									#text-muted img{
+										position: relative;
+										top:2px;
+									}
+								</style>
+                                <?php 
+                                	$emoji_replace = array(':)',':-)','(angry)',':3',":'(",':|',':(',':-(',';)',';-)',' euh');
+                                	$emoji_new = array('<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_angry.png" />','<img src="images/emojis/emo_cat.png" />','<img src="images/emojis/emo_cry.png" />','<img src="images/emojis/emo_noreaction.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/euh.gif" />');
+                                	$lieu_com['message']=str_replace($emoji_replace, $emoji_new, $lieu_com['message']);
+                                ?>
 								<?=$lieu_com['message']?>
 							</p>
 							<span class="date sub-text" style="font-size: 9px" >
