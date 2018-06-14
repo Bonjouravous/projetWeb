@@ -33,7 +33,7 @@ $donnees = $req->fetch();
                     			$grade_commentaire_query->execute(array($donnees['id'] ));
                     			$grade_commentaire = $grade_commentaire_query->fetch(); 
             
-                    			if($grade_commentaire['nb']>=1 && $grade_commentaire['nb']<5){
+                    			if($grade_commentaire['nb']>=0 && $grade_commentaire['nb']<5){
                     				$badge_commentaire='Tchatteur timide';
                     			}
                     			elseif ($grade_commentaire['nb']>=5 AND $grade_commentaire['nb']<10) {
@@ -48,7 +48,7 @@ $donnees = $req->fetch();
                     			$grade_likeDonnes_query->execute(array($donnees['id']));
                     			$grade_likeDonnes= $grade_likeDonnes_query->fetch(); 
 
-                    			if($grade_likeDonnes['nb']>=1 && $grade_likeDonnes['nb']<5){
+                    			if($grade_likeDonnes['nb']>=0 && $grade_likeDonnes['nb']<5){
                     				$badge_likeDonnes='aime un peu';
                     			}
                     			elseif ($grade_likeDonnes['nb']>=5 AND $grade_likeDonnes['nb']<10) {
