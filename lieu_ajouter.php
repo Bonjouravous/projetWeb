@@ -23,7 +23,6 @@ if (isset($_POST['add'])) {
 			} else {
 				$haserror = true;
 			}
-		} else {
 		}
 
 		if (!$haserror) {
@@ -48,13 +47,9 @@ if (isset($_POST['add'])) {
 				$bdd->beginTransaction();
 				$lieu_stmt->execute(array($_POST['title'], $_POST['latitude'], $_POST['longitude']));
 				$last_idlieu = $bdd->lastInsertId();
-				$lieu_desc_stmt->execute(
-					array($_POST['description'], $last_idlieu, $_SESSION['id'])
-				);
+				$lieu_desc_stmt->execute(array($_POST['description'], $last_idlieu, $_SESSION['id']));
 				if (isset($ext)) {
-					$lieu_media_stmt->execute(
-						array($last_idlieu, $_SESSION['id'], $media_basename)
-					);
+					$lieu_media_stmt->execute(array($last_idlieu, $_SESSION['id'], $media_basename));
 				}
 				$bdd->commit();
 				$hassend = true;
@@ -98,18 +93,19 @@ if ($hassend && !$haserror) {
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="form-group">
-
 						<div class="card border-secondary mb-3">
 							<div class="card-header">Description</div>
-							<div class="card-body text-secondary">
-								<h5 class="card-title">La description supporte le formatage suivant</h5>
-								<p class="card-text" >						<ul style="list-style-type: none;">
-									<li>** titre principal **</li>
-									<li>*** titre secondaire ***</li>
-									<li>[[<small>http://...</small>|texte à afficher]]</li>
-								</ul></p>
+								<div class="card-body text-secondary">
+									<h5 class="card-title">La description supporte le formatage suivant</h5>
+									<p class="card-text" >
+										<ul style="list-style-type: none;">
+											<li>** titre principal **</li>
+											<li>*** titre secondaire ***</li>
+											<li>[[<small>http://...</small>|texte à afficher]]</li>
+										</ul>
+									</p>
+								</div>
 							</div>
-						</div>
 						<div>
 							<label for="description">Description</label>
 							<textarea id="description" class="form-control" name="description" form="lieu_form"></textarea>
