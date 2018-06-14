@@ -27,34 +27,23 @@
       <!-- /.row -->
 
       <h3 class="my-4">Les plus aimés</h3>
-
-      <div class="row">
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" width="500" height="300" alt="">
-          </a>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" width="500" height="300" alt="">
-          </a>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" width="500" height="300" alt="">
-          </a>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" width="500" height="300" alt="">
-          </a>
-        </div>
-
-      </div>
+		<div class="row">
+      <?php
+			$rep = $bdd->query('select lieu.id, lieu.nom, lieu.latitude, lieu.longitude, IFNULL(sum(likelieu.avis),0) as reputation  from lieu left join likelieu on likelieu.idlieu=lieu.id group by lieu.id ORDER BY reputation DESC limit 0,4');
+			$rep->execute();
+			$reputations = $rep->fetchAll(PDO::FETCH_ASSOC);
+			
+			foreach($reputations as $reputation){ ?>
+				<div class="col-md-3 col-sm-6 mb-4">
+					<a href="lieu_voir.php?lieu=<?= $reputation['id']?>">
+						<h3><?= $reputation['nom']?></h3></br>
+					</a>
+						<h3><?= $reputation['longitude']?></h3></br>
+						<h3><?= $reputation['latitude']?></h3>
+					
+				</div>
+			<?php } ?>
+	  </div>
       <!-- /.row -->
 
   <?php include('footer.php'); ?>
