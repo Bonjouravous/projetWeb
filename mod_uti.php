@@ -60,7 +60,7 @@ if (isset($_POST['bannir'])) {
                                 <td><?php echo $nb; ?></td>
                                 <td>
                                     <form method="post" action="mod_uti.php">
-                                        <input type="submit" value="Bannir" name="bannir"/>
+                                        <input class="form-control btn-danger mb-1 mt-1" type="submit" value="Bannir" name="bannir"/>
                                         <input type="hidden" value="<?php echo $pseudo; ?>" name="pseudo"/>
                                     </form>
                                 </td>

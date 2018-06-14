@@ -134,14 +134,14 @@ if(!is_numeric($idlieu)) {
 						<a href="" id="btn_l_dislike_<?=$idlieu?>" class="btn_l_dislike btn btn-success<?php if($lieu_first_infos_fetch['hasvote'] < 0) echo ' active'; ?>"><span><?=$lieu_first_infos_fetch['cnegatif']?></span> <i class="fa fa-thumbs-down" style="font-size: 13px; padding:0;"></i></a>
 						<a href="lieu_edit.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier</a>
 						<a href="lieu_media_ajouter.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Poster une photo</a>
-						<div class="text-left text-muted">
+						<div class="text-left text-muted mt-4">
 							<?php
 							foreach ($lieu_motcles_fetch as $row) {
 								echo '#'.$row['mot'].' ';
 							}
 							?>
 						</div>
-						<a href="lieu_ajouter_motcle.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier les mots-clés</a>
+						<a href="lieu_ajouter_motcle.php?lieu=<?=$idlieu?>" class="btn btn-outline-primary mt-4">Modifier les mots-clés</a>
 						<div class="text-right text-muted">Dernière modification le <?=$lieu_first_infos_fetch['lastupdate']?>
 						</div>
 						<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?>

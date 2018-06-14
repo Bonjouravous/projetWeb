@@ -60,7 +60,7 @@
                          }
                     ?>
                 </select>
-                <input class="form-control btn-outline-info mb-1 mt-1" type="submit" value="Ajouter" name="ajout"/>
+                <input class="form-control btn-outline-primary mb-1 mt-1" type="submit" value="Ajouter" name="ajout"/>
             </form>
 		<?php } ?>
         </div>

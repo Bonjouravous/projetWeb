@@ -52,7 +52,7 @@ if(isset($_POST['traiter'])){
 							<a target="_blank" href="lieu_voir?lieu=<?=$idLieu?>">Lien vers la page signalé</a><!-- Lien à ajouté -->
 
 							<form method="post" action="mod_lieu.php">
-								<input type="submit" value="Traiter" name="traiter"/>
+								<input type="submit" class="form-control btn-outline-primary mb-1 mt-1" value="Traiter" name="traiter"/>
 								<input type="hidden" value="<?php echo $idLieu; ?>" name="idcom"/>
 							</form>
 

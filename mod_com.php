@@ -58,9 +58,10 @@ if (isset($_POST['supprimer'])) {
 							<p>Commentaire : <?php echo$commentaire?></p>
 
 							<form method="post" action="mod_com.php">
-								<input type="submit" value="Garder" name="garder"/>
-								<input type="submit" value="Supprimer" name="supprimer"/>
+								<input type="submit" class="form-control btn-outline-primary mb-1 mt-1" value="Garder" name="garder"/>
+								<input type="submit" class="form-control btn-outline-danger mb-1 mt-1" value="Supprimer" name="supprimer"/>
 								<input type="hidden" value="<?php echo $idcom; ?>" name="idcom"/>
+								
 							</form>
 							<?php
 
