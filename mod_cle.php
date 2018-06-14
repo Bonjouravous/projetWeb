@@ -45,7 +45,7 @@ if (isset($_POST['supprimer'])) {
                 <h5>Ajout d'un mot-clé</h5>
                 <form class="form-group" method="post" action="mod_cle.php">
                     <input class="form-control" type="text" name="mot" placeholder="Nouveau mot-clé"/>
-                    <input class="form-control btn-outline-info mt-1 mb-1" type="submit" value ="Ajouter" name="ajout"/>
+                    <input class="form-control btn-outline-primary mb-1 mt-1" type="submit" value ="Ajouter" name="ajout"/>
                 </form>
             </div>
             <div>
