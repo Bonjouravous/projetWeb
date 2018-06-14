@@ -10,12 +10,10 @@ include('headermin.php');
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="style/bootstrap.min.css">
-</head>
-<body>
-	<style type="text/css">
+	<style>
 	body{
 		color: #fff;
-		background: #white;
+		background: white;
 		font-family: 'Roboto', sans-serif;
 	}
 	.form-control{

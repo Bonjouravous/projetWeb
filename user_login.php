@@ -10,9 +10,7 @@ include('headermin.php');
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="style/bootstrap.min.css">
-</head>
-<body>
-	<style type="text/css">
+	<style>
 	body{
 		color: #fff;
 		background: white;
@@ -100,70 +98,70 @@ include('headermin.php');
 	.login-form form a:hover{
 		text-decoration: underline;
 	}  
-	</style>
+</style>
 </head>
 <body>
 	<div class="login-form">
-<?php
-
-if(isset($_POST['pseudo']) && isset($_POST['pass'])) {
-	//  Récupération de l'utilisateur et de son pass hashé
-	$req = $bdd->prepare('SELECT id, mdp FROM utilisateur WHERE pseudo = :pseudo');
-	$req->execute(array('pseudo' => $_POST['pseudo']));
-	$resultat = $req->fetch();
-
-	if (is_bool($resultat) && !$resultat) {
-		?>
-		<form>
-			Mauvais identifiant ou mot de passe
-		</form>
-		<div class="text-center" style="color:#999;"><a href="user_login.php" style="color:#999;">Réessayer</a></div>
 		<?php
-	}
-	else
-	{
+
+		if(isset($_POST['pseudo']) && isset($_POST['pass'])) {
+	//  Récupération de l'utilisateur et de son pass hashé
+			$req = $bdd->prepare('SELECT id, mdp FROM utilisateur WHERE pseudo = :pseudo');
+			$req->execute(array('pseudo' => $_POST['pseudo']));
+			$resultat = $req->fetch();
+
+			if (is_bool($resultat) && !$resultat) {
+				?>
+				<form>
+					Mauvais identifiant ou mot de passe
+				</form>
+				<div class="text-center" style="color:#999;"><a href="user_login.php" style="color:#999;">Réessayer</a></div>
+				<?php
+			}
+			else
+			{
 		// Comparaison du pass envoyé via le formulaire avec la base
-		$isPasswordCorrect = password_verify($_POST['pass'], $resultat['mdp']);
-		if ($isPasswordCorrect) {
-			$_SESSION['id'] = $resultat['id'];
-			$_SESSION['pseudo'] = $_POST['pseudo'];
-			header('Location: index.php');
-		}
-		else {
+				$isPasswordCorrect = password_verify($_POST['pass'], $resultat['mdp']);
+				if ($isPasswordCorrect) {
+					$_SESSION['id'] = $resultat['id'];
+					$_SESSION['pseudo'] = $_POST['pseudo'];
+					header('Location: index.php');
+				}
+				else {
+					?>
+					<form>
+						Mauvais identifiant ou mot de passe
+					</form>
+					<div class="text-center" style="color:#999;"><a href="user_login.php" style="color:#999;">Réessayer</a></div>
+					<?php
+				}
+			}
+		} else {
+
 			?>
-		<form>
-			Mauvais identifiant ou mot de passe
-		</form>
-		<div class="text-center" style="color:#999;"><a href="user_login.php" style="color:#999;">Réessayer</a></div>
+			<form action="user_login.php" method="post">
+				<h2>Se connecter</h2>
+				<p class="hint-text">Connectez vous pour partager de nouveaux lieux !</p>
+				<div class="form-group">
+					<input type="text" class="form-control" name="pseudo" placeholder="Nom d'utilisateur" required="required">       	
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" name="pass" placeholder="Mot de passe" required="required">
+				</div>       
+				<div class="form-group">
+					<button type="submit" class="btn btn-success btn-lg btn-block">Se connecter</button>
+				</div>
+			</form>
+			<div class="text-center" style="color:#999;">Vous n'avez pas de compte? <a href="user_signup.php" style="color:#999;">S'enregistrer</a></div>
+
+
 			<?php
 		}
-	}
-} else {
+		?>
+	</div>
 
-?>
-		<form action="user_login.php" method="post">
-			<h2>Se connecter</h2>
-			<p class="hint-text">Connectez vous pour partager de nouveaux lieux !</p>
-			<div class="form-group">
-				<input type="text" class="form-control" name="pseudo" placeholder="Nom d'utilisateur" required="required">       	
-			</div>
-			<div class="form-group">
-				<input type="password" class="form-control" name="pass" placeholder="Mot de passe" required="required">
-			</div>       
-			<div class="form-group">
-				<button type="submit" class="btn btn-success btn-lg btn-block">Se connecter</button>
-			</div>
-		</form>
-		<div class="text-center" style="color:#999;">Vous n'avez pas de compte? <a href="user_signup.php" style="color:#999;">S'enregistrer</a></div>
-
-
-<?php
-}
-?>
-</div>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="js/jquery-3.2.1.slim.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
