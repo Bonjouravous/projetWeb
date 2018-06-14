@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 14 juin 2018 à 16:26
+-- Généré le :  jeu. 14 juin 2018 à 16:30
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
@@ -417,6 +417,11 @@ ALTER TABLE `likelieu`
 --
 ALTER TABLE `motcle`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT pour la table `resetmdp`
+--
+ALTER TABLE `resetmdp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `signcommentaire`
 --
