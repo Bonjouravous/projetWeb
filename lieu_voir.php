@@ -31,7 +31,7 @@ if(!is_numeric($idlieu)) {
 	);
 	/* Mettre en premier les medias récents ou anciens ? */
 	$lieu_medias_stmt = $bdd->prepare(
-		'SELECT media FROM media WHERE idlieu = ? AND supprimer != 1 ORDER BY date DESC;'
+        'SELECT media FROM lieumedia WHERE idlieu = ? AND supprimer != 1 ORDER BY date DESC;'
 	);
 	$lieu_motcles_stmt = $bdd->prepare(
 		'SELECT motcle.mot FROM motcle, lieumotcle'
@@ -58,11 +58,20 @@ if(!is_numeric($idlieu)) {
 	if($lieu_first_infos_fetch['cnegatif'] == null) $lieu_first_infos_fetch['cnegatif'] = 0;
 	if($lieu_first_infos_fetch['hasvote'] == null) $lieu_first_infos_fetch['hasvote'] = 0;
 	$lieu_first_infos_fetch['hassign'] = ($lieu_first_infos_fetch['hassign'] != null);
-	
+
+    $media_dir = 'media';
 ?>
  	<div class="card">
  		<h5 class="card-title m-2"><?=$lieu_first_infos_fetch['nom']?></h5>
- 		<img class="card-img-top" src="images/700x400.png" alt="Card image cap">
+        <?php
+        foreach ($lieu_medias_fetch as $row) {
+            $media = $row ['media'];
+            $media_complete_path = $media_dir . '/' . $media;
+            ?>
+            <img class="card-img-top" src="<?php echo $media_complete_path; ?>" alt="Card image cap">
+            <?php
+        }
+        ?>
  		<div class="card-body">
  			<span class="text-muted"><a href="lieu_carte.php#<?=$lieu_first_infos_fetch['latitude'].','.$lieu_first_infos_fetch['longitude']?>,12" title="Voir sur la carte"><?=$lieu_first_infos_fetch['latitude'].', '.$lieu_first_infos_fetch['longitude']?></a></span>
  			<p class="card-text">
@@ -85,7 +94,6 @@ if(!is_numeric($idlieu)) {
 					}
 				?>
 			</div>
-			<a href="lieu_ajouter_motcles.php?lieu=<?=$idlieu?>" class="btn btn-outline-success">Modifier les mot-clés</a>
 			<div class="text-right text-muted">Dernière modification le <?=$lieu_first_infos_fetch['lastupdate']?>
 			</div>
 			<div class="text-right text-muted">Par <?=$lieu_first_infos_fetch['auteur']?>
@@ -101,11 +109,11 @@ if(!is_numeric($idlieu)) {
 								$insertion=$bdd->prepare('INSERT INTO `lieucommentaire` (`id`, `idlieu`, `idutilisateur`, `message`, `creation`, `supprime`) VALUES (NULL, ?, ?, ?, NOW(), 0) ');   
 								$insertion->execute(array($idlieu,$_SESSION['id'],$commentaire));
 								$c_msg = '<span style="color:green;"> Votre commentaire a bien été posté .</span>';
-								echo $c_msg; 
+                            echo $c_msg; //
 						}
 						else{
 							$commenntaire_error ='<span style="color:red;"> ecrire un commentaire .</span>';
-							echo $commenntaire_error;
+                            echo $commenntaire_error;//
 						}
 					}
 					
@@ -121,9 +129,6 @@ if(!is_numeric($idlieu)) {
 						ORDER BY lieucommentaire.creation DESC LIMIT 0,100');
 						$lieu_commentaires_query->execute(array($_SESSION['id'], $_SESSION['id'], $idlieu)); 
 					?>
-					<?php	
-									
-					?>
 					
 					
 					<?php while($lieu_com = $lieu_commentaires_query->fetch()){
@@ -134,13 +139,12 @@ if(!is_numeric($idlieu)) {
 						$lieu_com['hasvote'] = ($lieu_com['hasvote'] == null) ? 0 : $lieu_com['hasvote'];
 						$lieu_com['hassign'] = ($lieu_com['hassign'] != null);
 					?>
-					
 					<li>
 						<div class="commenterImage">
 							<img src="<?=$lieu_com['image']?>" />
 						</div>
 						<div class="commentText" >
-							<p><span>  <a href="user_profil.php?username=<?=$lieu_com['pseudo']?>"><?=$lieu_com['pseudo']?> </a></span></p>
+                            <p><span><?= $lieu_com['pseudo'] ?></span></p>
 							<p class="text-muted">
 								<style type="text/css">
 									#text-muted img{
@@ -148,14 +152,12 @@ if(!is_numeric($idlieu)) {
 										top:2px;
 									}
 								</style>
-                                <?php 
-                                	$emoji_replace = array(':)',':-)','(angry)',':3',":'(",':|',':(',':-(',';)',';-)','euh');
+                                <?php
+                                $emoji_replace = array(':)', ':-)', '(angry)', ':3', ":'(", ':|', ':(', ':-(', ';)', ';-)', ' euh');
                                 	$emoji_new = array('<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_smile.png" />','<img src="images/emojis/emo_angry.png" />','<img src="images/emojis/emo_cat.png" />','<img src="images/emojis/emo_cry.png" />','<img src="images/emojis/emo_noreaction.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_sad.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/emo_wink.png" />','<img src="images/emojis/euh.gif" />');
                                 	$lieu_com['message']=str_replace($emoji_replace, $emoji_new, $lieu_com['message']);
                                 ?>
-								
 								<?=$lieu_com['message']?>
-								
 							</p>
 							<span class="date sub-text" style="font-size: 9px" >
 								<a href="" id="btn_like_<?=$lieu_com['id']?>" class="btn_like btn<?php if($lieu_com['hasvote'] > 0) echo ' active'; ?>"><span><?=$lieu_com['cpositif']?></span> J'aime <i class="fa fa-thumbs-up" style="font-size: 13px; padding:0;"></i></a>
