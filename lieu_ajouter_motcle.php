@@ -32,10 +32,9 @@ if(!is_numeric($idlieu)) {
 		<?php
 			$lieu_motcles_choice_stmt = $bdd->prepare(
 				'SELECT motcle.mot as mot, motcle.id as id FROM motcle, lieumotcle'
-				.' WHERE lieumotcle.idlieu = ?'
-				.'  AND motcle.id NOT IN ('
-				.'    SELECT idmot FROM lieumotcle WHERE lieumotcle.idlieu = ?'
-				.'  )'
+				.' WHERE motcle.id NOT IN ('
+				.'  SELECT idmot FROM lieumotcle WHERE lieumotcle.idlieu = ?'
+				.' )'
 				.';'
 			);
 			try {
@@ -47,6 +46,7 @@ if(!is_numeric($idlieu)) {
 				echo '<p>'.$e->getMessage().'</p>';
 			}
 			$lieu_motcles_choice_fetch = $lieu_motcles_choice_stmt->fetchAll(PDO::FETCH_ASSOC);
+			print_r($lieu_motcles_choice_fetch);
 
 			foreach($lieu_motcles_choice_fetch as $motcle) {
 			?>
